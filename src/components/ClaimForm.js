@@ -40,6 +40,7 @@ import {
   STORAGE_KEY_CLAIM_HEALTH_FACILITY,
   DEFAULT,
   RIGHT_CLAIMREVIEW,
+  REFERRAL,
 } from "../constants";
 import ClaimMasterPanel from "./ClaimMasterPanel";
 import ClaimChildPanel from "./ClaimChildPanel";
@@ -123,6 +124,7 @@ class ClaimForm extends Component {
       "attachmentRequiredForReferral",
       false,
     );
+    this.showPatientCondition = props.modulesManager.getConf("fe-claim", "showPatientCondition", false);
   }
 
   _newClaim() {
@@ -278,6 +280,7 @@ class ClaimForm extends Component {
       !this.state.claim.referHF
     )
       return false;
+    if(!!this.showPatientCondition && this.showPatientCondition == true && !this.state.claim.patientCondition) return false
     if (!this.state.claim.insuree) return false;
     if (!this.state.claim.admin) return false;
     if (!this.state.claim.dateClaimed) return false;
