@@ -40,6 +40,7 @@ import {
   STORAGE_KEY_CLAIM_HEALTH_FACILITY,
   DEFAULT,
   RIGHT_CLAIMREVIEW,
+  REFERRAL,
 } from "../constants";
 import ClaimMasterPanel from "./ClaimMasterPanel";
 import ClaimChildPanel from "./ClaimChildPanel";
@@ -124,6 +125,7 @@ class ClaimForm extends Component {
       "attachmentRequiredForReferral",
       false,
     );
+    this.showPatientCondition = props.modulesManager.getConf("fe-claim", "showPatientCondition", false);
   }
 
   _newClaim() {
@@ -279,6 +281,7 @@ class ClaimForm extends Component {
       !this.state.claim.referHF
     )
       return false;
+    if(!!this.showPatientCondition && this.showPatientCondition == true && !this.state.claim.patientCondition) return false
     if (!this.state.claim.insuree) return false;
     if (!this.state.claim.admin) return false;
     if (!this.state.claim.dateClaimed) return false;
@@ -289,6 +292,12 @@ class ClaimForm extends Component {
     if (this.state.claim.dateClaimed < this.state.claim.dateFrom) return false;
     if (!!this.state.claim.dateTo && this.state.claim.dateFrom > this.state.claim.dateTo) return false;
     if (!this.state.claim.icd) return false;
+    if (
+      (this.state.claim.visitType == REFERRAL || this.state.claim.patientCondition == REFERRAL) &&
+      (!this.state.claim.referralCode || this.state.claim.referralCode == null || this.state.claim.referralCode == undefined)
+    ){
+      return false
+    } 
     if (this.state.claim.services !== undefined) {
       if (this.props.forReview) {
         if (this.state.claim.services.length && this.state.claim.services.filter((s) => !this.canSaveDetail(s, "service")).length) {
@@ -360,13 +369,6 @@ class ClaimForm extends Component {
       }
       if (!items.length && !services.length) return !!this.canSaveClaimWithoutServiceNorItem;
     }
-
-    if (
-      (this.state.claim.visitType == "R" || this.state.claim.patientCondition == "R") &&
-      !this.state.claim.referralCode
-    ) {
-      return false;
-    }
     return true;
   };
 
@@ -382,7 +384,7 @@ class ClaimForm extends Component {
   };
 
   _save = (claim) => {
-    if (this.attachmentRequiredForReferral && (claim.attachmentsCount == 0 || claim.attachmentsCount == undefined )&& claim.visitType == "R") {
+    if (this.attachmentRequiredForReferral && (claim.attachmentsCount == 0 || claim.attachmentsCount == undefined )&&(claim.visitType == REFERRAL || claim.patientCondition == REFERRAL)) {
       this.props.coreAlert(
         formatMessage(this.props.intl, "claim", "claim.missingAttachment"),
         formatMessage(this.props.intl, "claim", "claim.attachFile"),
@@ -420,6 +422,13 @@ class ClaimForm extends Component {
         });
     });
   };
+
+  _saveReview = (claim) => {
+    this.setState(
+      { lockNew: true, isSaved: true },
+      () => this.props.save(claim),
+    );
+  }
 
   print = (claimUuid) => {
     this.setState({ printParam: claimUuid }, (e) => this.props.print());
@@ -556,8 +565,8 @@ class ClaimForm extends Component {
       back: back,
       forcedDirty: this.state.forcedDirty,
       add: !!add && !this.state.newClaim ? this._add : null,
-      save: !!save && !forReview && this.state.claim.status !== STATUS_REJECTED ? this._save : null,
-      fab: forReview && !readOnly && this.state.claim.reviewStatus < 8 && <CheckIcon />,
+      save: !!save && this.state.claim.status !== STATUS_REJECTED && !readOnly ? forReview ? this._saveReview : this._save : null,
+      fab: forReview && this.state.claim.reviewStatus < 8 && <CheckIcon />,
       fabAction: this._deliverReview,
       fabTooltip: formatMessage(this.props.intl, "claim", "claim.Review.deliverReview.fab.tooltip"),
       canSave: (e) => this.canSave(forFeedback, forReview),
