@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@mui/styles";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
-import { Grid, Typography, Divider, Slider, Paper } from "@material-ui/core";
+import { Grid, Typography, Divider, Slider, Paper } from "@mui/material";
 import {
   FormattedMessage,
   PublishedComponent,

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Keyboard, ScreenShare, Assignment
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { FormattedMessage } from "@openimis/fe-core";
 import ClaimMainMenu from "./menus/ClaimMainMenu";
 import HealthFacilitiesPage from "./pages/HealthFacilitiesPage";

@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useIntl } from "react-intl";
 
-import { Typography, Grid, Paper, IconButton, Tooltip } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
-import VisibilityIcon from "@material-ui/icons/Visibility";
+import { Typography, Grid, Paper, IconButton, Tooltip } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { useModulesManager, useTranslations, Table, useHistory, historyPush, formatAmount } from "@openimis/fe-core";
 import { fetchClaimSummaries } from "../actions";

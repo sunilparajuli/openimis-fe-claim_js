@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 
-import { Grid, Typography, Divider } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { Grid, Typography, Divider } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 import { FormattedMessage } from "@openimis/fe-core";
 

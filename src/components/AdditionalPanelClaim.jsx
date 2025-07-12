@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Grid, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { Grid, Button } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 import {
   useModulesManager,

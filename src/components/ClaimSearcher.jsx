@@ -3,11 +3,11 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import { IconButton, Typography, Tooltip, Badge } from "@material-ui/core";
-import AttachIcon from "@material-ui/icons/AttachFile";
-import TabIcon from "@material-ui/icons/Tab";
-import CheckIcon from "@material-ui/icons/Check";
+import { withTheme, withStyles } from "@mui/styles";
+import { IconButton, Typography, Tooltip, Badge } from "@mui/material";
+import AttachIcon from "@mui/icons-material/AttachFile";
+import TabIcon from "@mui/icons-material/Tab";
+import CheckIcon from "@mui/icons-material/Check";
 import { Searcher } from "@openimis/fe-core";
 import ClaimFilter from "./ClaimFilter";
 import {

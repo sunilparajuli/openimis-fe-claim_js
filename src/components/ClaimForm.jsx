@@ -3,15 +3,15 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import moment from "moment";
-import { Fab, Badge } from "@material-ui/core";
-import { withStyles, withTheme } from "@material-ui/core/styles";
-import CheckIcon from "@material-ui/icons/Check";
-import ReplayIcon from "@material-ui/icons/Replay";
-import PrintIcon from "@material-ui/icons/ListAlt";
-import AttachIcon from "@material-ui/icons/AttachFile";
-import RestorePageIcon from "@material-ui/icons/RestorePage";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
-import CachedIcon from "@material-ui/icons/Cached";
+import { Fab, Badge } from "@mui/material";
+import { withStyles, withTheme } from "@mui/styles";
+import CheckIcon from "@mui/icons-material/Check";
+import ReplayIcon from "@mui/icons-material/Replay";
+import PrintIcon from "@mui/icons-material/ListAlt";
+import AttachIcon from "@mui/icons-material/AttachFile";
+import RestorePageIcon from "@mui/icons-material/RestorePage";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
+import CachedIcon from "@mui/icons-material/Cached";
 import {
   Contributions,
   Form,

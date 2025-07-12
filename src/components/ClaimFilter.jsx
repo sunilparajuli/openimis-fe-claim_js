@@ -5,8 +5,8 @@ import _ from "lodash";
 import _debounce from "lodash/debounce";
 import { injectIntl } from "react-intl";
 
-import { Grid, Divider, Checkbox, FormControlLabel } from "@material-ui/core";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { Grid, Divider, Checkbox, FormControlLabel } from "@mui/material";
+import { withTheme, withStyles } from "@mui/styles";
 
 import {
   formatMessage,

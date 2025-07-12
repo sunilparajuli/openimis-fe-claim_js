@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
+import _ from "lodash";
 
 import {
   Dialog,
@@ -12,12 +13,12 @@ import {
   DialogContent,
   Link,
   IconButton,
-} from "@material-ui/core";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import SaveIcon from "@material-ui/icons/Save";
-import DeleteIcon from "@material-ui/icons/Delete";
-import FileIcon from "@material-ui/icons/Add";
-import LinkIcon from "@material-ui/icons/Link";
+} from "@mui/material";
+import { withTheme, withStyles } from "@mui/styles";
+import SaveIcon from "@mui/icons-material/Save";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FileIcon from "@mui/icons-material/Add";
+import LinkIcon from "@mui/icons-material/Link";
 
 import {
   FormattedMessage,

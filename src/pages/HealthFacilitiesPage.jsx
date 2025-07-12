@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
-import { Fab, Tooltip } from "@material-ui/core";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { Fab, Tooltip } from "@mui/material";
+import { withTheme, withStyles } from "@mui/styles";
 import _ from "lodash";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 import {
   withHistory,
   historyPush,

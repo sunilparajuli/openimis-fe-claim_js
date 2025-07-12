@@ -3,8 +3,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 
-import { Grid, Typography, Divider, Button } from "@material-ui/core";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { Grid, Typography, Divider, Button } from "@mui/material";
+import { withTheme, withStyles } from "@mui/styles";
 
 import {
   PublishedComponent,

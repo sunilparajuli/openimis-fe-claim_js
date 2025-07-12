@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
-import { Keyboard, ScreenShare, Assignment } from "@material-ui/icons";
+import { Keyboard, ScreenShare, Assignment } from "@mui/icons-material";
 import { formatMessage, MainMenuContribution, withModulesManager } from "@openimis/fe-core";
 import { RIGHT_ADD, RIGHT_SUBMIT, RIGHT_CLAIMREVIEW, RIGHT_PROCESS } from "../constants";
 const CLAIM_MAIN_MENU_CONTRIBUTION_KEY = "claim.MainMenu";

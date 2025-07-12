@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@mui/styles";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import { bindActionCreators } from "redux";
@@ -14,7 +14,7 @@ import {
   TextInput,
   ValidatedTextInput,
 } from "@openimis/fe-core";
-import { Grid, Checkbox, FormControlLabel } from "@material-ui/core";
+import { Grid, Checkbox, FormControlLabel } from "@mui/material";
 import _ from "lodash";
 import ClaimAdminPicker from "../pickers/ClaimAdminPicker";
 import { claimedAmount, approvedAmount } from "../helpers/amounts";

@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
-import { Grid, InputAdornment, IconButton, Tooltip } from "@material-ui/core";
-import FilterIcon from "@material-ui/icons/FilterList";
-import FeedbackIcon from "@material-ui/icons/SpeakerNotesOutlined";
-import ReviewIcon from "@material-ui/icons/SupervisorAccount";
+import { Grid, InputAdornment, IconButton, Tooltip } from "@mui/material";
+import FilterIcon from "@mui/icons-material/FilterList";
+import FeedbackIcon from "@mui/icons-material/SpeakerNotesOutlined";
+import ReviewIcon from "@mui/icons-material/SupervisorAccount";
 import {
   formatMessage,
   formatMessageWithValues,
@@ -34,7 +34,7 @@ import {
   process,
 } from "../actions";
 import { RIGHT_UPDATE, RIGHT_FEEDBACK, RIGHT_CLAIMREVIEW, RIGHT_PROCESS, MODULE_NAME } from "../constants";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@mui/styles";
 
 const CLAIM_REVIEWS_FILTER_CONTRIBUTION_KEY = "claim.ReviewsFilter";
 const CLAIM_REVIEWS_ACTION_CONTRIBUTION_KEY = "claim.ReviewSelectionAction";

@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import { PublishedComponent, useModulesManager, useTranslations, ConstantBasedPicker } from "@openimis/fe-core";
 import React from "react";
 import {PRIMARY_OPERATIONAL_INDICATORS_REPORT_QUARTERS} from "../constants";
