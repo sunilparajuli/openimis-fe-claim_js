@@ -3,19 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useIntl } from "react-intl";
 
 import { Typography, Grid, Paper, IconButton, Tooltip } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { useTheme, styled } from "@mui/material/styles";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { useModulesManager, useTranslations, Table, useHistory, historyPush, formatAmount } from "@openimis/fe-core";
 import { fetchClaimSummaries } from "../actions";
 import { MODULE_NAME } from "../constants";
 
-const useStyles = makeStyles((theme) => ({
-  page: theme.page,
-  paper: theme.paper.paper,
-  item: theme.paper.item,
-  paperHeader: theme.paper.header,
-  tableTitle: theme.table.title,
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  ...theme.paper.paper,
+  '& .paperHeader': theme.paper.header,
+  '& .tableTitle': theme.table.title,
 }));
 
 const CLAIMS_HEADERS = [
@@ -34,7 +32,7 @@ const CLAIMS_HEADERS = [
 const ClaimInsureeSummary = ({ insuree }) => {
   const dispatch = useDispatch();
   const modulesManager = useModulesManager();
-  const classes = useStyles();
+  const theme = useTheme();
   const history = useHistory();
   const intl = useIntl();
   const { formatMessage, formatMessageWithValues, formatDateFromISO } = useTranslations(MODULE_NAME, modulesManager);
@@ -74,10 +72,10 @@ const ClaimInsureeSummary = ({ insuree }) => {
   }, [insuree]);
 
   return (
-    <Paper className={classes.paper}>
-      <Grid container alignItems="center" direction="row" className={classes.paperHeader}>
+    <StyledPaper>
+      <Grid container alignItems="center" direction="row" className="paperHeader">
         <Grid item xs={8}>
-          <Typography className={classes.tableTitle}>
+          <Typography className="tableTitle">
             {formatMessageWithValues("claimSummaries", { count: claimsPageInfo?.totalCount })}
           </Typography>
         </Grid>
@@ -91,7 +89,7 @@ const ClaimInsureeSummary = ({ insuree }) => {
         items={claims}
         withPagination={false}
       />
-    </Paper>
+    </StyledPaper>
   );
 };
 

@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import { Fab, Tooltip } from "@mui/material";
-import { withTheme, withStyles } from "@mui/styles";
+import { useTheme, styled } from "@mui/material/styles";
 import _ from "lodash";
 import AddIcon from "@mui/icons-material/Add";
 import {
@@ -24,10 +24,13 @@ import { RIGHT_ADD, RIGHT_LOAD, RIGHT_SUBMIT, RIGHT_DELETE, MODULE_NAME } from "
 const CLAIM_HF_FILTER_CONTRIBUTION_KEY = "claim.HealthFacilitiesFilter";
 const CLAIM_SEARCHER_ACTION_CONTRIBUTION_KEY = "claim.SelectionAction";
 
-const styles = (theme) => ({
-  page: theme.page,
-  fab: theme.fab,
-});
+const StyledDiv = styled("div")(({ theme }) => ({
+  ...theme.page,
+}));
+
+const StyledFabDiv = styled("div")(({ theme }) => ({
+  ...theme.fab,
+}));
 
 class HealthFacilitiesPage extends Component {
   constructor(props) {
@@ -154,7 +157,7 @@ class HealthFacilitiesPage extends Component {
   };
 
   render() {
-    const { intl, classes, rights, generatingPrint } = this.props;
+    const { intl, rights, generatingPrint } = this.props;
     if (!rights.filter((r) => r >= RIGHT_ADD && r <= RIGHT_SUBMIT).length) return null;
     let actions = [];
     if (rights.includes(RIGHT_SUBMIT)) {
@@ -173,7 +176,7 @@ class HealthFacilitiesPage extends Component {
       });
     }
     return (
-      <div className={classes.page}>
+      <StyledDiv className="page">
         <Helmet title={formatMessage(this.props.intl, "location", "location.healthFacilities.page.title")} />
         <ClaimSearcher
           defaultFilters={this.state.defaultFilters}
@@ -192,14 +195,14 @@ class HealthFacilitiesPage extends Component {
                 : formatMessage(intl, "claim", "newClaim.tooltip")
             }
           >
-            <div className={classes.fab}>
+            <StyledFabDiv className="fab">
               <Fab color="primary" disabled={!this.canAdd()} onClick={this.onAdd}>
                 <AddIcon />
               </Fab>
-            </div>
+            </StyledFabDiv>
           </Tooltip>
         )}
-      </div>
+      </StyledDiv>
     );
   }
 }
@@ -234,6 +237,6 @@ const mapDispatchToProps = (dispatch) => {
 
 export default injectIntl(
   withModulesManager(
-    withHistory(connect(mapStateToProps, mapDispatchToProps)(withTheme(withStyles(styles)(HealthFacilitiesPage)))),
+    withHistory(connect(mapStateToProps, mapDispatchToProps)(HealthFacilitiesPage)),
   ),
 );

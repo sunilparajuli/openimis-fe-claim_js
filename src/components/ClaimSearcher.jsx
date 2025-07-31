@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
-import { withTheme, withStyles } from "@mui/styles";
+import { useTheme, styled } from "@mui/material/styles";
 import { IconButton, Typography, Tooltip, Badge } from "@mui/material";
 import AttachIcon from "@mui/icons-material/AttachFile";
 import TabIcon from "@mui/icons-material/Tab";
@@ -22,8 +22,6 @@ import {
 import { fetchClaimSummaries } from "../actions";
 
 const CLAIM_SEARCHER_CONTRIBUTION_KEY = "claim.Searcher";
-
-const styles = (theme) => ({});
 
 class ClaimSearcher extends Component {
   state = {
@@ -386,5 +384,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default withModulesManager(
-  connect(mapStateToProps, mapDispatchToProps)(injectIntl(withTheme(withStyles(styles)(ClaimSearcher)))),
+  connect(mapStateToProps, mapDispatchToProps)(injectIntl(ClaimSearcher)),
 );

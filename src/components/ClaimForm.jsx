@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import moment from "moment";
 import { Fab, Badge } from "@mui/material";
-import { withStyles, withTheme } from "@mui/styles";
+import { useTheme, styled } from "@mui/material/styles";
 import CheckIcon from "@mui/icons-material/Check";
 import ReplayIcon from "@mui/icons-material/Replay";
 import PrintIcon from "@mui/icons-material/ListAlt";
@@ -48,13 +48,9 @@ import ClaimFeedbackPanel from "./ClaimFeedbackPanel";
 
 const CLAIM_FORM_CONTRIBUTION_KEY = "claim.ClaimForm";
 
-const styles = (theme) => ({
-  paper: theme.paper.paper,
-  paperHeader: theme.paper.header,
-  paperHeaderAction: theme.paper.action,
-  item: theme.paper.item,
-  lockedPage: theme.page.locked,
-});
+const StyledDiv = styled("div")(({ theme }) => ({
+  ...theme.page.locked,
+}));
 
 class ClaimServicesPanel extends Component {
   render() {
@@ -477,7 +473,6 @@ class ClaimForm extends Component {
       forReview = false,
       forFeedback = false,
       isHealthFacilityPage = false,
-      classes,
     } = this.props;
     const { claim, claim_uuid, lockNew, isSaved } = this.state;
 
@@ -578,7 +573,7 @@ class ClaimForm extends Component {
       onEditedChanged: this.onEditedChanged,
     };
     return (
-      <div className={readOnly ? classes.lockedPage : null}>
+      <StyledDiv className={readOnly ? "lockedPage" : null}>
         <Helmet
           title={formatMessageWithValues(this.props.intl, "claim", "claim.edit.page.title", {
             code: this.state.claim?.code,
@@ -607,7 +602,7 @@ class ClaimForm extends Component {
             <Contributions contributionKey={CLAIM_FORM_CONTRIBUTION_KEY} {...editingProps} />
           </Fragment>
         )}
-      </div>
+      </StyledDiv>
     );
   }
 }
@@ -636,6 +631,6 @@ const mapDispatchToProps = (dispatch) => {
 
 export default withHistory(
   withModulesManager(
-    connect(mapStateToProps, mapDispatchToProps)(injectIntl(withTheme(withStyles(styles)(ClaimForm)))),
+    connect(mapStateToProps, mapDispatchToProps)(injectIntl(ClaimForm)),
   ),
 );

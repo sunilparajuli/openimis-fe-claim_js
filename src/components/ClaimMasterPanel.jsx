@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { withTheme, withStyles } from "@mui/styles";
+import { useTheme, styled } from "@mui/material/styles";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import { bindActionCreators } from "redux";
@@ -38,12 +38,9 @@ import {
 
 const CLAIM_MASTER_PANEL_CONTRIBUTION_KEY = "claim.MasterPanel";
 
-const styles = (theme) => ({
-  paper: theme.paper.paper,
-  paperHeader: theme.paper.header,
-  paperHeaderAction: theme.paper.action,
-  item: theme.paper.item,
-});
+const StyledItemGrid = styled(Grid)(({ theme }) => ({
+  ...theme.paper.item,
+}));
 
 class ClaimMasterPanel extends FormPanel {
   state = {
@@ -127,7 +124,6 @@ class ClaimMasterPanel extends FormPanel {
   render() {
     const {
       intl,
-      classes,
       edited,
       reset,
       readOnly = false,
@@ -162,7 +158,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.healthFacility"
           field={
-            <Grid item xs={3} className={classes.item}>
+            <StyledItemGrid item xs={3} className="item">
               <PublishedComponent
                 pubRef="location.HealthFacilityPicker"
                 value={edited.healthFacility}
@@ -170,14 +166,14 @@ class ClaimMasterPanel extends FormPanel {
                 readOnly={true}
                 required={true}
               />
-            </Grid>
+            </StyledItemGrid>
           }
         />
         <ControlledField
           module="claim"
           id="Claim.insuree"
           field={
-            <Grid item xs={3} className={classes.item}>
+            <StyledItemGrid item xs={3} className="item">
               <PublishedComponent
                 pubRef={this.insureePicker}
                 value={edited.insuree}
@@ -186,14 +182,14 @@ class ClaimMasterPanel extends FormPanel {
                 readOnly={ro}
                 required={true}
               />
-            </Grid>
+            </StyledItemGrid>
           }
         />
         <ControlledField
           module="claim"
           id="Claim.visitDateFrom"
           field={
-            <Grid item xs={2} className={classes.item}>
+            <StyledItemGrid item xs={2} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"
                 value={edited.dateFrom}
@@ -205,14 +201,14 @@ class ClaimMasterPanel extends FormPanel {
                 required={true}
                 maxDate={edited.dateTo < edited.dateClaimed ? edited.dateTo : edited.dateClaimed}
               />
-            </Grid>
+            </StyledItemGrid>
           }
         />
         <ControlledField
           module="claim"
           id="Claim.visitDateTo"
           field={
-            <Grid item xs={2} className={classes.item}>
+            <StyledItemGrid item xs={2} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"
                 value={edited.dateTo}
@@ -225,14 +221,14 @@ class ClaimMasterPanel extends FormPanel {
                 maxDate={edited.dateClaimed}
                 required={this.isVisitDateToMandatory}
               />
-            </Grid>
+            </StyledItemGrid>
           }
         />
         <ControlledField
           module="claim"
           id="Claim.claimedDate"
           field={
-            <Grid item xs={2} className={classes.item}>
+            <StyledItemGrid item xs={2} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"
                 value={edited.dateClaimed ?? new Date()}
@@ -244,14 +240,14 @@ class ClaimMasterPanel extends FormPanel {
                 required={true}
                 minDate={!!edited.dateTo ? edited.dateTo : edited.dateFrom}
               />
-            </Grid>
+            </StyledItemGrid>
           }
         />
         <ControlledField
           module="claim"
           id="Claim.visitType"
           field={
-            <Grid item xs={forFeedback || forReview ? 2 : 3} className={classes.item}>
+            <StyledItemGrid item xs={forFeedback || forReview ? 2 : 3} className="item">
               <PublishedComponent
                 pubRef="medical.VisitTypePicker"
                 name="visitType"
@@ -262,14 +258,14 @@ class ClaimMasterPanel extends FormPanel {
                 readOnly={ro}
                 required={true}
               />
-            </Grid>
+            </StyledItemGrid>
           }
         />
         <ControlledField
           module="claim"
           id="Claim.careType"
           field={
-            <Grid item xs={forFeedback || forReview ? 2 : 3} className={classes.item}>
+            <StyledItemGrid item xs={forFeedback || forReview ? 2 : 3} className="item">
               <PublishedComponent
                 pubRef="claim.CareTypePicker"
                 name="careType"
@@ -280,7 +276,7 @@ class ClaimMasterPanel extends FormPanel {
                 readOnly={ro}
                 required={this.isCareTypeMandatory}
               />
-            </Grid>
+            </StyledItemGrid>
           }
         />
         {!forFeedback && (
@@ -288,7 +284,7 @@ class ClaimMasterPanel extends FormPanel {
             module="claim"
             id="Claim.mainDiagnosis"
             field={
-              <Grid item xs={3} className={classes.item}>
+              <StyledItemGrid item xs={3} className="item">
                 <PublishedComponent
                   pubRef="medical.DiagnosisPicker"
                   name="mainDiagnosis"
@@ -299,7 +295,7 @@ class ClaimMasterPanel extends FormPanel {
                   readOnly={ro}
                   required
                 />
-              </Grid>
+              </StyledItemGrid>
             }
           />
         )}
@@ -308,7 +304,7 @@ class ClaimMasterPanel extends FormPanel {
              module="claim"
              id="Claim.referHealthFacility"
              field={
-               <Grid item xs={3} className={classes.item}>
+               <StyledItemGrid item xs={3} className="item">
                  <PublishedComponent
                    pubRef="location.HealthFacilityReferPicker"
                    label={formatMessage(intl, "claim", "ClaimMasterPanel.referHFLabel")}
@@ -325,7 +321,7 @@ class ClaimMasterPanel extends FormPanel {
                    filterSelectedOptions={true}
                    onChange={(d) => this.updateAttribute("referHF", d)}
                  />
-               </Grid>
+               </StyledItemGrid>
              }
            />
         ): null}
@@ -334,7 +330,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.code"
           field={
-            <Grid item xs={2} className={classes.item}>
+            <StyledItemGrid item xs={2} className="item">
               <ValidatedTextInput
                 action={claimCodeValidationCheck}
                 autoFocus={true}
@@ -362,7 +358,7 @@ class ClaimMasterPanel extends FormPanel {
                   "maxLength": this.codeMaxLength,
                 }}
               />
-            </Grid>
+            </StyledItemGrid>
           }
         />
         {this.fields.guaranteeNo !== "N" && (
@@ -370,7 +366,7 @@ class ClaimMasterPanel extends FormPanel {
             module="claim"
             id="Claim.guarantee"
             field={
-              <Grid item xs={!forReview && edited.status >= 4 && !forFeedback ? 1 : 2} className={classes.item}>
+              <StyledItemGrid item xs={!forReview && edited.status >= 4 && !forFeedback ? 1 : 2} className="item">
                 <TextInput
                   module="claim"
                   label="guaranteeId"
@@ -383,7 +379,7 @@ class ClaimMasterPanel extends FormPanel {
                   }}
                   required={this.fields.guaranteeNo === "M"}
                 />
-              </Grid>
+              </StyledItemGrid>
             }
           />
         )}
@@ -393,27 +389,27 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.status"
               field={
-                <Grid item xs={2} className={classes.item}>
+                <StyledItemGrid item xs={2} className="item">
                   <ClaimStatusPicker readOnly={true} value={edited.status} />
-                </Grid>
+                </StyledItemGrid>
               }
             />
             <ControlledField
               module="claim"
               id="Claim.feedbackStatus"
               field={
-                <Grid item xs={2} className={classes.item}>
+                <StyledItemGrid item xs={2} className="item">
                   <FeedbackStatusPicker readOnly={true} value={edited.feedbackStatus} />
-                </Grid>
+                </StyledItemGrid>
               }
             />
             <ControlledField
               module="claim"
               id="Claim.reviewStatus"
               field={
-                <Grid item xs={2} className={classes.item}>
+                <StyledItemGrid item xs={2} className="item">
                   <ReviewStatusPicker readOnly={true} value={edited.reviewStatus} />
-                </Grid>
+                </StyledItemGrid>
               }
             />
           </Fragment>
@@ -423,9 +419,9 @@ class ClaimMasterPanel extends FormPanel {
             module="claim"
             id="Claim.claimed"
             field={
-              <Grid item xs={forReview || edited.status >= 4 ? 1 : 2} className={classes.item}>
+              <StyledItemGrid item xs={forReview || edited.status >= 4 ? 1 : 2} className="item">
                 <AmountInput value={edited.claimed} module="claim" label="claimed" readOnly={true} />
-              </Grid>
+              </StyledItemGrid>
             }
           />
         )}
@@ -435,18 +431,18 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.approved"
               field={
-                <Grid item xs={1} className={classes.item}>
+                <StyledItemGrid item xs={1} className="item">
                   <AmountInput value={edited.approved || null} module="claim" label="approved" readOnly={true} />
-                </Grid>
+                </StyledItemGrid>
               }
             />
             <ControlledField
               module="claim"
               id="Claim.valuated"
               field={
-                <Grid item xs={1} className={classes.item}>
+                <StyledItemGrid item xs={1} className="item">
                   <AmountInput value={this.computePriceAdjusted()} module="claim" label="valuated" readOnly={true} />
-                </Grid>
+                </StyledItemGrid>
               }
             />
           </Fragment>
@@ -459,7 +455,7 @@ class ClaimMasterPanel extends FormPanel {
                 module="claim"
                 id={`Claim.secDiagnosis${diagnosisIndex + 1}`}
                 field={
-                  <Grid item xs={3} className={classes.item}>
+                  <StyledItemGrid item xs={3} className="item">
                     <PublishedComponent
                       pubRef="medical.DiagnosisPicker"
                       name={`secDiagnosis${diagnosisIndex + 1}`}
@@ -469,7 +465,7 @@ class ClaimMasterPanel extends FormPanel {
                       onChange={(value) => this.updateAttribute(`icd${diagnosisIndex + 1}`, value)}
                       readOnly={ro}
                     />
-                  </Grid>
+                  </StyledItemGrid>
                 }
               />
             ))}
@@ -479,14 +475,14 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.admin"
           field={
-            <Grid item xs={4} className={classes.item}>
+            <StyledItemGrid item xs={4} className="item">
               <ClaimAdminPicker
                 value={edited.admin}
                 onChange={(v, s) => this.updateAttribute("admin", v)}
                 readOnly
                 required
               />
-            </Grid>
+            </StyledItemGrid>
           }
         />
         {!forFeedback && (
@@ -495,7 +491,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.explanation"
               field={
-                <Grid item xs={this.showAdjustmentAtEnter ? 4 : 8} className={classes.item}>
+                <StyledItemGrid item xs={this.showAdjustmentAtEnter ? 4 : 8} className="item">
                   <TextInput
                     module="claim"
                     label="explanation"
@@ -505,7 +501,7 @@ class ClaimMasterPanel extends FormPanel {
                     readOnly={ro}
                     required={this.isExplanationMandatoryForIPD && edited.careType === IN_PATIENT_STRING ? true : false}
                   />
-                </Grid>
+                </StyledItemGrid>
               }
             />
             {(!!forReview || this.showAdjustmentAtEnter || edited.status >= 4) && (
@@ -513,7 +509,7 @@ class ClaimMasterPanel extends FormPanel {
                 module="claim"
                 id="Claim.adjustment"
                 field={
-                  <Grid item xs={4} className={classes.item}>
+                  <StyledItemGrid item xs={4} className="item">
                     <TextInput
                       module="claim"
                       label="adjustment"
@@ -522,14 +518,14 @@ class ClaimMasterPanel extends FormPanel {
                       onChange={(v) => this.updateAttribute("adjustment", v)}
                       readOnly={readOnly || edited.reviewStatus >= 8}
                     />
-                  </Grid>
+                  </StyledItemGrid>
                 }
               />
             )}
           </Fragment>
         )}
         {this.showPatientCondition && (
-          <Grid item xs={2} className={classes.item}>
+          <StyledItemGrid item xs={2} className="item">
             <PublishedComponent
               pubRef="claim.PatientConditionPicker"
               name="patientCondition"
@@ -537,10 +533,10 @@ class ClaimMasterPanel extends FormPanel {
               required
               onChange={(v) => this.updateAttribute("patientCondition", v)}
             />
-          </Grid>
+          </StyledItemGrid>
         )}
         {(edited.visitType == "R" || edited.patientCondition == "R") && (
-          <Grid item xs={2} className={classes.item}>
+          <StyledItemGrid item xs={2} className="item">
             <TextInput
               id="claim.referralCode"
               module="insuree"
@@ -549,7 +545,7 @@ class ClaimMasterPanel extends FormPanel {
               required={edited.visitType == "R" || edited.patientCondition == "R"}
               onChange={(v) => this.updateAttribute("referralCode", v)}
             />
-          </Grid>
+          </StyledItemGrid>
         )}
         {this.showPreAuthorization && (
           <FormControlLabel
@@ -606,5 +602,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default withModulesManager(
-  injectIntl(connect(mapStateToProps, mapDispatchToProps)(withTheme(withStyles(styles)(ClaimMasterPanel)))),
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(ClaimMasterPanel)),
 );
