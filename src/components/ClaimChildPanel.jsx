@@ -4,7 +4,7 @@ import { injectIntl } from "react-intl";
 import _ from "lodash";
 
 import { Paper, Box, IconButton, Typography, Grid, TableCell } from "@mui/material";
-import { withTheme, withStyles } from "@mui/styles";
+import { useTheme, styled } from "@mui/material/styles";
 import { ThumbUp, ThumbDown } from "@mui/icons-material";
 
 import {
@@ -25,9 +25,9 @@ import {
 import { DEFAULT, SERVICE_TYPE_PP_F, SERVICE_TYPE_PP_P } from "../constants";
 import { claimedAmount, approvedAmount } from "../helpers/amounts";
 
-const styles = (theme) => ({
-  paper: theme.paper.paper,
-});
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  ...theme?.paper?.paper,
+}));
 
 class ClaimChildPanel extends Component {
   state = {
@@ -297,13 +297,13 @@ class ClaimChildPanel extends Component {
   };
 
   render() {
-    const { intl, classes, edited, type, picker, forReview, fetchingPricelist, readOnly = false } = this.props;
+    const { intl, edited, type, picker, forReview, fetchingPricelist, readOnly = false } = this.props;
     if (!edited) return null;
     if (!this.props.edited.healthFacility || !this.props.edited.healthFacility[`${this.props.type}sPricelist`]?.id) {
       return (
-        <Paper className={classes.paper}>
+        <StyledPaper className="paper">
           <Error error={{ message: formatMessage(intl, "claim", `${this.props.type}sPricelist.missing`) }} />
-        </Paper>
+        </StyledPaper>
       );
     }
     const totalClaimed = _.round(
@@ -696,7 +696,7 @@ class ClaimChildPanel extends Component {
       header += formatMessage(intl, "claim", `edit.${this.props.type}s.fetchingPricelist`);
     }
     return (
-      <Paper className={classes.paper}>
+      <StyledPaper className="paper">
         <TableService
           module="claim"
           header={header}
@@ -711,7 +711,7 @@ class ClaimChildPanel extends Component {
           disableDeleteOnEmptyRow
           showOrdinalNumber={this.showOrdinalNumber}
         />
-      </Paper>
+      </StyledPaper>
     );
   }
 }
@@ -722,4 +722,4 @@ const mapStateToProps = (state, props) => ({
   itemsPricelists: !!state.medical_pricelist ? state.medical_pricelist.itemsPricelists : {},
 });
 
-export default withModulesManager(injectIntl(withTheme(withStyles(styles)(connect(mapStateToProps)(ClaimChildPanel)))));
+export default withModulesManager(injectIntl(connect(mapStateToProps)(ClaimChildPanel)));

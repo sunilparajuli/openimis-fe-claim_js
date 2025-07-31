@@ -1,31 +1,34 @@
 import React, { Fragment } from "react";
 
 import { Grid, Typography, Divider } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { useTheme, styled } from "@mui/material/styles";
 
 import { FormattedMessage } from "@openimis/fe-core";
 
-export const useStyles = makeStyles((theme) => ({
-  tableHeader: theme.table.header,
-  item: theme.paper.item,
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  ...theme?.paper?.item,
+}));
+
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  ...theme?.table?.title,
 }));
 
 const AdditionalPanelHeaders = () => {
-  const classes = useStyles();
+  const theme = useTheme();
   return (
     <Fragment>
-      <Grid item xs={6} className={classes.item}>
-        <Typography className={classes.tableTitle}>
+      <StyledGrid  xs={6} className="item">
+        <StyledTypography className="tableTitle">
           <FormattedMessage module="claim" id="ClaimMasterPanelExt.InsureeInfo.Header" />
-        </Typography>
+        </StyledTypography>
         <Divider />
-      </Grid>
-      <Grid item xs={6} className={classes.item}>
-        <Typography className={classes.tableTitle}>
+      </StyledGrid>
+      <StyledGrid  xs={6} className="item">
+        <StyledTypography className="tableTitle">
           <FormattedMessage module="claim" id="ClaimMasterPanelExt.InsureeInfo.lastClaimSameDiagnosis.Header" />
-        </Typography>
+        </StyledTypography>
         <Divider />
-      </Grid>
+      </StyledGrid>
     </Fragment>
   );
 };

@@ -14,7 +14,7 @@ import {
   Link,
   IconButton,
 } from "@mui/material";
-import { withTheme, withStyles } from "@mui/styles";
+import { useTheme, styled } from "@mui/material/styles";
 import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileIcon from "@mui/icons-material/Add";
@@ -44,10 +44,13 @@ import {
 import { DEFAULT, RIGHT_ADD, URL_TYPE_STRING } from "../constants";
 import AttachmentGeneralTypePicker from "../pickers/AttachmentGeneralTypePicker";
 
-const styles = (theme) => ({
-  dialogTitle: theme.dialog.title,
-  dialogContent: theme.dialog.content,
-});
+const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
+  ...theme?.dialog?.title,
+}));
+
+const StyledDialogContent = styled(DialogContent)(({ theme }) => ({
+  ...theme?.dialog?.content,
+}));
 
 class AttachmentsDialog extends Component {
   constructor(props) {
@@ -332,7 +335,7 @@ class AttachmentsDialog extends Component {
   };
 
   render() {
-    const { classes, claim, readOnly = false, fetchingClaimAttachments, errorClaimAttachments } = this.props;
+    const { claim, readOnly = false, fetchingClaimAttachments, errorClaimAttachments } = this.props;
     const { open, claimAttachments, reset, updatedAttachments } = this.state;
 
     if (!claim) return null;
@@ -449,16 +452,16 @@ class AttachmentsDialog extends Component {
           },
         }}
       >
-        <DialogTitle className={classes.dialogTitle}>
+        <StyledDialogTitle className="dialogTitle">
           <FormattedMessage module="claim" id="attachments.title" values={{ code: claim.code }} />
-        </DialogTitle>
+        </StyledDialogTitle>
         <Divider />
-        <DialogContent className={classes.dialogContent}>
+        <StyledDialogContent className="dialogContent">
           <ProgressOrError progress={fetchingClaimAttachments} error={errorClaimAttachments} />
           {!fetchingClaimAttachments && !errorClaimAttachments && (
             <Table module="claim" items={claimAttachments} headers={headers} itemFormatters={itemFormatters} />
           )}
-        </DialogContent>
+        </StyledDialogContent>
         <DialogActions>
           <Button onClick={this.onClose} variant="contained" color="primary">
             <FormattedMessage module="claim" id="close" />
@@ -497,5 +500,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default withModulesManager(
-  connect(mapStateToProps, mapDispatchToProps)(injectIntl(withTheme(withStyles(styles)(AttachmentsDialog)))),
+  connect(mapStateToProps, mapDispatchToProps)(injectIntl(AttachmentsDialog)),
 );
