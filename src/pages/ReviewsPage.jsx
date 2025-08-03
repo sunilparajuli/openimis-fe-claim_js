@@ -34,21 +34,21 @@ import {
   process,
 } from "../actions";
 import { RIGHT_UPDATE, RIGHT_FEEDBACK, RIGHT_CLAIMREVIEW, RIGHT_PROCESS, MODULE_NAME } from "../constants";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 
 const CLAIM_REVIEWS_FILTER_CONTRIBUTION_KEY = "claim.ReviewsFilter";
 const CLAIM_REVIEWS_ACTION_CONTRIBUTION_KEY = "claim.ReviewSelectionAction";
 const CLAIM_SAMPLING_BATCH_CONTRIBUTION_KEY = "claimSampling.claimSamplingButton";
 
-const styles = (theme) => ({
-  page: theme.page,
-  item: {
+const StyledReviewsPage = styled('div')(({ theme }) => ({
+  ...theme.page,
+  '& .item': {
     padding: theme.spacing(1),
   },
-  toggledButton: {
+  '& .toggledButton': {
     backgroundColor: theme.palette.toggledButton,
   },
-});
+}));
 
 class RawRandomAndValueFilters extends Component {
   state = {
@@ -198,13 +198,13 @@ class RawRandomAndValueFilters extends Component {
     );
   };
   render() {
-    const { classes, filters } = this.props;
+    const { filters } = this.props;
     const { filters: additionalFilters } = this.state;
     const allFilters = { ...filters, ...additionalFilters };
 
     return (
       <Grid container direction="row">
-        <Grid item xs={3} className={classes.item}>
+        <Grid item xs={3} className="item">
           <NumberInput
             module="claim"
             label="ClaimFilter.Reviews.random"
@@ -215,7 +215,7 @@ class RawRandomAndValueFilters extends Component {
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  className={!!this.state.randomToggled ? classes.toggledButton : null}
+                  className={!!this.state.randomToggled ? "toggledButton" : null}
                   onClick={this.toggleRandomFilter}
                   edge="end"
                 >
@@ -231,7 +231,7 @@ class RawRandomAndValueFilters extends Component {
             }}
           />
         </Grid>
-        <Grid item xs={3} className={classes.item}>
+        <Grid item xs={3} className="item">
           <AmountInput
             module="claim"
             label="ClaimFilter.Reviews.value"
@@ -239,7 +239,7 @@ class RawRandomAndValueFilters extends Component {
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  className={!!this.state.valueToggled ? classes.toggledButton : null}
+                  className={!!this.state.valueToggled ? "toggledButton" : null}
                   onClick={this.toggleValueFilter}
                   edge="end"
                 >
@@ -250,7 +250,7 @@ class RawRandomAndValueFilters extends Component {
             onChange={this.valueChange}
           />
         </Grid>
-        <Grid className={classes.item} xs={3}>
+        <Grid className="item" xs={3}>
           <NumberInput
             module="claim"
             label="ClaimFilter.Reviews.variance"
@@ -260,7 +260,7 @@ class RawRandomAndValueFilters extends Component {
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  className={!!this.state.varianceToggled ? classes.toggledButton : null}
+                  className={!!this.state.varianceToggled ? "toggledButton" : null}
                   onClick={this.toggleVarianceFilter}
                   edge="end"
                 >
@@ -297,9 +297,7 @@ const mapDispatchToFixFilterProps = (dispatch) => {
 
 const RandomAndValueFilters = withModulesManager(
   injectIntl(
-    withTheme(
-      withStyles(styles)(connect(mapStateToFixFilterProps, mapDispatchToFixFilterProps)(RawRandomAndValueFilters)),
-    ),
+    connect(mapStateToFixFilterProps, mapDispatchToFixFilterProps)(RawRandomAndValueFilters),
   ),
 );
 
@@ -596,7 +594,7 @@ class ReviewsPage extends Component {
   };
 
   render() {
-    const { classes, rights } = this.props;
+    const { rights } = this.props;
     if (!rights.filter((r) => r >= RIGHT_CLAIMREVIEW && r <= RIGHT_PROCESS).length) return null;
     let actions = [];
     if (rights.includes(RIGHT_UPDATE)) {
@@ -647,7 +645,7 @@ class ReviewsPage extends Component {
     }
 
     return (
-      <div className={classes.page}>
+      <StyledReviewsPage>
         <Helmet title={formatMessage(this.props.intl, "claim", "claim.reviews.page.title")} />
         <ClaimSearcher
           defaultFilters={this.state.defaultFilters}
@@ -660,7 +658,7 @@ class ReviewsPage extends Component {
           filterPaneContributionsKey={CLAIM_REVIEWS_FILTER_CONTRIBUTION_KEY}
           actionsContributionKey={CLAIM_REVIEWS_ACTION_CONTRIBUTION_KEY}
         />
-      </div>
+      </StyledReviewsPage>
     );
   }
 }
@@ -698,5 +696,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default injectIntl(
-  withHistory(connect(mapStateToProps, mapDispatchToProps)(withTheme(withStyles(styles)(ReviewsPage)))),
+  withHistory(connect(mapStateToProps, mapDispatchToProps)(ReviewsPage)),
 );
