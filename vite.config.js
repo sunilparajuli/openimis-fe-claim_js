@@ -37,8 +37,6 @@ export default defineConfig({
         'history',
         '@mui/material',
         '@mui/icons-material',
-        '@material-ui/lab',
-        '@material-ui/pickers',
         '@date-io/core',
         '@date-io/moment',
         '@openimis/fe-core',
