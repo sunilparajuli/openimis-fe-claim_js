@@ -38,6 +38,7 @@ class ClaimSearcher extends Component {
       "claimFilter.rowsPerPageOptions",
       [10, 20, 50, 100],
     );
+    this.fields = props.modulesManager.getConf("fe-claim", "fields", {});
     this.defaultPageSize = props.modulesManager.getConf("fe-claim", "claimFilter.defaultPageSize", 10);
     this.highlightAmount = parseInt(props.modulesManager.getConf("fe-claim", "claimFilter.highlightAmount", 0));
     this.highlightAltInsurees = props.modulesManager.getConf("fe-claim", "claimFilter.highlightAltInsurees", true);
@@ -175,7 +176,7 @@ class ClaimSearcher extends Component {
       "claimSummaries.healthFacility",
       "claimSummaries.insuree",
       "claimSummaries.claimedDate",
-      "claimSummaries.processedDate",
+      this.fields?.processedDate !== "H" ? "claimSummaries.processedDate" : null,
       "claimSummaries.feedbackStatus",
       "claimSummaries.reviewStatus",
       "claimSummaries.claimed",
