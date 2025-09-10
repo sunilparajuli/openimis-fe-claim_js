@@ -38,7 +38,7 @@ class ClaimSearcher extends Component {
       "claimFilter.rowsPerPageOptions",
       [10, 20, 50, 100],
     );
-    this.fields = props.modulesManager.getConf("fe-claim", "fields", {});
+    this.columns = props.modulesManager.getConf("fe-claim", "columns", {});
     this.defaultPageSize = props.modulesManager.getConf("fe-claim", "claimFilter.defaultPageSize", 10);
     this.highlightAmount = parseInt(props.modulesManager.getConf("fe-claim", "claimFilter.highlightAmount", 0));
     this.highlightAltInsurees = props.modulesManager.getConf("fe-claim", "claimFilter.highlightAltInsurees", true);
@@ -176,7 +176,7 @@ class ClaimSearcher extends Component {
       "claimSummaries.healthFacility",
       "claimSummaries.insuree",
       "claimSummaries.claimedDate",
-      this.fields?.processedDate !== "H" ? "claimSummaries.processedDate" : null,
+      this.columns?.processedDate !== "H" ? "claimSummaries.processedDate" : null,
       "claimSummaries.feedbackStatus",
       "claimSummaries.reviewStatus",
       "claimSummaries.claimed",
@@ -245,7 +245,7 @@ class ClaimSearcher extends Component {
       ),
       (c) => <PublishedComponent readOnly={true} pubRef="insuree.InsureePicker" withLabel={false} value={c.insuree} />,
       (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateClaimed),
-      (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateProcessed),
+      this.columns?.processedDate !== "H" ? (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateProcessed) : null,
       (c) => this.feedbackColFormatter(c),
       (c) => this.reviewColFormatter(c),
       (c) => formatAmount(this.props.intl, c.claimed),
