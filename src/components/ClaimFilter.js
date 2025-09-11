@@ -486,46 +486,46 @@ class Details extends Component {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <Grid container>
-            <Grid item xs={6} className={classes.item}>
-              {this.props.rights.includes(RIGHT_CLAIMREVIEW) && (
-              <PublishedComponent
-                pubRef="core.DatePicker"
-                value={(filters["processedDateFrom"] && filters["processedDateFrom"]["value"]) || null}
-                module="claim"
-                label="ClaimFilter.processedDateFrom"
-                onChange={(d) =>
-                  onChangeFilters([
-                    {
-                      id: "processedDateFrom",
-                      value: d,
-                      filter: !!d ? `dateProcessed_Gte: "${d}"` : null,
-                    },
-                  ])
-                }
-              />
-              )}
-            </Grid>
-            <Grid item xs={6} className={classes.item}>
-              <PublishedComponent
-                pubRef="core.DatePicker"
-                value={(filters["processedDateTo"] && filters["processedDateTo"]["value"]) || null}
-                module="claim"
-                label="ClaimFilter.processedDateTo"
-                onChange={(d) =>
-                  onChangeFilters([
-                    {
-                      id: "processedDateTo",
-                      value: d,
-                      filter: !!d ? `dateProcessed_Lte: "${d}"` : null,
-                    },
-                  ])
-                }
-              />
+        {!this.props.rights.includes(RIGHT_CLAIMREVIEW) && (
+          <Grid item xs={3}>
+            <Grid container>
+              <Grid item xs={6} className={classes.item}>
+                <PublishedComponent
+                  pubRef="core.DatePicker"
+                  value={(filters["processedDateFrom"] && filters["processedDateFrom"]["value"]) || null}
+                  module="claim"
+                  label="ClaimFilter.processedDateFrom"
+                  onChange={(d) =>
+                    onChangeFilters([
+                      {
+                        id: "processedDateFrom",
+                        value: d,
+                        filter: !!d ? `dateProcessed_Gte: "${d}"` : null,
+                      },
+                    ])
+                  }
+                />
+              </Grid>
+              <Grid item xs={6} className={classes.item}>
+                <PublishedComponent
+                  pubRef="core.DatePicker"
+                  value={(filters["processedDateTo"] && filters["processedDateTo"]["value"]) || null}
+                  module="claim"
+                  label="ClaimFilter.processedDateTo"
+                  onChange={(d) =>
+                    onChangeFilters([
+                      {
+                        id: "processedDateTo",
+                        value: d,
+                        filter: !!d ? `dateProcessed_Lte: "${d}"` : null,
+                      },
+                    ])
+                  }
+                />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        )}
         <Grid item xs={3} className={classes.item}>
           <PublishedComponent
             pubRef="medical.ServicePicker"
