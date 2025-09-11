@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import _ from "lodash";
 import _debounce from "lodash/debounce";
 import { injectIntl } from "react-intl";
+import { RIGHT_CLAIMREVIEW } from "../constants";
 
 import { Grid, Divider, Checkbox, FormControlLabel } from "@material-ui/core";
 import { withTheme, withStyles } from "@material-ui/core/styles";
@@ -252,6 +253,7 @@ class Head extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
   userHealthFacilityId: state.core.user.i_user.health_facility_id,
   claimFilter: state.claim.claimFilter,
   servicesPricelists: !!state.medical_pricelist ? state.medical_pricelist.servicesPricelists : {},
@@ -289,7 +291,7 @@ class Details extends Component {
   };
 
   render() {
-    const { intl, classes, filters, onChangeFilters, filterPaneContributionsKey = null, FilterExt } = this.props;
+    const { intl, classes, filters, onChangeFilters, filterPaneContributionsKey = null, FilterExt, } = this.props;
     return (
       <Grid container className={classes.form}>
         <Grid item xs={1} className={classes.item}>
@@ -487,6 +489,7 @@ class Details extends Component {
         <Grid item xs={3}>
           <Grid container>
             <Grid item xs={6} className={classes.item}>
+              {this.props.rights.includes(RIGHT_CLAIMREVIEW) && (
               <PublishedComponent
                 pubRef="core.DatePicker"
                 value={(filters["processedDateFrom"] && filters["processedDateFrom"]["value"]) || null}
@@ -502,6 +505,7 @@ class Details extends Component {
                   ])
                 }
               />
+              )}
             </Grid>
             <Grid item xs={6} className={classes.item}>
               <PublishedComponent
@@ -593,23 +597,24 @@ class Details extends Component {
           <PublishedComponent
             pubRef="claim.CareTypePicker"
             name="careType"
-            value={(filters["careType"] && filters["careType"]["value"]) || null}
-            onChange={(value) => {
+            value={filters["careType"] && filters["careType"]["value"] || null}
+            onChange={(value) =>{
               onChangeFilters([
                 {
                   id: "careType",
                   value: value,
                   filter: !!value ? `careType: "${value}"` : null,
                 },
-              ]);
-            }}
+              ])
+            }
+            }
           />
         </Grid>
         <Grid item xs={1} className={classes.item}>
           <PublishedComponent
             pubRef="claim.AttachmentStatusPicker"
             name="attachmentStatus"
-            value={(filters["attachmentStatus"] && filters["attachmentStatus"]["value"]) || null}
+            value={filters["attachmentStatus"] && filters["attachmentStatus"]["value"] || null}
             onChange={(value) =>
               onChangeFilters([
                 {
@@ -648,7 +653,7 @@ class Details extends Component {
                   control={
                     <Checkbox
                       color="primary"
-                      checked={(filters["showRestored"] && filters["showRestored"]["value"]) || false}
+                      checked={filters["showRestored"] && filters["showRestored"]["value"] || false}
                       onChange={(event) =>
                         onChangeFilters([
                           {
@@ -666,6 +671,8 @@ class Details extends Component {
             }
           />
         </Grid>
+
+
         <Contributions
           filters={filters}
           onChangeFilters={onChangeFilters}
@@ -693,13 +700,15 @@ class Details extends Component {
   }
 }
 
+const BoundDetails = connect(mapStateToProps, mapDispatchToProps)(Details);
+
 class ClaimFilter extends Component {
   render() {
     const { classes } = this.props;
     return (
       <form className={classes.container} noValidate autoComplete="off">
         <BoundHead {...this.props} />
-        <Details {...this.props} />
+        <BoundDetails {...this.props} />
       </form>
     );
   }
