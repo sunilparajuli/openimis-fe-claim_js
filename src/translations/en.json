@@ -370,5 +370,10 @@
   "claim.gql_mutation_process_claims_perms": "Claim | Mutation Process Claims",
   "claim.gql_mutation_restore_claims_perms": "Claim | Mutation Restore Claims",
   "claim.gql_mutation_delete_claims_perms": "Claim | Mutation Delete Claims",
-  "claim.claim_print_perms": "Claim | Claim Print"
+  "claim.claim_print_perms": "Claim | Claim Print",
+  "claim.ClaimHistoryModal.title": "History of Claim {code}",
+  "claim.ClaimHistoryModal.version": "Version",
+  "claim.ClaimHistoryModal.date": "Date",
+  "claim.ClaimHistoryModal.modifiedBy": "Modified By",
+  "claim.ClaimHistoryModal.actions": "Actions"
 }

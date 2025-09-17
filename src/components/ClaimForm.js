@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, useState } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
@@ -12,6 +12,8 @@ import AttachIcon from "@material-ui/icons/AttachFile";
 import RestorePageIcon from "@material-ui/icons/RestorePage";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import CachedIcon from "@material-ui/icons/Cached";
+import HistoryIcon from "@material-ui/icons/History";
+import ClaimHistoryModal from "./ClaimHistoryModal";
 import {
   Contributions,
   Form,
@@ -70,6 +72,7 @@ class ClaimItemsPanel extends Component {
 
 class ClaimForm extends Component {
   state = {
+    historyOpen: false,
     lockNew: false,
     reset: 0,
     claim_uuid: null,
@@ -479,7 +482,23 @@ class ClaimForm extends Component {
       isHealthFacilityPage = false,
       classes,
     } = this.props;
-    const { claim, claim_uuid, lockNew, isSaved } = this.state;
+    const { claim, claim_uuid, lockNew, isSaved, historyOpen } = this.state;
+
+    const handleOpenHistory = (e) => this.setState({ historyOpen: true });
+    const handleCloseHistory = (e) => this.setState({ historyOpen: false });
+    const handleViewVersion = (version) => {
+      this.setState({
+        claim: {
+          ...version,
+          services: version.services || [],
+          items: version.items || []
+        },
+        newClaim: false,
+        historyOpen: false,
+        lockNew: false,
+        reset: this.state.reset + 1
+      });
+    };
 
     let readOnly =
       lockNew ||
@@ -495,6 +514,14 @@ class ClaimForm extends Component {
         doIt: (e) => this.reload(),
         icon: <ReplayIcon />,
         onlyIfDirty: !readOnly,
+      });
+      
+      // Add history button
+      actions.push({
+        doIt: handleOpenHistory,
+        icon: <HistoryIcon />,
+        disabled: fetchingClaim,
+        tooltip: formatMessage(this.props.intl, "claim", "claim.viewHistory"),
       });
     }
     if (!!claim_uuid && rights.includes(RIGHT_PRINT)) {
@@ -593,6 +620,13 @@ class ClaimForm extends Component {
               claim={this.state.attachmentsClaim}
               close={(e) => this.setState({ attachmentsClaim: null })}
               onUpdated={() => this.setState({ forcedDirty: true })}
+            />
+            <ClaimHistoryModal
+              claim={this.state.claim}
+              claimUuid={claim_uuid}
+              open={historyOpen}
+              onClose={handleCloseHistory}
+              onViewVersion={handleViewVersion}
             />
             <Form
               module="claim"

@@ -721,3 +721,26 @@ export function generate(uuid) {
       .then((e) => dispatch({ type: "CLAIM_PRINT_DONE" }));
   };
 }
+
+export function fetchClaimHistory(claimUuid) {
+  return graphqlWithVariables(
+    `
+    query ($claimUuid: String!) {
+      claimHistory(claimUuid: $claimUuid) {
+        id
+        versionNumber
+        createdDate
+        changeReason
+        createdBy {
+          id
+          username
+          lastName
+          otherNames
+        }
+      }
+    }
+    `,
+    { claimUuid },
+    "CLAIM_HISTORY_FETCH",
+  );
+}
