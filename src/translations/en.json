@@ -374,6 +374,6 @@
   "claim.ClaimHistoryModal.title": "History of Claim {code}",
   "claim.ClaimHistoryModal.version": "Version",
   "claim.ClaimHistoryModal.date": "Date",
-  "claim.ClaimHistoryModal.modifiedBy": "Modified By",
-  "claim.ClaimHistoryModal.actions": "Actions"
+  "claim.ClaimHistoryModal.modifiedBy": "Created By",
+  "claim.ClaimHistoryModal.status": "Status"
 }
