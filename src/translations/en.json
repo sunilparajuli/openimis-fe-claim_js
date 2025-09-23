@@ -372,7 +372,7 @@
   "claim.gql_mutation_delete_claims_perms": "Claim | Mutation Delete Claims",
   "claim.claim_print_perms": "Claim | Claim Print",
   "claim.attachment.missingPredefinedType": "Missing predefined Type",
-  "claim.attachment.definePredefinedType": "You must define the the General Type first and then select the Predefined Type",
+  "claim.attachment.definePredefinedType": "You must define the the General Type first and then select the Predefined Type or clean the attachment",
   "claim.attachment.missingDocument": "Missing Document",
-  "claim.attachment.defineDocument": "You must define the the Document first and then select the Document"
+  "claim.attachment.defineDocument": "You must define the the Document first and then select the Document or clean the attachment"
 }
