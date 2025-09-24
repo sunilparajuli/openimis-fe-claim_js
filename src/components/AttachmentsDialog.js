@@ -130,9 +130,14 @@ class AttachmentsDialog extends Component {
       );
     } else if (!_.isEqual(prevProps.claim, this.props.claim) && !!this.props.claim && !this.props.claim.uuid) {
       let claimAttachments = [...(this.props.claim.attachments || [])];
-      if (!readOnly && claimAttachments.length === 0) {
-        claimAttachments.push({});
-        this.props.onUpdated();
+      if (!readOnly) {
+        if (claimAttachments.length === 0) {
+          claimAttachments.push({});
+          this.props.onUpdated();
+        } else if (!this.isEmptyAttachment(_.last(claimAttachments))) {
+          claimAttachments.push({});
+          this.props.onUpdated();
+        }
       }
       this.setState({ open: true, claimUuid: null, claimAttachments, updatedAttachments: new Set() });
     } else if (prevProps.submittingMutation && !this.props.submittingMutation) {
@@ -167,29 +172,6 @@ class AttachmentsDialog extends Component {
   }
 
   onClose = () => {
-    const { coreAlert, intl } = this.props;
-    var claimAttachments = [...this.state.claimAttachments];
-    if (!!claimAttachments) {
-      for (let i = 0; i <= (claimAttachments.length - 1); i++) {
-        if (!this.isEmptyAttachment(claimAttachments[i]) && claimAttachments[i].predefinedType == undefined) {
-          coreAlert(
-            formatMessage(intl, "claim", "claim.attachment.missingPredefinedType"),
-            formatMessage(intl, "claim", "claim.attachment.definePredefinedType"),
-          );
-          return;
-        }
-      }
-    }
-    for (let i = 0; i <= (claimAttachments.length - 1); i++) {
-      if (!this.isEmptyAttachment(claimAttachments[i]) && !claimAttachments[i].filename) {
-        coreAlert(
-          formatMessage(intl, "claim", "claim.attachment.missingDocument"),
-          formatMessage(intl, "claim", "claim.attachment.defineDocument"),
-        );
-        return;
-      }
-    }
-    
     this.setState({ open: false }, (e) => !!this.props.close && this.props.close())
   };
 
@@ -293,7 +275,7 @@ class AttachmentsDialog extends Component {
   };
 
   fileSelected = (f, i) => {
-    if (!this.state.claimAttachments[i].predefinedType && !!this.state.claimUuid) {
+    if (!this.state.claimAttachments[i].predefinedType) {
       this.props.coreAlert(
         formatMessage(this.props.intl, "claim", "claim.attachment.missingPredefinedType"),
         formatMessage(this.props.intl, "claim", "claim.attachment.definePredefinedType"),
