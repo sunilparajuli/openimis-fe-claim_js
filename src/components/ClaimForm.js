@@ -586,13 +586,6 @@ class ClaimForm extends Component {
     };
     return (
       <div> 
-        <div>
-          <ClaimHistoryPanel
-            claim={this.state.claim}
-            claimUuid={claim_uuid}
-            onViewVersion={handleViewVersion}
-          />
-        </div>
         <div className={readOnly ? classes.lockedPage : null}>
           <Helmet
             title={formatMessageWithValues(this.props.intl, "claim", "claim.edit.page.title", {
@@ -622,6 +615,13 @@ class ClaimForm extends Component {
               <Contributions contributionKey={CLAIM_FORM_CONTRIBUTION_KEY} {...editingProps} />
             </Fragment>
           )}
+        </div>
+        <div>
+          <ClaimHistoryPanel
+            claim={this.state.claim}
+            claimUuid={claim_uuid}
+            onViewVersion={handleViewVersion}
+          />
         </div>
       </div>
     );
