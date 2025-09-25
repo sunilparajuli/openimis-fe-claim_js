@@ -616,15 +616,13 @@ class ClaimForm extends Component {
             </Fragment>
           )}
         </div>
-        <Grid container spacing={1}>
-          <Grid item xs={12}> 
-            <ClaimHistoryPanel
-              claim={this.state.claim}
-              claimUuid={claim_uuid}
-              onViewVersion={handleViewVersion}
-            />
-          </Grid>
-        </Grid>
+        <div>
+          <ClaimHistoryPanel
+            claim={this.state.claim}
+            claimUuid={claim_uuid}
+            onViewVersion={handleViewVersion}
+          />
+        </div>
       </div>
     );
   }
