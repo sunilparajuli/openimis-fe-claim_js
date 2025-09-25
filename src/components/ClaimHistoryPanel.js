@@ -23,8 +23,7 @@ import { fetchClaimHistory } from "../actions";
 
 const styles = (theme) => ({
   panel: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.common.white,
+    margin: theme.spacing(0),
     '&:before': {
       display: 'none',
     },
@@ -32,18 +31,18 @@ const styles = (theme) => ({
   panelSummary: {
     backgroundColor: theme.paper.header.backgroundColor,
     color: theme.palette.primary.main,
-    minHeight: '48px !important',
+    minHeight: '36px !important',
     '&$expanded': {
-      minHeight: '48px !important',
+      minHeight: '36px !important',
     },
   },
   panelExpandIcon: {
     color: theme.palette.primary.main,
   },
   panelSummaryContent: {
-    margin: '12px 0',
+    margin: 0,
     '&$expanded': {
-      margin: '12px 0',
+      margin: 0,
     },
   },
   expanded: {},
@@ -54,12 +53,14 @@ const styles = (theme) => ({
   tableContainer: {
     width: '100%',
     boxShadow: 'none',
+    backgroundColor: theme.paper.body.backgroundColor,
+    padding: theme.spacing(0),
   },
   tableHeader: {
-    backgroundColor: theme.palette.grey[200],
+    backgroundColor: theme.palette.grey[300],
   },
   tableHeaderCell: {
-    fontWeight: 500,
+    fontWeight: 'bold',
     color: theme.palette.primary.main,
   },
   loadingContainer: {
@@ -87,72 +88,113 @@ const ClaimHistoryPanel = ({ claim, claimUuid, onViewVersion, classes }) => {
     setExpanded(isExpanded);
   };
 
+  const fakeHistory = [
+    {
+      id: 1,
+      createdDate: "2022-01-01",
+      createdBy: {
+        username: "system",
+      },
+      claimAmount: 100,
+      status: "Submitted",
+    },
+    {
+      id: 2,
+      createdDate: "2022-01-02",
+      createdBy: {
+        username: "danilo",
+      },
+      claimAmount: 200,
+      status: "Approved",
+    },
+    {
+      id: 3,
+      createdDate: "2022-01-03",
+      createdBy: {
+        username: "atangana",
+      },
+      claimAmount: 300,
+      status: "Rejected",
+    },
+    {
+      id: 4,
+      createdDate: "2022-01-04",
+      createdBy: {
+        username: "paul",
+      },
+      claimAmount: 400,
+      status: "Submitted",
+    },
+  ];
+
   return (
-    <ExpansionPanel 
-      className={classes.panel}
-      expanded={expanded} 
-      onChange={handleChange}
-    >
-      <ExpansionPanelSummary
-        expandIcon={<ExpandMoreIcon className={classes.panelExpandIcon} />}
-        classes={{
-          root: classes.panelSummary,
-          content: classes.panelSummaryContent,
-          expanded: classes.expanded,
-        }}
+    <Paper className={classes.paper}>
+      <ExpansionPanel 
+        className={classes.panel}
+        expanded={expanded} 
+        onChange={handleChange}
       >
-        <Typography className={classes.panelTitle}>
-          {formatMessageWithValues("ClaimHistoryModal.title", { code: claim?.code || '' })}
-        </Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        {fetchingHistory ? (
-          <Box className={classes.loadingContainer}>
-            <CircularProgress />
-          </Box>
-        ) : errorHistory ? (
-          <Box color="error.main" p={2} width="100%">
-            {errorHistory}
-          </Box>
-        ) : (
-          <TableContainer component={Paper} className={classes.tableContainer}>
-            <Table size="small">
-              <TableHead className={classes.tableHeader}>
-                <TableRow>
-                  <TableCell className={classes.tableHeaderCell}>
-                    {formatMessage("ClaimHistoryModal.version")}
-                  </TableCell>
-                  <TableCell className={classes.tableHeaderCell}>
-                    {formatMessage("ClaimHistoryModal.date")}
-                  </TableCell>
-                  <TableCell className={classes.tableHeaderCell}>
-                    {formatMessage("ClaimHistoryModal.modifiedBy")}
-                  </TableCell>
-                  <TableCell className={classes.tableHeaderCell}>
-                    {formatMessage("ClaimHistoryModal.status")}
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {history?.map((version) => (
-                  <TableRow 
-                    key={version.id} 
-                    hover 
-                    onClick={() => onViewVersion(version)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <TableCell>{version.versionNumber}</TableCell>
-                    <TableCell>{new Date(version.createdDate).toLocaleString()}</TableCell>
-                    <TableCell>{version.createdBy?.username || 'System'}</TableCell>
-                    <TableCell>{version.status}</TableCell>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon className={classes.panelExpandIcon} />}
+          classes={{
+            root: classes.panelSummary,
+            content: classes.panelSummaryContent,
+            expanded: classes.expanded,
+          }}
+        >
+          <Typography className={classes.panelTitle}>
+            {formatMessageWithValues("ClaimHistoryModal.title", { code: claim?.code || '' })}
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails className={classes.panelsDetails}>
+          {fetchingHistory ? (
+            <Box className={classes.loadingContainer}>
+              <CircularProgress />
+            </Box>
+          ) : errorHistory ? (
+            <Box color="error.main" p={2} width="100%">
+              {errorHistory}
+            </Box>
+          ) : (
+            <TableContainer component={Paper} className={classes.tableContainer}>
+              <Table size="small">
+                <TableHead className={classes.tableHeader}>
+                  <TableRow>
+                    <TableCell className={classes.tableHeaderCell}>
+                      {formatMessage("ClaimHistoryModal.date")}
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      {formatMessage("ClaimHistoryModal.modifiedBy")}
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      {formatMessage("ClaimHistoryModal.claimAmount")}
+                    </TableCell>
+                    <TableCell className={classes.tableHeaderCell}>
+                      {formatMessage("ClaimHistoryModal.status")}
+                    </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+                </TableHead>
+                <TableBody>
+                  {fakeHistory.map((version) => (
+                    <TableRow 
+                      key={version.id} 
+                      hover 
+                      onClick={() => onViewVersion(version)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <TableCell>{new Date(version.createdDate).toLocaleString()}</TableCell>
+                      <TableCell>{version.createdBy?.username || 'System'}</TableCell>
+                      <TableCell>{version.claimAmount}</TableCell>
+                      <TableCell>{version.status}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    </Paper>
   );
 };
 

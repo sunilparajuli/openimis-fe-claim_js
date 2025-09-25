@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import moment from "moment";
-import { Fab, Badge } from "@material-ui/core";
+import { Fab, Badge, Grid } from "@material-ui/core";
 import { withStyles, withTheme } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import ReplayIcon from "@material-ui/icons/Replay";
@@ -616,13 +616,15 @@ class ClaimForm extends Component {
             </Fragment>
           )}
         </div>
-        <div>
-          <ClaimHistoryPanel
-            claim={this.state.claim}
-            claimUuid={claim_uuid}
-            onViewVersion={handleViewVersion}
-          />
-        </div>
+        <Grid container spacing={1}>
+          <Grid item xs={12}> 
+            <ClaimHistoryPanel
+              claim={this.state.claim}
+              claimUuid={claim_uuid}
+              onViewVersion={handleViewVersion}
+            />
+          </Grid>
+        </Grid>
       </div>
     );
   }
