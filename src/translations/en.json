@@ -40,6 +40,7 @@
   "claim.feedbackButton.tooltip": "Deliver Feedback",
   "claim.reviewButton.tooltip": "Deliver Review",
   "claim.openNewTabButton.tooltip": "Open in new tab",
+  "claim.openNewTab.buttonText": "Open",
   "claim.ClaimFilter.claimedDateFrom": "Claimed From",
   "claim.ClaimFilter.claimedDateTo": "Claimed To",
   "claim.ClaimFilter.claimedAbove": "Claimed More Than",
@@ -370,5 +371,6 @@
   "claim.gql_mutation_process_claims_perms": "Claim | Mutation Process Claims",
   "claim.gql_mutation_restore_claims_perms": "Claim | Mutation Restore Claims",
   "claim.gql_mutation_delete_claims_perms": "Claim | Mutation Delete Claims",
-  "claim.claim_print_perms": "Claim | Claim Print"
+  "claim.claim_print_perms": "Claim | Claim Print",
+  "claim.deleteHealthFacility.textButton": "Delete"
 }

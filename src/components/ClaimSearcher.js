@@ -273,10 +273,13 @@ class ClaimSearcher extends Component {
     }
     result.push((c) => (
       <Tooltip title={formatMessage(this.props.intl, "claim", "openNewTabButton.tooltip")}>
-        <IconButton onClick={(e) => this.props.onDoubleClick(c, true)}>
-          {" "}
-          <TabIcon />
-        </IconButton>
+        <div>
+          <IconButton onClick={(e) => this.props.onDoubleClick(c, true)}>
+            {" "}
+            <TabIcon />
+          </IconButton>
+          {formatMessage(this.props.intl, "claim", "openNewTab.buttonText")}
+        </div>
       </Tooltip>
     ));
     return result;
