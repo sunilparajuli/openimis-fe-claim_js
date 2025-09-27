@@ -1,5 +1,11 @@
 {
   "claim.mainMenu": "Claims",
+  "claimAttachments.buttonText": "Attachs",
+  "claim.print.buttonText": "Print",
+  "claim.restore.buttonText": "Restore",
+  "claim.duplicate.buttonText": "Duplicate",
+  "claim.claimFeedback.buttonText": "Feedback",
+  "claim.claimReview.buttonText": "Review",
   "claim.menu.healthFacilityClaims": "Health Facility Claims",
   "claim.healthFacilityClaims.page.title": "Health Facility Claims",
   "claim.menu.reviews": "Reviews",
