@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
 
-import { Paper, Box, IconButton, Typography, Grid, TableCell } from "@material-ui/core";
+import { Paper, Box, IconButton, Typography, Grid, TableCell, Tooltip } from "@material-ui/core";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import { ThumbUp, ThumbDown } from "@material-ui/icons";
 
@@ -346,6 +346,10 @@ class ClaimChildPanel extends Component {
 
     let itemFormatters = [
       (i, idx) => (
+        <Tooltip 
+        title={"Type if you dont find the item or service in the list"}
+        sx={{ fontSize: '3rem'}}
+        >
         <Box minWidth={400}>
           <PublishedComponent
             readOnly={!!forReview || readOnly}
@@ -359,6 +363,7 @@ class ClaimChildPanel extends Component {
             onChange={(v) => this._onChangeItem(idx, type, v)}
           />
         </Box>
+        </Tooltip>
       ),
       (i, idx) => (
         <NumberInput
