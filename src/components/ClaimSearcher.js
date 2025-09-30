@@ -27,8 +27,10 @@ const styles = (theme) => ({});
 
 class ClaimSearcher extends Component {
   state = {
+    searchInitiated: false,
     random: null,
     attachmentsClaim: null,
+    initialFitlers: this.props.defaultFilters,
   };
 
   constructor(props) {
@@ -45,7 +47,41 @@ class ClaimSearcher extends Component {
     this.extFields = props.modulesManager.getConf("fe-claim", "extFields", []);
     this.showOrdinalNumber = props.modulesManager.getConf("fe-claim", "claimForm.showOrdinalNumber", false);
     this.showPreAuthorization = props.modulesManager.getConf("fe-claim", "showPreAuthorization", false);
+    this.isDefaultFetchClaimActivated = this.props.modulesManager.getConf(
+      "fe-claim",
+      "isDefaultFetchClaimActivated",
+      true
+    );
   }
+
+  canFetchClaimDetails = () => {
+    if (this.state.searchInitiated === false && !!this.state.initialFitlers) {
+      this.onFiltersApplied(this.state.initialFitlers);
+    }
+  };
+
+  componentDidMount() {
+    this.scheduleCanFetchClaimDetails();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.searchInitiated !== this.state.searchInitiated ||
+      prevState.initialFitlers !== this.state.initialFitlers
+    ) {
+      this.scheduleCanFetchClaimDetails();
+    }
+  }
+
+  scheduleCanFetchClaimDetails = () => {
+    if (this.debounceTimeout) {
+      clearTimeout(this.debounceTimeout);
+    }
+
+    this.debounceTimeout = setTimeout(() => {
+      this.canFetchClaimDetails();
+    }, 100);
+  };
 
   canSelectAll = (selection) =>
     this.props.claims.map((s) => s.id).filter((s) => !selection.map((s) => s.id).includes(s)).length;
@@ -299,6 +335,13 @@ class ClaimSearcher extends Component {
 
   isClaimNotRestored = (_, claim) => this.state.showRestored && !claim?.restoreId;
 
+  onFiltersApplied = (filters) => {
+    this.setState({
+      searchInitiated: true,
+      filters, // Update the active filters
+    });
+  };
+
   render() {
     const {
       intl,
@@ -315,7 +358,7 @@ class ClaimSearcher extends Component {
       onDoubleClick,
       actionsContributionKey,
     } = this.props;
-
+    const { searchInitiated } = this.state;
     let count = !!this.state.random && this.state.random.value;
     if (!count) {
       count = (claimsPageInfo?.totalCount || 0).toLocaleString();
@@ -346,7 +389,7 @@ class ClaimSearcher extends Component {
           tableTitle={formatMessageWithValues(intl, "claim", "claimSummaries", { count })}
           rowsPerPageOptions={this.rowsPerPageOptions}
           defaultPageSize={this.defaultPageSize}
-          fetch={this.fetch}
+          fetch={this.isDefaultFetchClaimActivated == false  && searchInitiated ? this.fetch : this.isDefaultFetchClaimActivated == true ? this.fetch : () => {}}
           rowIdentifier={this.rowIdentifier}
           filtersToQueryParams={this.filtersToQueryParams}
           defaultOrderBy="-dateClaimed"
@@ -365,6 +408,7 @@ class ClaimSearcher extends Component {
           onDoubleClick={onDoubleClick}
           actionsContributionKey={actionsContributionKey}
           showOrdinalNumber={this.showOrdinalNumber}
+          onChangeFilters={this.onFiltersApplied}
         />
       </Fragment>
     );
