@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
 import { withTheme, withStyles } from "@material-ui/core/styles";
-import { IconButton, Typography, Tooltip, Badge } from "@material-ui/core";
+import { IconButton, Typography, Tooltip, Badge, TextField } from "@material-ui/core";
 import AttachIcon from "@material-ui/icons/AttachFile";
 import TabIcon from "@material-ui/icons/Tab";
 import CheckIcon from "@material-ui/icons/Check";
@@ -234,15 +234,8 @@ class ClaimSearcher extends Component {
   itemFormatters = () => {
     var result = [
       (c) => c.code,
-      (c) => (
-        <PublishedComponent
-          readOnly={true}
-          pubRef="location.HealthFacilityPicker"
-          withLabel={false}
-          value={c.healthFacility}
-        />
-      ),
-      (c) => <PublishedComponent readOnly={true} pubRef="insuree.InsureePicker" withLabel={false} value={c.insuree} />,
+      (c) => formatMessage(this.props.intl, "claim", `${c.healthFacility.code}`),
+      (c) => formatMessage(this.props.intl, "claim", `${c.insuree.lastName} ${c.insuree.otherNames}`),
       (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateClaimed),
       (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateProcessed),
       (c) => this.feedbackColFormatter(c),
