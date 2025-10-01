@@ -348,12 +348,11 @@ class ClaimChildPanel extends Component {
       (i, idx) => (
         <Box minWidth={400}>
           <PublishedComponent
+            required={true}
             readOnly={!!forReview || readOnly}
             pubRef={picker}
             filterOptions={this.props.type==='item' ? filterItemsOptions : filterServicesOptions}
-            withLabel={false}
             value={i[type]}
-            fullWidth
             pricelistUuid={edited.healthFacility[`${this.props.type}sPricelist`].uuid}
             date={edited.dateClaimed}
             onChange={(v) => this._onChangeItem(idx, type, v)}
