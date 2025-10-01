@@ -347,7 +347,7 @@ class ClaimChildPanel extends Component {
     let itemFormatters = [
       (i, idx) => (
         <Tooltip 
-        title={"Type if you dont find the item or service in the list"}
+        title={formatMessage(intl, "claim", "ClaimChildPanel.itemOrService.tooltip")}
         sx={{ fontSize: '3rem'}}
         >
         <Box minWidth={400}>

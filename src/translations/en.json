@@ -1,5 +1,6 @@
 {
   "claim.mainMenu": "Claims",
+  "ClaimChildPanel.itemOrService.tooltip": "Type if you dont find the item or service in the list",
   "claim.menu.healthFacilityClaims": "Health Facility Claims",
   "claim.healthFacilityClaims.page.title": "Health Facility Claims",
   "claim.menu.reviews": "Reviews",
