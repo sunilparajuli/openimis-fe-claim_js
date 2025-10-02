@@ -234,8 +234,13 @@ class ClaimSearcher extends Component {
   itemFormatters = () => {
     var result = [
       (c) => c.code,
-      (c) => formatMessage(this.props.intl, "claim", `${c.healthFacility.code}`),
-      (c) => formatMessage(this.props.intl, "claim", `${c.insuree.lastName} ${c.insuree.otherNames}`),
+      (c) => c.healthFacility.code,
+      (c) => <TextField 
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  value: `${c.insuree.lastName} ${c.insuree.otherNames}`
+              }}/>,
       (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateClaimed),
       (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateProcessed),
       (c) => this.feedbackColFormatter(c),
