@@ -411,8 +411,8 @@ function reducer(
         ...state,
         fetchingHistory: false,
         fetchedHistory: true,
-        history: parseData(action.payload),
-        pageInfo: pageInfo(action.payload.data.claims),
+        history: parseData(action.payload.data.claimHistory),
+        pageInfo: null,
       };
     case "CLAIM_HISTORY_FETCH_ERR":
       return {

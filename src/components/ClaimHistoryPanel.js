@@ -182,9 +182,9 @@ const ClaimHistoryPanel = ({ claim, claimUuid, onViewVersion, classes }) => {
                       onClick={() => onViewVersion(version)}
                       style={{ cursor: 'pointer' }}
                     >
-                      <TableCell>{new Date(version.createdDate).toLocaleString()}</TableCell>
+                      <TableCell>{new Date(version.validityTo).toLocaleString()}</TableCell>
                       <TableCell>{version.createdBy?.username || 'System'}</TableCell>
-                      <TableCell>{version.claimAmount}</TableCell>
+                      <TableCell>{version.claimed}</TableCell>
                       <TableCell>{version.status}</TableCell>
                     </TableRow>
                   ))}

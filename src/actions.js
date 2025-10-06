@@ -727,10 +727,11 @@ export function fetchClaimHistory(claimUuid) {
     `
     query ($claimUuid: String!) {
       claimHistory(claimUuid: $claimUuid) {
-        id
-        createdDate
+        uuid
+        validityTo
         status
-        claimAmount
+        claimed
+        approved
         createdBy {
           id
           username
