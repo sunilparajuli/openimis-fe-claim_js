@@ -346,24 +346,27 @@ class ClaimChildPanel extends Component {
 
     let itemFormatters = [
       (i, idx) => (
-        <Tooltip 
-        title={formatMessage(intl, "claim", "ClaimChildPanel.itemOrService.tooltip")}
-        sx={{ fontSize: '3rem'}}
+        <Tooltip
+          title={formatMessage(intl, "claim", "ClaimChildPanel.itemOrService.tooltip")}
+          disableHoverListener={!!forReview || !!readOnly}
+          disableFocusListener={!!forReview || !!readOnly}
+          sx={{ fontSize: '3rem' }}
         >
-        <Box minWidth={400}>
-          <PublishedComponent
-            readOnly={!!forReview || readOnly}
-            pubRef={picker}
-            filterOptions={this.props.type==='item' ? filterItemsOptions : filterServicesOptions}
-            withLabel={false}
-            value={i[type]}
-            fullWidth
-            pricelistUuid={edited.healthFacility[`${this.props.type}sPricelist`].uuid}
-            date={edited.dateClaimed}
-            onChange={(v) => this._onChangeItem(idx, type, v)}
-          />
-        </Box>
+          <Box minWidth={400}>
+            <PublishedComponent
+              readOnly={!!forReview || readOnly}
+              pubRef={picker}
+              filterOptions={this.props.type === 'item' ? filterItemsOptions : filterServicesOptions}
+              withLabel={false}
+              value={i[type]}
+              fullWidth
+              pricelistUuid={edited.healthFacility[`${this.props.type}sPricelist`].uuid}
+              date={edited.dateClaimed}
+              onChange={(v) => this._onChangeItem(idx, type, v)}
+            />
+          </Box>
         </Tooltip>
+
       ),
       (i, idx) => (
         <NumberInput
