@@ -727,16 +727,54 @@ export function fetchClaimHistory(claimUuid) {
     `
     query ($claimUuid: String!) {
       claimHistory(claimUuid: $claimUuid) {
-        uuid
-        validityTo
-        status
-        claimed
-        approved
-        createdBy {
-          id
-          username
-          lastName
-          otherNames
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        edges {
+          node {
+            uuid
+            validityTo
+            code
+            jsonExt
+            dateClaimed
+            dateProcessed
+            feedbackStatus
+            reviewStatus
+            claimed
+            approved
+            status
+            restoreId
+
+            insuree {
+              id
+              uuid
+              chfId
+              lastName
+              otherNames
+              dob
+              insureePolicies {
+                edges {
+                  node {
+                    policy {
+                      id
+                      status
+                      effectiveDate
+                      expiryDate
+                      product {
+                        id
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            attachmentsCount
+          }
         }
       }
     }

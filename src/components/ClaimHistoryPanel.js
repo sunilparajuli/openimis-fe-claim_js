@@ -5,12 +5,7 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
   Typography,
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Paper,
   CircularProgress,
   Box,
@@ -18,7 +13,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
-import { useModulesManager, useTranslations } from "@openimis/fe-core";
+import { useModulesManager, useTranslations, Table, formatDateFromISO } from "@openimis/fe-core";
 import { fetchClaimHistory } from "../actions";
 
 const styles = (theme) => ({
@@ -75,62 +70,44 @@ const ClaimHistoryPanel = ({ claim, claimUuid, onViewVersion, classes }) => {
   const dispatch = useDispatch();
   const { history, fetchingHistory, errorHistory } = useSelector((state) => state.claim);
   const modulesManager = useModulesManager();
-  const { formatMessage, formatMessageWithValues } = useTranslations("claim", modulesManager);
+  const { formatMessage, formatMessageWithValues, formatDateFromISO, formatAmount } = useTranslations("claim", modulesManager);
   const [expanded, setExpanded] = React.useState(false);
 
   useEffect(() => {
-    if (expanded && claimUuid && !history) {
-      dispatch(fetchClaimHistory(claimUuid));
-    }
-  }, [expanded, claimUuid, dispatch, history]);
+    dispatch(fetchClaimHistory(claimUuid));
+  }, [claimUuid, dispatch]);
 
   const handleChange = (event, isExpanded) => {
     setExpanded(isExpanded);
   };
-
-  const fakeHistory = [
-    {
-      id: 1,
-      createdDate: "2022-01-01",
-      createdBy: {
-        username: "system",
-      },
-      claimAmount: 100,
-      status: "Submitted",
-    },
-    {
-      id: 2,
-      createdDate: "2022-01-02",
-      createdBy: {
-        username: "danilo",
-      },
-      claimAmount: 200,
-      status: "Approved",
-    },
-    {
-      id: 3,
-      createdDate: "2022-01-03",
-      createdBy: {
-        username: "atangana",
-      },
-      claimAmount: 300,
-      status: "Rejected",
-    },
-    {
-      id: 4,
-      createdDate: "2022-01-04",
-      createdBy: {
-        username: "paul",
-      },
-      claimAmount: 400,
-      status: "Submitted",
-    },
+  
+  const headers = [
+    "claimHistory.code",
+    "claimHistory.dateClaimed",
+    "claimHistory.dateProcessed",
+    "claimHistory.feedbackStatus",
+    "claimHistory.reviewStatus",
+    "claimHistory.claimed",
+    "claimHistory.approved",
+    "claimHistory.status",
+    "claimHistory.restoreId",
   ];
 
+  const itemFormatters = [
+    (claim) => claim.code || '—',
+    (claim) => formatDateFromISO(claim.dateClaimed) || '—',
+    (claim) => formatDateFromISO(claim.dateProcessed) || '—',
+    (claim) => claim.feedbackStatus || '—',
+    (claim) => claim.reviewStatus || '—',
+    (claim) => claim.claimed ? formatAmount(claim.claimed) : '—',
+    (claim) => claim.approved ? formatAmount(claim.approved) : '—',
+    (claim) => claim.status || '—',
+    (claim) => claim.restoreId || '—'
+  ];
+  
   return (
     <Paper className={classes.paper}>
       <ExpansionPanel 
-        className={classes.panel}
         expanded={expanded} 
         onChange={handleChange}
       >
@@ -157,39 +134,22 @@ const ClaimHistoryPanel = ({ claim, claimUuid, onViewVersion, classes }) => {
             </Box>
           ) : (
             <TableContainer component={Paper} className={classes.tableContainer}>
-              <Table size="small">
-                <TableHead className={classes.tableHeader}>
-                  <TableRow>
-                    <TableCell className={classes.tableHeaderCell}>
-                      {formatMessage("ClaimHistoryModal.date")}
-                    </TableCell>
-                    <TableCell className={classes.tableHeaderCell}>
-                      {formatMessage("ClaimHistoryModal.modifiedBy")}
-                    </TableCell>
-                    <TableCell className={classes.tableHeaderCell}>
-                      {formatMessage("ClaimHistoryModal.claimAmount")}
-                    </TableCell>
-                    <TableCell className={classes.tableHeaderCell}>
-                      {formatMessage("ClaimHistoryModal.status")}
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {fakeHistory.map((version) => (
-                    <TableRow 
-                      key={version.id} 
-                      hover 
-                      onClick={() => onViewVersion(version)}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <TableCell>{new Date(version.validityTo).toLocaleString()}</TableCell>
-                      <TableCell>{version.createdBy?.username || 'System'}</TableCell>
-                      <TableCell>{version.claimed}</TableCell>
-                      <TableCell>{version.status}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <Table
+                module="claim"
+                headers={headers}
+                itemFormatters={itemFormatters}
+                items={history || []}
+                withPagination={false}
+                withPaper={false}
+                sort={null}
+                onDoubleClick={onViewVersion}
+                rowStyle={(item, index) => ({
+                  cursor: 'pointer',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.04)'
+                  }
+                })}
+              />
             </TableContainer>
           )}
         </ExpansionPanelDetails>

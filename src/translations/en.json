@@ -372,8 +372,13 @@
   "claim.gql_mutation_delete_claims_perms": "Claim | Mutation Delete Claims",
   "claim.claim_print_perms": "Claim | Claim Print",
   "claim.ClaimHistoryModal.title": "History of Claim {code}",
-  "claim.ClaimHistoryModal.claimAmount": "Claim Amount",
-  "claim.ClaimHistoryModal.date": "Date",
-  "claim.ClaimHistoryModal.modifiedBy": "Created By",
-  "claim.ClaimHistoryModal.status": "Status"
+  "claimHistory.code": "Code",
+  "claimHistory.dateClaimed": "Date Claimed",
+  "claimHistory.dateProcessed": "Date Processed",
+  "claimHistory.feedbackStatus": "Feedback Status",
+  "claimHistory.reviewStatus": "Review Status",
+  "claimHistory.claimed": "Claimed",
+  "claimHistory.approved": "Approved",
+  "claimHistory.status": "Status",
+  "claimHistory.restoreId": "Restore ID"
 }
