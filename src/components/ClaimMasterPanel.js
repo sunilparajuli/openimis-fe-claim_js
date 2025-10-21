@@ -313,7 +313,7 @@ class ClaimMasterPanel extends FormPanel {
                    pubRef="location.HealthFacilityReferPicker"
                    label={formatMessage(intl, "claim", "ClaimMasterPanel.referHFLabel")}
                    value={
-                     (edited.visitType === this.claimTypeReferSymbol ? edited.referFrom : edited.referTo) ??
+                     (edited.visitType === this.claimTypeReferSymbol ? !!edited.referFrom ? edited.referFrom : edited.referHF : edited.referTo) ??
                      this.EMPTY_STRING
                    }
                    reset={reset}
