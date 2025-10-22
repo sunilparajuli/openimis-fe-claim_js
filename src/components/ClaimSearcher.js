@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
 import { withTheme, withStyles } from "@material-ui/core/styles";
-import { IconButton, Typography, Tooltip, Badge } from "@material-ui/core";
+import { Button, Typography, Tooltip, Badge } from "@material-ui/core";
 import AttachIcon from "@material-ui/icons/AttachFile";
 import TabIcon from "@material-ui/icons/Tab";
 import CheckIcon from "@material-ui/icons/Check";
@@ -294,11 +294,16 @@ class ClaimSearcher extends Component {
       result.push(
         (c) =>
           !!c.attachmentsCount && (
-            <IconButton onClick={(e) => this.setState({ attachmentsClaim: c })}>
-              <Badge badgeContent={c.attachmentsCount ?? 0} color="primary">
-                <AttachIcon />
-              </Badge>
-            </IconButton>
+            <Button
+              startIcon={
+                <Badge badgeContent={c.attachmentsCount ?? 0} color="primary">
+                  <AttachIcon />
+                </Badge>
+              }
+              onClick={(e) => this.setState({ attachmentsClaim: c })}
+            >
+              {formatMessage(this.props.intl, "claim", "claimAttachments.buttonText")}
+            </Button>
           ),
       );
     }
@@ -309,10 +314,9 @@ class ClaimSearcher extends Component {
     }
     result.push((c) => (
       <Tooltip title={formatMessage(this.props.intl, "claim", "openNewTabButton.tooltip")}>
-        <IconButton onClick={(e) => this.props.onDoubleClick(c, true)}>
-          {" "}
-          <TabIcon />
-        </IconButton>
+        <Button startIcon={<TabIcon />} onClick={(e) => this.props.onDoubleClick(c, true)}>
+          {formatMessage(this.props.intl, "claim", "openNewTab.buttonText")}
+        </Button>
       </Tooltip>
     ));
     return result;
