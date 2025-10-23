@@ -72,7 +72,7 @@ class ClaimChildPanel extends Component {
       data.forEach((d) => !!d.services && (d.subServices = d.services));
       data.forEach((d) => !!d.items && (d.subItems = d.items));
     }
-    if (!this.props.forReview && this.props.edited.status == 2 && !_.isEqual(data[data.length - 1], {})) {
+    if (!this.props.forReview && (this.props.edited.status === 1 || this.props.edited.status === 2) && !_.isEqual(data[data.length - 1], {})) {
       data.push({});
     }
     return data;
