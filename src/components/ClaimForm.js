@@ -166,6 +166,7 @@ class ClaimForm extends Component {
       ...claim,
       uuid: null,
       status: status,
+      code: "",
       restore: { uuid: claim.uuid, code: claim.code },
       items: items,
       services: services,
