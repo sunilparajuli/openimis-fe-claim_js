@@ -224,7 +224,7 @@ export function formatDetailSubService(type, detail) {
     ${detail.qtyAsked !== null ? `qtyAsked: "${_.round(detail.qtyAsked, 2).toFixed(2) && _.round(detail.qtyDisplayed, 2).toFixed(2)}"` : ""}
     ${detail.priceAsked !== null ? `priceAsked: "${_.round(detail.priceAsked, 2).toFixed(2)}"` : ""}
     ${detail.qtyProvided !== null ? `qtyProvided: "${_.round(detail.qtyProvided, 2).toFixed(2)}"` : ""}
-    ${detail.qtyAdjusted !== null ? `qtyAdjusted: "${_.round(detail.qtyAdjusted, 2).toFixed(2)}"` : ""}
+    ${detail.qtyAdjusted != null ? `qtyAdjusted: "${_.round(detail.qtyAdjusted, 2).toFixed(2)}"` : ""}
   },`;
 }
 
