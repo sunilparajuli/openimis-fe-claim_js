@@ -96,8 +96,10 @@ class ClaimMasterPanel extends FormPanel {
     if (this.autoGenerateClaimCode) return false;
 
     const { savedClaimCode, edited } = this.props;
-    const shouldValidate = inputValue !== savedClaimCode;
+
     if (edited.restore) return true;
+    const shouldValidate = inputValue !== savedClaimCode;
+
     return shouldValidate;
   };
 
