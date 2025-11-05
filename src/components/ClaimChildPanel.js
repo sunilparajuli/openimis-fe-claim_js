@@ -73,7 +73,7 @@ class ClaimChildPanel extends Component {
       data.forEach((d) => !!d.services && (d.subServices = d.services));
       data.forEach((d) => !!d.items && (d.subItems = d.items));
     }
-    if (!this.props.forReview && this.props.edited.status == 2 && !_.isEqual(data[data.length - 1], {})) {
+    if (!this.props.forReview && this.props.edited.status === 2 && !_.isEqual(data[data.length - 1], {})) {
       data.push({});
     }
     return data;
@@ -92,8 +92,8 @@ class ClaimChildPanel extends Component {
       this.setState({ data, reset: this.state.reset + 1 });
     } else if (
       prevProps.reset !== this.props.reset ||
-      (!!this.props.edited[`${this.props.type}s`] &&
-        !_.isEqual(prevProps.edited[`${this.props.type}s`], this.props.edited[`${this.props.type}s`]))
+      (!!this.props.edited &&
+        !_.isEqual(prevProps.edited, this.props.edited))
     ) {
       this.setState({
         data: this.initData(),

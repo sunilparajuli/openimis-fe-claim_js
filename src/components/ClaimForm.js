@@ -299,20 +299,10 @@ class ClaimForm extends Component {
       return false
     } 
     if (this.state.claim.services !== undefined) {
-      if (this.props.forReview || this.state.isRestored) {
-        if (this.state.claim.services.length && this.state.claim.services.filter((s) => !this.canSaveDetail(s, "service")).length) {
-          return false;
-        }
-      } else {
-        if (this.state.claim.services.length && this.state.claim.services.filter((s) => !this.canSaveDetail(s, "service")).length - 1) {
-          return false;
-        }
+      if (this.state.claim.services.length && this.state.claim.services.filter((s) => !this.canSaveDetail(s, "service", forReview)).length - 1) {
+        return false;
       }
-
-    } else {
-      return false;
     }
-
 
     if (this.isCareTypeMandatory){
       if (!CARE_TYPE_STATUS.includes(this.state.claim.careType)) return false;
