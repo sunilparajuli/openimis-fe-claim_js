@@ -10,6 +10,7 @@ import {
 
 function reducer(
   state = {
+    currentClaimAdmin: null,
     fetchingClaimAttachments: false,
     fetchedClaimAttachments: false,
     errorClaimAttachments: null,
@@ -86,6 +87,10 @@ function reducer(
         s.claimDistrict = s.claimHealthFacility.location;
         s.claimRegion = s.claimDistrict.parent;
       }
+      return s;
+    case "CLAIM_SET_CURRENT_CLAIM_ADMIN":
+      var currentClaimAdmin = action.payload;
+      var s = { ...state, currentClaimAdmin };
       return s;
     case "CLAIM_CLAIM_HEALTH_FACILITY_SELECTED":
       var claimHealthFacility = action.payload;
