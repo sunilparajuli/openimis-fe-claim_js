@@ -91,9 +91,9 @@ const ClaimAdminPicker = (props) => {
   };
   const claimAdmins = data?.claimAdmins?.edges.map((edge) => edge.node) || [];
 
-  for (let i = 0; i < claimAdmins.length; i++) {
-    if (claimAdmins[i].code === i_user) {
-      dispatch(setCurrentClaimAdmin(claimAdmins[i]));
+  for (const admin of claimAdmins) {
+    if (admin.code === i_user) {
+      dispatch(setCurrentClaimAdmin(admin));
     }
   }
 

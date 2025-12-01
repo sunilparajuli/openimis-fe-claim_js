@@ -89,8 +89,8 @@ function reducer(
       }
       return s;
     case "CLAIM_SET_CURRENT_CLAIM_ADMIN":
-      var currentClaimAdmin = action.payload;
-      var s = { ...state, currentClaimAdmin };
+      const currentClaimAdmin = action.payload;
+      s = { ...state, currentClaimAdmin };
       return s;
     case "CLAIM_CLAIM_HEALTH_FACILITY_SELECTED":
       var claimHealthFacility = action.payload;
