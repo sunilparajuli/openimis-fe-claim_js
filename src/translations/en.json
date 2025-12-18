@@ -1,5 +1,6 @@
 {
   "claim.mainMenu": "Claims",
+  "ClaimChildPanel.itemOrService.tooltip": "Type if you dont find the item or service in the list",
   "claimAttachments.buttonText": "Attachs",
   "claim.print.buttonText": "Print",
   "claim.restore.buttonText": "Restore",
