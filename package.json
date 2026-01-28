@@ -12,8 +12,9 @@
   },
   "scripts": {
     "build": "vite build",
-    "start": "vite",
-    "format": "prettier src -w"
+    "dev": "vite",
+    "format": "prettier src -w",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
