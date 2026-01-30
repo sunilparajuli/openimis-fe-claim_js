@@ -7,6 +7,8 @@ export default defineConfig({
   plugins: [
     react({
       jsxRuntime: 'automatic',
+    jsxImportSource: '@emotion/react',
+      jsxImportSource: '@emotion/react',
     }),
     svgr()
   ],
