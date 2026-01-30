@@ -204,7 +204,7 @@ class RawRandomAndValueFilters extends Component {
 
     return (
       <Grid container direction="row">
-        <Grid item xs={3} className="item">
+        <Grid size={3} className="item">
           <NumberInput
             module="claim"
             label="ClaimFilter.Reviews.random"
@@ -231,7 +231,7 @@ class RawRandomAndValueFilters extends Component {
             }}
           />
         </Grid>
-        <Grid item xs={3} className="item">
+        <Grid size={3} className="item">
           <AmountInput
             module="claim"
             label="ClaimFilter.Reviews.value"
@@ -250,7 +250,7 @@ class RawRandomAndValueFilters extends Component {
             onChange={this.valueChange}
           />
         </Grid>
-        <Grid className="item" xs={3}>
+        <Grid className="item" size={3}>
           <NumberInput
             module="claim"
             label="ClaimFilter.Reviews.variance"
@@ -476,7 +476,7 @@ class ReviewsPage extends Component {
 
   feedbackColFormatter = (c) => (
     <Grid container justify="flex-end" alignItems="center">
-      <Grid item>
+      <Grid>
         <PublishedComponent
           pubRef="claim.FeedbackStatusPicker"
           withLabel={false}
@@ -489,7 +489,7 @@ class ReviewsPage extends Component {
         />
       </Grid>
       {!!this.props.rights.includes(RIGHT_FEEDBACK) && (
-        <Grid item>
+        <Grid>
           <Tooltip title={formatMessage(this.props.intl, "claim", "feedbackButton.tooltip")}>
             <IconButton onClick={(e) => this.provideFeedback(c)}>
               <FeedbackIcon />
@@ -551,7 +551,7 @@ class ReviewsPage extends Component {
   };
   reviewColFormatter = (c) => (
     <Grid container justify="flex-end" alignItems="center">
-      <Grid item>
+      <Grid>
         <PublishedComponent
           pubRef="claim.ReviewStatusPicker"
           withLabel={false}
@@ -564,7 +564,7 @@ class ReviewsPage extends Component {
         />
       </Grid>
       {!!this.props.rights.includes(RIGHT_CLAIMREVIEW) && (
-        <Grid item>
+        <Grid>
           <Tooltip title={formatMessage(this.props.intl, "claim", "reviewButton.tooltip")}>
             <IconButton onClick={(e) => this.review(c)}>
               <ReviewIcon />
@@ -695,6 +695,8 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
+export { CLAIM_REVIEWS_FILTER_CONTRIBUTION_KEY };
+export { RawRandomAndValueFilters };
 export default injectIntl(
   withHistory(connect(mapStateToProps, mapDispatchToProps)(ReviewsPage)),
 );

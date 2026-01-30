@@ -76,6 +76,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ createClaim, updateClaim }, dispatch);
 };
 
+export { StyledDiv };
+export { EditPage };
 export default withHistory(
   withModulesManager(connect(mapStateToProps, mapDispatchToProps)(injectIntl(EditPage))),
 );

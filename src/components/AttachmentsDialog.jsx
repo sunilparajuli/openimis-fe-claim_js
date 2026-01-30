@@ -499,6 +499,8 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
+export { StyledDialogTitle };
+export { AttachmentsDialog };
 export default withModulesManager(
   connect(mapStateToProps, mapDispatchToProps)(injectIntl(AttachmentsDialog)),
 );

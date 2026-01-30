@@ -629,6 +629,8 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
+export { CLAIM_FORM_CONTRIBUTION_KEY };
+export { ClaimServicesPanel };
 export default withHistory(
   withModulesManager(
     connect(mapStateToProps, mapDispatchToProps)(injectIntl(ClaimForm)),

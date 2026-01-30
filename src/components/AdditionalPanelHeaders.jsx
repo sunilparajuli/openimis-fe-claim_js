@@ -17,13 +17,13 @@ const AdditionalPanelHeaders = () => {
   const theme = useTheme();
   return (
     <Fragment>
-      <StyledGrid  xs={6} className="item">
+      <StyledGrid  size={6} className="item">
         <StyledTypography className="tableTitle">
           <FormattedMessage module="claim" id="ClaimMasterPanelExt.InsureeInfo.Header" />
         </StyledTypography>
         <Divider />
       </StyledGrid>
-      <StyledGrid  xs={6} className="item">
+      <StyledGrid  size={6} className="item">
         <StyledTypography className="tableTitle">
           <FormattedMessage module="claim" id="ClaimMasterPanelExt.InsureeInfo.lastClaimSameDiagnosis.Header" />
         </StyledTypography>

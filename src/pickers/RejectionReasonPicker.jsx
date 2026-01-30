@@ -47,4 +47,5 @@ class RejectionReasonPicker extends Component {
   }
 }
 
+export { RejectionReasonPicker };
 export default injectIntl(RejectionReasonPicker);

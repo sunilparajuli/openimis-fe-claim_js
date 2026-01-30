@@ -135,26 +135,26 @@ class ClaimMasterPanelExt extends Component {
 
     return (
       <Grid container>
-        <StyledItemGrid item xs={6} className="item">
+        <StyledItemGrid size={6} className="item">
           <PolicyInfoComponent>
             <FormattedMessage module="claim" id={policyInfoLabel} />
           </PolicyInfoComponent>
           <Divider />
         </StyledItemGrid>
-        <StyledItemGrid item xs={6} className="item">
+        <StyledItemGrid size={6} className="item">
           <StyledTableTitle>
             <FormattedMessage module="claim" id="ClaimMasterPanelExt.InsureeLastVisit.header" />
           </StyledTableTitle>
           <Divider />
         </StyledItemGrid>
-        <StyledItemGrid item xs={6} className="item">
+        <StyledItemGrid size={6} className="item">
           <PublishedComponent
             pubRef="policy.InsureePolicyEligibilitySummary"
             insuree={!!claim ? claim.insuree : null}
             targetDate={!!claim ? claim.dateFrom ?? claim.dateTo : null}
           />
         </StyledItemGrid>
-        <StyledItemGrid item xs={6} className="item">
+        <StyledItemGrid size={6} className="item">
           <ProgressOrError progress={fetchingLastClaimAt} error={errorLastClaimAt} />
           {!!fetchedLastClaimAt && !lastClaimAt && (
             <FormattedMessage module="claim" id="ClaimMasterPanelExt.InsureeLastVisit.noOtheClaim" />
@@ -164,7 +164,7 @@ class ClaimMasterPanelExt extends Component {
           )}
           {!!fetchedLastClaimAt && !!lastClaimAt && lastClaimAt?.uuid !== claim.uuid && (
             <Grid container>
-              <Grid xs={4} item className="item">
+              <Grid size={4} className="item">
                 <TextInput
                   module="claim"
                   label="ClaimMasterPanelExt.InsureeLastVisit.claimCode"
@@ -172,7 +172,7 @@ class ClaimMasterPanelExt extends Component {
                   value={lastClaimAt.code}
                 />
               </Grid>
-              <Grid xs={4} item className="item">
+              <Grid size={4} className="item">
                 <PublishedComponent
                   pubRef="core.DatePicker"
                   value={lastClaimAt.dateFrom}
@@ -181,7 +181,7 @@ class ClaimMasterPanelExt extends Component {
                   readOnly={true}
                 />
               </Grid>
-              <Grid xs={4} item className="item">
+              <Grid size={4} className="item">
                 <PublishedComponent
                   pubRef="core.DatePicker"
                   value={lastClaimAt.dateTo}
@@ -207,7 +207,7 @@ class ClaimMasterPanelExt extends Component {
           />
         )}
         {this.isAdditionalPanelEnabled && (
-          <StyledItemGrid item xs={6} className="item">
+          <StyledItemGrid size={6} className="item">
             <ProgressOrError progress={fetchingSameDiagnosisClaim} error={errorSameDiagnosisClaim} />
             {!!fetchedSameDiagnosisClaim && !sameDiagnosisClaim && (
               <FormattedMessage module="claim" id="ClaimMasterPanelExt.sameDiagnosisClaim.noClaim" />
@@ -221,7 +221,7 @@ class ClaimMasterPanelExt extends Component {
           </StyledItemGrid>
         )}
         {isRestored && restore?.uuid && (
-          <StyledItemGrid item xs={6} className="item">
+          <StyledItemGrid size={6} className="item">
             <Typography>
               <FormattedMessage module="claim" id="ClaimMasterPanelExt.restore" />
             </Typography>
@@ -254,6 +254,8 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
+export { StyledItemGrid };
+export { ClaimMasterPanelExt };
 export default withHistory(
   withModulesManager(
     connect(mapStateToProps, mapDispatchToProps)(injectIntl(ClaimMasterPanelExt)),

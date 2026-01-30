@@ -89,6 +89,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ deliverReview, saveReview, journalize }, dispatch);
 };
 
+export { StyledDiv };
+export { ReviewPage };
 export default withHistory(
   withModulesManager(
     connect(mapStateToProps, mapDispatchToProps)(injectIntl(ReviewPage)),

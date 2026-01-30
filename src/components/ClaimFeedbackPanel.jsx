@@ -98,7 +98,7 @@ class ClaimFeedbackPanel extends Component {
 
   _tristate = (f) => (
     <Grid container alignItems="center" justify="center" direction="column">
-      <Grid item>
+      <Grid>
         <FormattedMessage module="claim" id={`Feedback.${f}`} />
       </Grid>
       <Grid>
@@ -126,22 +126,22 @@ class ClaimFeedbackPanel extends Component {
     return (
       <StyledPaper className="paper">
         <Grid container>
-          <StyledHeaderGrid item xs={12} className="paperHeader">
+          <StyledHeaderGrid size={12} className="paperHeader">
             <Typography variant="h6">
               <FormattedMessage module="claim" id="Feedback" />
             </Typography>
           </StyledHeaderGrid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid item xs={3} />
-          <Grid item xs={6}>
+          <Grid size={3} />
+          <Grid size={6}>
             <Grid container alignItems="center" justify="center">
               <ControlledField
                 module="claim"
                 id="Feedback.date"
                 field={
-                  <StyledItemGrid item xs={6} className="item">
+                  <StyledItemGrid size={6} className="item">
                     <PublishedComponent
                       pubRef="core.DatePicker"
                       module="claim"
@@ -157,7 +157,7 @@ class ClaimFeedbackPanel extends Component {
                 module="claim"
                 id="Feedback.claimOfficer"
                 field={
-                  <StyledItemGrid item xs={6} className="item">
+                  <StyledItemGrid size={6} className="item">
                     <PublishedComponent
                       pubRef="claim.ClaimOfficerPicker"
                       readOnly={readOnly}
@@ -172,7 +172,7 @@ class ClaimFeedbackPanel extends Component {
                 id="Feedback.careRendered"
                 field={
                   <Fragment>
-                    <StyledItemGrid item xs={6} className="item">
+                    <StyledItemGrid size={6} className="item">
                       {this._tristate("careRendered")}
                     </StyledItemGrid>
                   </Fragment>
@@ -183,7 +183,7 @@ class ClaimFeedbackPanel extends Component {
                 id="Feedback.drugPrescribed"
                 field={
                   <Fragment>
-                    <StyledItemGrid item xs={6} className="item">
+                    <StyledItemGrid size={6} className="item">
                       {this._tristate("drugPrescribed")}
                     </StyledItemGrid>
                   </Fragment>
@@ -193,7 +193,7 @@ class ClaimFeedbackPanel extends Component {
                 module="claim"
                 id="Feedback.paymentAsked"
                 field={
-                  <StyledItemGrid item xs={6} className="item">
+                  <StyledItemGrid size={6} className="item">
                     {this._tristate("paymentAsked")}
                   </StyledItemGrid>
                 }
@@ -202,15 +202,15 @@ class ClaimFeedbackPanel extends Component {
                 module="claim"
                 id="Feedback.drugReceived"
                 field={
-                  <StyledItemGrid item xs={6} className="item">
+                  <StyledItemGrid size={6} className="item">
                     {this._tristate("drugReceived")}
                   </StyledItemGrid>
                 }
               />
-              <Grid item xs={3} />
+              <Grid size={3} />
             </Grid>
           </Grid>
-          <StyledItemGrid item xs={12} className="item">
+          <StyledItemGrid size={12} className="item">
             <Divider />
           </StyledItemGrid>
           <ControlledField
@@ -218,15 +218,15 @@ class ClaimFeedbackPanel extends Component {
             id="Feedback.overallAssesment"
             field={
               <Fragment>
-                <Grid item xs={2} />
-                <StyledItemGrid item xs={8} className="item">
+                <Grid size={2} />
+                <StyledItemGrid size={8} className="item">
                   <Grid container alignItems="center" justify="center" direction="column">
-                    <Grid item className="assessmentContainer">
+                    <Grid className="assessmentContainer">
                       <Typography gutterBottom>
                         <FormattedMessage module="claim" id="Feedback.overallAssesment" />
                       </Typography>
                     </Grid>
-                    <Grid item>
+                    <Grid>
                       <StyledAssessmentSlider
                         className="assessment"
                         min={-1}
@@ -252,4 +252,5 @@ class ClaimFeedbackPanel extends Component {
   }
 }
 
+export { CLAIM_FEEDBACK_CONTRIBUTION_KEY };
 export default injectIntl(ClaimFeedbackPanel);

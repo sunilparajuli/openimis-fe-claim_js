@@ -53,6 +53,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ deliverFeedback, journalize }, dispatch);
 };
 
+export { StyledDiv };
+export { FeedbackPage };
 export default withHistory(
   withModulesManager(
     connect(mapStateToProps, mapDispatchToProps)(injectIntl(FeedbackPage)),

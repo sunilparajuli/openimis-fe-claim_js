@@ -383,6 +383,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ fetchClaimSummaries }, dispatch);
 };
 
+export { CLAIM_SEARCHER_CONTRIBUTION_KEY };
+export { ClaimSearcher };
 export default withModulesManager(
   connect(mapStateToProps, mapDispatchToProps)(injectIntl(ClaimSearcher)),
 );

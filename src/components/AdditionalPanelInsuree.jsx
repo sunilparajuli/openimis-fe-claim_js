@@ -30,9 +30,9 @@ const AdditionalPanelInsuree = ({ dateTo, dateFrom, insuree, dateClaimed, isEdit
   );
 
   return (
-    <StyledGrid  xs={6} className="item">
+    <StyledGrid  size={6} className="item">
       <Grid container>
-        <StyledGrid xs={4} className="item">
+        <StyledGrid size={4} className="item">
           <TextInput
             module="claim"
             label="ClaimMasterPanelExt.InsureeInfo.insureeAge"
@@ -42,7 +42,7 @@ const AdditionalPanelInsuree = ({ dateTo, dateFrom, insuree, dateClaimed, isEdit
             value={insureeAge}
           />
         </StyledGrid>
-        <StyledGrid xs={4} className="item">
+        <StyledGrid size={4} className="item">
           <TextInput
             module="claim"
             label="ClaimMasterPanelExt.InsureeInfo.visitDuration"
@@ -52,7 +52,7 @@ const AdditionalPanelInsuree = ({ dateTo, dateFrom, insuree, dateClaimed, isEdit
             value={visitDuration}
           />
         </StyledGrid>
-        <StyledGrid xs={4} className="item">
+        <StyledGrid size={4} className="item">
           <PublishedComponent
             module="claim"
             pubRef="location.HealthFacilityPicker"

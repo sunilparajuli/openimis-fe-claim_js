@@ -158,7 +158,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.healthFacility"
           field={
-            <StyledItemGrid item xs={3} className="item">
+            <StyledItemGrid size={3} className="item">
               <PublishedComponent
                 pubRef="location.HealthFacilityPicker"
                 value={edited.healthFacility}
@@ -173,7 +173,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.insuree"
           field={
-            <StyledItemGrid item xs={3} className="item">
+            <StyledItemGrid size={3} className="item">
               <PublishedComponent
                 pubRef={this.insureePicker}
                 value={edited.insuree}
@@ -189,7 +189,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.visitDateFrom"
           field={
-            <StyledItemGrid item xs={2} className="item">
+            <StyledItemGrid size={2} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"
                 value={edited.dateFrom}
@@ -208,7 +208,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.visitDateTo"
           field={
-            <StyledItemGrid item xs={2} className="item">
+            <StyledItemGrid size={2} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"
                 value={edited.dateTo}
@@ -228,7 +228,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.claimedDate"
           field={
-            <StyledItemGrid item xs={2} className="item">
+            <StyledItemGrid size={2} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"
                 value={edited.dateClaimed ?? new Date()}
@@ -247,7 +247,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.visitType"
           field={
-            <StyledItemGrid item xs={forFeedback || forReview ? 2 : 3} className="item">
+            <StyledItemGrid size={forFeedback || forReview ? 2 : 3} className="item">
               <PublishedComponent
                 pubRef="medical.VisitTypePicker"
                 name="visitType"
@@ -265,7 +265,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.careType"
           field={
-            <StyledItemGrid item xs={forFeedback || forReview ? 2 : 3} className="item">
+            <StyledItemGrid size={forFeedback || forReview ? 2 : 3} className="item">
               <PublishedComponent
                 pubRef="claim.CareTypePicker"
                 name="careType"
@@ -284,7 +284,7 @@ class ClaimMasterPanel extends FormPanel {
             module="claim"
             id="Claim.mainDiagnosis"
             field={
-              <StyledItemGrid item xs={3} className="item">
+              <StyledItemGrid size={3} className="item">
                 <PublishedComponent
                   pubRef="medical.DiagnosisPicker"
                   name="mainDiagnosis"
@@ -304,7 +304,7 @@ class ClaimMasterPanel extends FormPanel {
              module="claim"
              id="Claim.referHealthFacility"
              field={
-               <StyledItemGrid item xs={3} className="item">
+               <StyledItemGrid size={3} className="item">
                  <PublishedComponent
                    pubRef="location.HealthFacilityReferPicker"
                    label={formatMessage(intl, "claim", "ClaimMasterPanel.referHFLabel")}
@@ -330,7 +330,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.code"
           field={
-            <StyledItemGrid item xs={2} className="item">
+            <StyledItemGrid size={2} className="item">
               <ValidatedTextInput
                 action={claimCodeValidationCheck}
                 autoFocus={true}
@@ -366,7 +366,7 @@ class ClaimMasterPanel extends FormPanel {
             module="claim"
             id="Claim.guarantee"
             field={
-              <StyledItemGrid item xs={!forReview && edited.status >= 4 && !forFeedback ? 1 : 2} className="item">
+              <StyledItemGrid size={!forReview && edited.status >= 4 && !forFeedback ? 1 : 2} className="item">
                 <TextInput
                   module="claim"
                   label="guaranteeId"
@@ -389,7 +389,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.status"
               field={
-                <StyledItemGrid item xs={2} className="item">
+                <StyledItemGrid size={2} className="item">
                   <ClaimStatusPicker readOnly={true} value={edited.status} />
                 </StyledItemGrid>
               }
@@ -398,7 +398,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.feedbackStatus"
               field={
-                <StyledItemGrid item xs={2} className="item">
+                <StyledItemGrid size={2} className="item">
                   <FeedbackStatusPicker readOnly={true} value={edited.feedbackStatus} />
                 </StyledItemGrid>
               }
@@ -407,7 +407,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.reviewStatus"
               field={
-                <StyledItemGrid item xs={2} className="item">
+                <StyledItemGrid size={2} className="item">
                   <ReviewStatusPicker readOnly={true} value={edited.reviewStatus} />
                 </StyledItemGrid>
               }
@@ -419,7 +419,7 @@ class ClaimMasterPanel extends FormPanel {
             module="claim"
             id="Claim.claimed"
             field={
-              <StyledItemGrid item xs={forReview || edited.status >= 4 ? 1 : 2} className="item">
+              <StyledItemGrid size={forReview || edited.status >= 4 ? 1 : 2} className="item">
                 <AmountInput value={edited.claimed} module="claim" label="claimed" readOnly={true} />
               </StyledItemGrid>
             }
@@ -431,7 +431,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.approved"
               field={
-                <StyledItemGrid item xs={1} className="item">
+                <StyledItemGrid size={1} className="item">
                   <AmountInput value={edited.approved || null} module="claim" label="approved" readOnly={true} />
                 </StyledItemGrid>
               }
@@ -440,7 +440,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.valuated"
               field={
-                <StyledItemGrid item xs={1} className="item">
+                <StyledItemGrid size={1} className="item">
                   <AmountInput value={this.computePriceAdjusted()} module="claim" label="valuated" readOnly={true} />
                 </StyledItemGrid>
               }
@@ -455,7 +455,7 @@ class ClaimMasterPanel extends FormPanel {
                 module="claim"
                 id={`Claim.secDiagnosis${diagnosisIndex + 1}`}
                 field={
-                  <StyledItemGrid item xs={3} className="item">
+                  <StyledItemGrid size={3} className="item">
                     <PublishedComponent
                       pubRef="medical.DiagnosisPicker"
                       name={`secDiagnosis${diagnosisIndex + 1}`}
@@ -475,7 +475,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.admin"
           field={
-            <StyledItemGrid item xs={4} className="item">
+            <StyledItemGrid size={4} className="item">
               <ClaimAdminPicker
                 value={edited.admin}
                 onChange={(v, s) => this.updateAttribute("admin", v)}
@@ -491,7 +491,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.explanation"
               field={
-                <StyledItemGrid item xs={this.showAdjustmentAtEnter ? 4 : 8} className="item">
+                <StyledItemGrid size={this.showAdjustmentAtEnter ? 4 : 8} className="item">
                   <TextInput
                     module="claim"
                     label="explanation"
@@ -509,7 +509,7 @@ class ClaimMasterPanel extends FormPanel {
                 module="claim"
                 id="Claim.adjustment"
                 field={
-                  <StyledItemGrid item xs={4} className="item">
+                  <StyledItemGrid size={4} className="item">
                     <TextInput
                       module="claim"
                       label="adjustment"
@@ -525,7 +525,7 @@ class ClaimMasterPanel extends FormPanel {
           </Fragment>
         )}
         {this.showPatientCondition && (
-          <StyledItemGrid item xs={2} className="item">
+          <StyledItemGrid size={2} className="item">
             <PublishedComponent
               pubRef="claim.PatientConditionPicker"
               name="patientCondition"
@@ -536,7 +536,7 @@ class ClaimMasterPanel extends FormPanel {
           </StyledItemGrid>
         )}
         {(edited.visitType == "R" || edited.patientCondition == "R") && (
-          <StyledItemGrid item xs={2} className="item">
+          <StyledItemGrid size={2} className="item">
             <TextInput
               id="claim.referralCode"
               module="insuree"
@@ -601,6 +601,8 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
+export { CLAIM_MASTER_PANEL_CONTRIBUTION_KEY };
+export { ClaimMasterPanel };
 export default withModulesManager(
   injectIntl(connect(mapStateToProps, mapDispatchToProps)(ClaimMasterPanel)),
 );

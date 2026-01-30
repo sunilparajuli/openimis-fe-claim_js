@@ -235,6 +235,8 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
+export { CLAIM_HF_FILTER_CONTRIBUTION_KEY };
+export { HealthFacilitiesPage };
 export default injectIntl(
   withModulesManager(
     withHistory(connect(mapStateToProps, mapDispatchToProps)(HealthFacilitiesPage)),

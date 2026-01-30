@@ -74,7 +74,7 @@ const ClaimInsureeSummary = ({ insuree }) => {
   return (
     <StyledPaper>
       <Grid container alignItems="center" direction="row" className="paperHeader">
-        <Grid item xs={8}>
+        <Grid size={8}>
           <Typography className="tableTitle">
             {formatMessageWithValues("claimSummaries", { count: claimsPageInfo?.totalCount })}
           </Typography>

@@ -61,7 +61,7 @@ const ClaimOfficerPicker = (props) => {
         filterOptions={filterOptions}
         filterSelectedOptions={filterSelectedOptions}
         onInputChange={(search) => setVariables({ search })}
-        getOptionSelected={(option, value) => decodeId(option.id) === value.toString()}
+        isOptionEqualToValue={(option, value) => decodeId(option.id) === value.toString()}
       />
     </div>
   );

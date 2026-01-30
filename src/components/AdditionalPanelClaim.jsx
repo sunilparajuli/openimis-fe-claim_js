@@ -30,7 +30,7 @@ const AdditionalPanelClaim = ({ sameDiagnosisClaim }) => {
 
   return (
     <Grid container>
-      <StyledGrid xs={4}  className="item">
+      <StyledGrid size={4}  className="item">
         <TextInput
           module="claim"
           label="ClaimMasterPanelExt.InsureeLastVisit.claimCode"
@@ -38,7 +38,7 @@ const AdditionalPanelClaim = ({ sameDiagnosisClaim }) => {
           value={sameDiagnosisClaim.code}
         />
       </StyledGrid>
-      <StyledGrid xs={4}  className="item">
+      <StyledGrid size={4}  className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           value={sameDiagnosisClaim.dateFrom}
@@ -47,7 +47,7 @@ const AdditionalPanelClaim = ({ sameDiagnosisClaim }) => {
           readOnly={true}
         />
       </StyledGrid>
-      <StyledGrid xs={4} className="item">
+      <StyledGrid size={4} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           value={sameDiagnosisClaim.dateTo}

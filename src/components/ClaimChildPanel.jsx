@@ -722,4 +722,5 @@ const mapStateToProps = (state, props) => ({
   itemsPricelists: !!state.medical_pricelist ? state.medical_pricelist.itemsPricelists : {},
 });
 
+export { StyledPaper };
 export default withModulesManager(injectIntl(connect(mapStateToProps)(ClaimChildPanel)));
