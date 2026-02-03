@@ -27,7 +27,7 @@ export default defineConfig({
         'react/jsx-runtime',
         'react-dom',
         'redux',
-        'redux-redux',
+        'react-redux',
         'redux-api-middleware',
         'prop-types',
         'moment',
