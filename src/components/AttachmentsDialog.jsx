@@ -45,11 +45,11 @@ import { DEFAULT, RIGHT_ADD, URL_TYPE_STRING } from "../constants";
 import AttachmentGeneralTypePicker from "../pickers/AttachmentGeneralTypePicker";
 
 const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
-  ...theme?.dialog?.title,
+  ...theme?.dialog?.title ?? {},
 }));
 
 const StyledDialogContent = styled(DialogContent)(({ theme }) => ({
-  ...theme?.dialog?.content,
+  ...theme?.dialog?.content ?? {},
 }));
 
 class AttachmentsDialog extends Component {

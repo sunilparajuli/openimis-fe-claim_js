@@ -29,7 +29,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
 }));
 
 const StyledFabDiv = styled("div")(({ theme }) => ({
-  ...theme.fab,
+  ...theme?.fab ?? {},
 }));
 
 class HealthFacilitiesPage extends Component {

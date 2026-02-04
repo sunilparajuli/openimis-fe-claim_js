@@ -26,7 +26,7 @@ import { DEFAULT, SERVICE_TYPE_PP_F, SERVICE_TYPE_PP_P } from "../constants";
 import { claimedAmount, approvedAmount } from "../helpers/amounts";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  ...theme?.paper?.paper,
+  ...theme?.paper?.paper ?? {},
 }));
 
 class ClaimChildPanel extends Component {
