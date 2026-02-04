@@ -11,9 +11,9 @@ import { fetchClaimSummaries } from "../actions";
 import { MODULE_NAME } from "../constants";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  ...theme.paper.paper,
-  '& .paperHeader': theme.paper.header,
-  '& .tableTitle': theme.table.title,
+  ...theme?.paper?.paper ?? {},
+  '& .paperHeader': theme?.paper?.header ?? {},
+  '& .tableTitle': theme?.table?.title ?? {},
 }));
 
 const CLAIMS_HEADERS = [

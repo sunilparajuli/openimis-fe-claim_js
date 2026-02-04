@@ -39,7 +39,7 @@ import {
 const CLAIM_MASTER_PANEL_CONTRIBUTION_KEY = "claim.MasterPanel";
 
 const StyledItemGrid = styled(Grid)(({ theme }) => ({
-  ...theme.paper.item,
+  ...theme?.paper?.item ?? {},
 }));
 
 class ClaimMasterPanel extends FormPanel {

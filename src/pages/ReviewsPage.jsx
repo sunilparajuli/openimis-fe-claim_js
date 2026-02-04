@@ -41,12 +41,12 @@ const CLAIM_REVIEWS_ACTION_CONTRIBUTION_KEY = "claim.ReviewSelectionAction";
 const CLAIM_SAMPLING_BATCH_CONTRIBUTION_KEY = "claimSampling.claimSamplingButton";
 
 const StyledReviewsPage = styled('div')(({ theme }) => ({
-  ...theme.page,
+  ...theme?.page ?? {},
   '& .item': {
-    padding: theme.spacing(1),
+    padding: theme?.spacing?.(1),
   },
   '& .toggledButton': {
-    backgroundColor: theme.palette.toggledButton,
+    backgroundColor: theme?.palette?.toggledButton,
   },
 }));
 

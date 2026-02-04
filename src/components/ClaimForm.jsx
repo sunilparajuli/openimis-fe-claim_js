@@ -49,7 +49,7 @@ import ClaimFeedbackPanel from "./ClaimFeedbackPanel";
 const CLAIM_FORM_CONTRIBUTION_KEY = "claim.ClaimForm";
 
 const StyledDiv = styled("div")(({ theme }) => ({
-  ...theme.page.locked,
+  ...theme?.page?.locked ?? {},
 }));
 
 class ClaimServicesPanel extends Component {

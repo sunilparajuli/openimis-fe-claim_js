@@ -8,7 +8,7 @@ import ClaimForm from "../components/ClaimForm";
 import { deliverFeedback } from "../actions";
 
 const StyledDiv = styled("div")(({ theme }) => ({
-  ...theme.page,
+  ...theme?.page ?? {},
 }));
 
 class FeedbackPage extends Component {

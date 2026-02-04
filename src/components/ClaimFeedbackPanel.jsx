@@ -16,15 +16,15 @@ import { FEEDBACK_ASSESSMENTS } from "../constants";
 const CLAIM_FEEDBACK_CONTRIBUTION_KEY = "claim.ClaimFeedback";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  ...theme.paper.paper,
+  ...theme?.paper?.paper ?? {},
 }));
 
 const StyledHeaderGrid = styled(Grid)(({ theme }) => ({
-  ...theme.paper.header,
+  ...theme?.paper?.header ?? {},
 }));
 
 const StyledItemGrid = styled(Grid)(({ theme }) => ({
-  ...theme.paper.item,
+  ...theme?.paper?.item ?? {},
 }));
 
 const StyledTristateSlider = styled(Slider)({

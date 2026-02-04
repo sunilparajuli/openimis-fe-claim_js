@@ -31,11 +31,11 @@ const StyledFormGrid = styled(Grid)(({ theme }) => ({
 }));
 
 const StyledItemGrid = styled(Grid)(({ theme }) => ({
-  padding: theme.spacing(1),
+  padding: theme?.spacing?.(1),
 }));
 
 const StyledDividerGrid = styled(Grid)(({ theme }) => ({
-  ...theme.paper.divider,
+  ...theme?.paper?.divider ?? {},
 }));
 
 class Head extends Component {

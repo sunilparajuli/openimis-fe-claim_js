@@ -29,11 +29,11 @@ import AdditionalPanelInsuree from "./AdditionalPanelInsuree";
 import AdditionalPanelClaim from "./AdditionalPanelClaim";
 
 const StyledItemGrid = styled(Grid)(({ theme }) => ({
-  ...theme.paper.item,
+  ...theme?.paper?.item ?? {},
 }));
 
 const StyledTableTitle = styled(Typography)(({ theme }) => ({
-  ...theme.table.header,
+  ...theme?.table?.header ?? {},
 }));
 
 const StyledInactiveLabel = styled(Typography)({

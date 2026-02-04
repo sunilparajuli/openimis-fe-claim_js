@@ -9,7 +9,7 @@ import { saveReview, deliverReview } from "../actions";
 import _ from "lodash";
 
 const StyledDiv = styled("div")(({ theme }) => ({
-  ...theme.page,
+  ...theme?.page ?? {},
 }));
 
 class ReviewPage extends Component {

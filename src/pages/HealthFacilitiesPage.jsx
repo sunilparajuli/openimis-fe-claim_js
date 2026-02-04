@@ -25,7 +25,7 @@ const CLAIM_HF_FILTER_CONTRIBUTION_KEY = "claim.HealthFacilitiesFilter";
 const CLAIM_SEARCHER_ACTION_CONTRIBUTION_KEY = "claim.SelectionAction";
 
 const StyledDiv = styled("div")(({ theme }) => ({
-  ...theme.page,
+  ...theme?.page ?? {},
 }));
 
 const StyledFabDiv = styled("div")(({ theme }) => ({
