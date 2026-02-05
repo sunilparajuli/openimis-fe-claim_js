@@ -16,6 +16,8 @@ import {
   withModulesManager,
   getTimeDifferenceInDaysFromToday,
   formatMessage,
+  GRID_RESPONSIVE_HALF,
+  GRID_RESPONSIVE_STANDARD,
 } from "@openimis/fe-core";
 import {
   clearLastClaimAt,
@@ -134,27 +136,27 @@ class ClaimMasterPanelExt extends Component {
     const { policyInfoLabel, PolicyInfoComponent } = this.valuatePolicyValidity(currentPolicy);
 
     return (
-      <Grid container>
-        <StyledItemGrid size={6} className="item">
+      <Grid container spacing={2}>
+        <StyledItemGrid size={GRID_RESPONSIVE_HALF} className="item">
           <PolicyInfoComponent>
             <FormattedMessage module="claim" id={policyInfoLabel} />
           </PolicyInfoComponent>
           <Divider />
         </StyledItemGrid>
-        <StyledItemGrid size={6} className="item">
+        <StyledItemGrid size={GRID_RESPONSIVE_HALF} className="item">
           <StyledTableTitle>
             <FormattedMessage module="claim" id="ClaimMasterPanelExt.InsureeLastVisit.header" />
           </StyledTableTitle>
           <Divider />
         </StyledItemGrid>
-        <StyledItemGrid size={6} className="item">
+        <StyledItemGrid size={GRID_RESPONSIVE_HALF} className="item">
           <PublishedComponent
             pubRef="policy.InsureePolicyEligibilitySummary"
             insuree={!!claim ? claim.insuree : null}
             targetDate={!!claim ? claim.dateFrom ?? claim.dateTo : null}
           />
         </StyledItemGrid>
-        <StyledItemGrid size={6} className="item">
+        <StyledItemGrid size={GRID_RESPONSIVE_HALF} className="item">
           <ProgressOrError progress={fetchingLastClaimAt} error={errorLastClaimAt} />
           {!!fetchedLastClaimAt && !lastClaimAt && (
             <FormattedMessage module="claim" id="ClaimMasterPanelExt.InsureeLastVisit.noOtheClaim" />
@@ -163,8 +165,8 @@ class ClaimMasterPanelExt extends Component {
             <FormattedMessage module="claim" id="ClaimMasterPanelExt.InsureeLastVisit.thisClaimIsFirstVisit" />
           )}
           {!!fetchedLastClaimAt && !!lastClaimAt && lastClaimAt?.uuid !== claim.uuid && (
-            <Grid container>
-              <Grid size={4} className="item">
+            <Grid container spacing={2}>
+              <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
                 <TextInput
                   module="claim"
                   label="ClaimMasterPanelExt.InsureeLastVisit.claimCode"
@@ -172,7 +174,7 @@ class ClaimMasterPanelExt extends Component {
                   value={lastClaimAt.code}
                 />
               </Grid>
-              <Grid size={4} className="item">
+              <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
                 <PublishedComponent
                   pubRef="core.DatePicker"
                   value={lastClaimAt.dateFrom}
@@ -181,7 +183,7 @@ class ClaimMasterPanelExt extends Component {
                   readOnly={true}
                 />
               </Grid>
-              <Grid size={4} className="item">
+              <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
                 <PublishedComponent
                   pubRef="core.DatePicker"
                   value={lastClaimAt.dateTo}
@@ -207,7 +209,7 @@ class ClaimMasterPanelExt extends Component {
           />
         )}
         {this.isAdditionalPanelEnabled && (
-          <StyledItemGrid size={6} className="item">
+          <StyledItemGrid size={GRID_RESPONSIVE_HALF} className="item">
             <ProgressOrError progress={fetchingSameDiagnosisClaim} error={errorSameDiagnosisClaim} />
             {!!fetchedSameDiagnosisClaim && !sameDiagnosisClaim && (
               <FormattedMessage module="claim" id="ClaimMasterPanelExt.sameDiagnosisClaim.noClaim" />
@@ -221,7 +223,7 @@ class ClaimMasterPanelExt extends Component {
           </StyledItemGrid>
         )}
         {isRestored && restore?.uuid && (
-          <StyledItemGrid size={6} className="item">
+          <StyledItemGrid size={GRID_RESPONSIVE_HALF} className="item">
             <Typography>
               <FormattedMessage module="claim" id="ClaimMasterPanelExt.restore" />
             </Typography>

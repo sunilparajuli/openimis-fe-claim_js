@@ -97,7 +97,7 @@ class ClaimFeedbackPanel extends Component {
   };
 
   _tristate = (f) => (
-    <Grid container alignItems="center" justify="center" direction="column">
+    <Grid container alignItems="center" justifyContent="center" direction="column">
       <Grid>
         <FormattedMessage module="claim" id={`Feedback.${f}`} />
       </Grid>

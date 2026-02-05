@@ -20,6 +20,7 @@ import {
   Helmet,
   clearCurrentPaginationPage,
   Contributions,
+  GRID_RESPONSIVE_STANDARD,
 } from "@openimis/fe-core";
 import ClaimSearcher from "../components/ClaimSearcher";
 import {
@@ -203,8 +204,8 @@ class RawRandomAndValueFilters extends Component {
     const allFilters = { ...filters, ...additionalFilters };
 
     return (
-      <Grid container direction="row">
-        <Grid size={3} className="item">
+      <Grid container direction="row" spacing={2}>
+        <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
           <NumberInput
             module="claim"
             label="ClaimFilter.Reviews.random"
@@ -231,7 +232,7 @@ class RawRandomAndValueFilters extends Component {
             }}
           />
         </Grid>
-        <Grid size={3} className="item">
+        <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
           <AmountInput
             module="claim"
             label="ClaimFilter.Reviews.value"
@@ -250,7 +251,7 @@ class RawRandomAndValueFilters extends Component {
             onChange={this.valueChange}
           />
         </Grid>
-        <Grid className="item" size={3}>
+        <Grid className="item" size={GRID_RESPONSIVE_STANDARD}>
           <NumberInput
             module="claim"
             label="ClaimFilter.Reviews.variance"
@@ -475,7 +476,7 @@ class ReviewsPage extends Component {
   provideFeedback = (c) => historyPush(this.props.modulesManager, this.props.history, "claim.route.feedback", [c.uuid]);
 
   feedbackColFormatter = (c) => (
-    <Grid container justify="flex-end" alignItems="center">
+    <Grid container justifyContent="flex-end" alignItems="center">
       <Grid>
         <PublishedComponent
           pubRef="claim.FeedbackStatusPicker"
@@ -550,7 +551,7 @@ class ReviewsPage extends Component {
     }
   };
   reviewColFormatter = (c) => (
-    <Grid container justify="flex-end" alignItems="center">
+    <Grid container justifyContent="flex-end" alignItems="center">
       <Grid>
         <PublishedComponent
           pubRef="claim.ReviewStatusPicker"

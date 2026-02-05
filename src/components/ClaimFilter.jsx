@@ -7,7 +7,13 @@ import { injectIntl } from "react-intl";
 
 import { Grid, Divider, Checkbox, FormControlLabel } from "@mui/material";
 import { useTheme, styled } from "@mui/material/styles";
-import { GRID_RESPONSIVE_STANDARD, GRID_RESPONSIVE_SMALL, GRID_RESPONSIVE_LARGE, GRID_RESPONSIVE_FULL, GRID_RESPONSIVE_HALF } from "@openimis/fe-core";
+import {
+  GRID_RESPONSIVE_STANDARD,
+  GRID_RESPONSIVE_SMALL,
+  GRID_RESPONSIVE_LARGE,
+  GRID_RESPONSIVE_FULL,
+  GRID_RESPONSIVE_HALF,
+} from "@openimis/fe-core";
 
 import {
   formatMessage,
@@ -28,6 +34,10 @@ const StyledForm = styled("form")(({ theme }) => ({
 
 const StyledFormGrid = styled(Grid)(({ theme }) => ({
   padding: 0,
+  "&.form": {
+    margin: 0,
+    width: "100%",
+  },
 }));
 
 const StyledItemGrid = styled(Grid)(({ theme }) => ({
@@ -35,7 +45,7 @@ const StyledItemGrid = styled(Grid)(({ theme }) => ({
 }));
 
 const StyledDividerGrid = styled(Grid)(({ theme }) => ({
-  ...theme?.paper?.divider ?? {},
+  ...(theme?.paper?.divider ?? {}),
 }));
 
 class Head extends Component {
@@ -166,7 +176,7 @@ class Head extends Component {
   render() {
     const { filters, onChangeFilters, userHealthFacilityId } = this.props;
     return (
-      <StyledFormGrid container className="form">
+      <StyledFormGrid container className="form" spacing={2}>
         <ControlledField
           module="claim"
           id="ClaimFilter.region"
@@ -175,7 +185,6 @@ class Head extends Component {
               <PublishedComponent
                 pubRef="location.RegionPicker"
                 value={this._filterValue("region")}
-                withNull={true}
                 onChange={this._onChangeRegion}
               />
             </StyledItemGrid>
@@ -190,8 +199,6 @@ class Head extends Component {
                 pubRef="location.DistrictPicker"
                 value={this._filterValue("district")}
                 region={this._filterValue("region")}
-                withNull={true}
-                reset={this.state.reset}
                 onChange={this._onChangeDistrict}
               />
             </StyledItemGrid>
@@ -205,9 +212,7 @@ class Head extends Component {
               <PublishedComponent
                 pubRef="location.HealthFacilityPicker"
                 value={this._filterValue("healthFacility")}
-                region={this._filterValue("region")}
                 district={this._filterValue("district")}
-                reset={this.state.reset}
                 onChange={this._onChangeHealthFacility}
               />
             </StyledItemGrid>
@@ -296,7 +301,7 @@ class Details extends Component {
   render() {
     const { intl, filters, onChangeFilters, filterPaneContributionsKey = null, FilterExt } = this.props;
     return (
-      <StyledFormGrid container className="form">
+      <StyledFormGrid container className="form" spacing={2}>
         <StyledItemGrid size={GRID_RESPONSIVE_SMALL} className="item">
           <PublishedComponent
             pubRef="claim.ClaimStatusPicker"
@@ -414,7 +419,7 @@ class Details extends Component {
           />
         </StyledItemGrid>
         <Grid size={GRID_RESPONSIVE_STANDARD}>
-          <Grid container>
+          <Grid container spacing={2}>
             <StyledItemGrid size={GRID_RESPONSIVE_HALF} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"
@@ -452,7 +457,7 @@ class Details extends Component {
           </Grid>
         </Grid>
         <Grid size={GRID_RESPONSIVE_STANDARD}>
-          <Grid container>
+          <Grid container spacing={2}>
             <StyledItemGrid size={GRID_RESPONSIVE_HALF} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"
@@ -490,7 +495,7 @@ class Details extends Component {
           </Grid>
         </Grid>
         <Grid size={GRID_RESPONSIVE_STANDARD}>
-          <Grid container>
+          <Grid container spacing={2}>
             <StyledItemGrid size={GRID_RESPONSIVE_HALF} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"

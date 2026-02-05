@@ -13,6 +13,10 @@ import {
   AmountInput,
   TextInput,
   ValidatedTextInput,
+  GRID_RESPONSIVE_SMALL,
+  GRID_RESPONSIVE_STANDARD,
+  GRID_RESPONSIVE_LARGE,
+  GRID_RESPONSIVE_HALF,
 } from "@openimis/fe-core";
 import { Grid, Checkbox, FormControlLabel } from "@mui/material";
 import _ from "lodash";
@@ -153,12 +157,12 @@ class ClaimMasterPanel extends FormPanel {
 
     let ro = readOnly || !!forReview || !!forFeedback;
     return (
-      <Grid container>
+      <Grid container spacing={2}>
         <ControlledField
           module="claim"
           id="Claim.healthFacility"
           field={
-            <StyledItemGrid size={3} className="item">
+            <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
               <PublishedComponent
                 pubRef="location.HealthFacilityPicker"
                 value={edited.healthFacility}
@@ -173,7 +177,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.insuree"
           field={
-            <StyledItemGrid size={3} className="item">
+            <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
               <PublishedComponent
                 pubRef={this.insureePicker}
                 value={edited.insuree}
@@ -189,7 +193,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.visitDateFrom"
           field={
-            <StyledItemGrid size={2} className="item">
+            <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"
                 value={edited.dateFrom}
@@ -208,7 +212,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.visitDateTo"
           field={
-            <StyledItemGrid size={2} className="item">
+            <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"
                 value={edited.dateTo}
@@ -228,7 +232,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.claimedDate"
           field={
-            <StyledItemGrid size={2} className="item">
+            <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
               <PublishedComponent
                 pubRef="core.DatePicker"
                 value={edited.dateClaimed ?? new Date()}
@@ -247,7 +251,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.visitType"
           field={
-            <StyledItemGrid size={forFeedback || forReview ? 2 : 3} className="item">
+            <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
               <PublishedComponent
                 pubRef="medical.VisitTypePicker"
                 name="visitType"
@@ -265,7 +269,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.careType"
           field={
-            <StyledItemGrid size={forFeedback || forReview ? 2 : 3} className="item">
+            <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
               <PublishedComponent
                 pubRef="claim.CareTypePicker"
                 name="careType"
@@ -284,7 +288,7 @@ class ClaimMasterPanel extends FormPanel {
             module="claim"
             id="Claim.mainDiagnosis"
             field={
-              <StyledItemGrid size={3} className="item">
+              <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
                 <PublishedComponent
                   pubRef="medical.DiagnosisPicker"
                   name="mainDiagnosis"
@@ -304,7 +308,7 @@ class ClaimMasterPanel extends FormPanel {
              module="claim"
              id="Claim.referHealthFacility"
              field={
-               <StyledItemGrid size={3} className="item">
+               <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
                  <PublishedComponent
                    pubRef="location.HealthFacilityReferPicker"
                    label={formatMessage(intl, "claim", "ClaimMasterPanel.referHFLabel")}
@@ -330,7 +334,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.code"
           field={
-            <StyledItemGrid size={2} className="item">
+            <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
               <ValidatedTextInput
                 action={claimCodeValidationCheck}
                 autoFocus={true}
@@ -366,7 +370,7 @@ class ClaimMasterPanel extends FormPanel {
             module="claim"
             id="Claim.guarantee"
             field={
-              <StyledItemGrid size={!forReview && edited.status >= 4 && !forFeedback ? 1 : 2} className="item">
+              <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
                 <TextInput
                   module="claim"
                   label="guaranteeId"
@@ -389,7 +393,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.status"
               field={
-                <StyledItemGrid size={2} className="item">
+                <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
                   <ClaimStatusPicker readOnly={true} value={edited.status} />
                 </StyledItemGrid>
               }
@@ -398,7 +402,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.feedbackStatus"
               field={
-                <StyledItemGrid size={2} className="item">
+                <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
                   <FeedbackStatusPicker readOnly={true} value={edited.feedbackStatus} />
                 </StyledItemGrid>
               }
@@ -407,7 +411,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.reviewStatus"
               field={
-                <StyledItemGrid size={2} className="item">
+                <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
                   <ReviewStatusPicker readOnly={true} value={edited.reviewStatus} />
                 </StyledItemGrid>
               }
@@ -419,7 +423,7 @@ class ClaimMasterPanel extends FormPanel {
             module="claim"
             id="Claim.claimed"
             field={
-              <StyledItemGrid size={forReview || edited.status >= 4 ? 1 : 2} className="item">
+              <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
                 <AmountInput value={edited.claimed} module="claim" label="claimed" readOnly={true} />
               </StyledItemGrid>
             }
@@ -431,7 +435,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.approved"
               field={
-                <StyledItemGrid size={1} className="item">
+                <StyledItemGrid size={GRID_RESPONSIVE_SMALL} className="item">
                   <AmountInput value={edited.approved || null} module="claim" label="approved" readOnly={true} />
                 </StyledItemGrid>
               }
@@ -440,7 +444,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.valuated"
               field={
-                <StyledItemGrid size={1} className="item">
+                <StyledItemGrid size={GRID_RESPONSIVE_SMALL} className="item">
                   <AmountInput value={this.computePriceAdjusted()} module="claim" label="valuated" readOnly={true} />
                 </StyledItemGrid>
               }
@@ -455,7 +459,7 @@ class ClaimMasterPanel extends FormPanel {
                 module="claim"
                 id={`Claim.secDiagnosis${diagnosisIndex + 1}`}
                 field={
-                  <StyledItemGrid size={3} className="item">
+                  <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
                     <PublishedComponent
                       pubRef="medical.DiagnosisPicker"
                       name={`secDiagnosis${diagnosisIndex + 1}`}
@@ -475,7 +479,7 @@ class ClaimMasterPanel extends FormPanel {
           module="claim"
           id="Claim.admin"
           field={
-            <StyledItemGrid size={4} className="item">
+            <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
               <ClaimAdminPicker
                 value={edited.admin}
                 onChange={(v, s) => this.updateAttribute("admin", v)}
@@ -491,7 +495,7 @@ class ClaimMasterPanel extends FormPanel {
               module="claim"
               id="Claim.explanation"
               field={
-                <StyledItemGrid size={this.showAdjustmentAtEnter ? 4 : 8} className="item">
+                <StyledItemGrid size={GRID_RESPONSIVE_HALF} className="item">
                   <TextInput
                     module="claim"
                     label="explanation"
@@ -509,7 +513,7 @@ class ClaimMasterPanel extends FormPanel {
                 module="claim"
                 id="Claim.adjustment"
                 field={
-                  <StyledItemGrid size={4} className="item">
+                  <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
                     <TextInput
                       module="claim"
                       label="adjustment"
@@ -525,7 +529,7 @@ class ClaimMasterPanel extends FormPanel {
           </Fragment>
         )}
         {this.showPatientCondition && (
-          <StyledItemGrid size={2} className="item">
+          <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
             <PublishedComponent
               pubRef="claim.PatientConditionPicker"
               name="patientCondition"
@@ -536,7 +540,7 @@ class ClaimMasterPanel extends FormPanel {
           </StyledItemGrid>
         )}
         {(edited.visitType == "R" || edited.patientCondition == "R") && (
-          <StyledItemGrid size={2} className="item">
+          <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
             <TextInput
               id="claim.referralCode"
               module="insuree"
@@ -548,17 +552,19 @@ class ClaimMasterPanel extends FormPanel {
           </StyledItemGrid>
         )}
         {this.showPreAuthorization && (
-          <FormControlLabel
-            control={
-              <Checkbox
-                id="Claim.preAuthorization"
-                color="primary"
-                checked={edited?.preAuthorization}
-                onChange={(e) => this.updateAttribute("preAuthorization", e.target.checked)}
-              />
-            }
-            label={formatMessage(intl, "claim", "pre-authorization")}
-          />
+          <StyledItemGrid size={GRID_RESPONSIVE_STANDARD} className="item">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  id="Claim.preAuthorization"
+                  color="primary"
+                  checked={edited?.preAuthorization}
+                  onChange={(e) => this.updateAttribute("preAuthorization", e.target.checked)}
+                />
+              }
+              label={formatMessage(intl, "claim", "pre-authorization")}
+            />
+          </StyledItemGrid>
         )}
         <Contributions
           claim={edited}
