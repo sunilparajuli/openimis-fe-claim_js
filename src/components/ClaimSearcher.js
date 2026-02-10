@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import _ from "lodash";
 import { withTheme, withStyles } from "@material-ui/core/styles";
-import { IconButton, Typography, Tooltip, Badge } from "@material-ui/core";
+import { IconButton, Button, Typography, Tooltip, Badge, TextField } from "@material-ui/core";
 import AttachIcon from "@material-ui/icons/AttachFile";
 import TabIcon from "@material-ui/icons/Tab";
 import CheckIcon from "@material-ui/icons/Check";
@@ -27,8 +27,10 @@ const styles = (theme) => ({});
 
 class ClaimSearcher extends Component {
   state = {
+    searchInitiated: false,
     random: null,
     attachmentsClaim: null,
+    initialFitlers: this.props.defaultFilters,
   };
 
   constructor(props) {
@@ -45,7 +47,41 @@ class ClaimSearcher extends Component {
     this.extFields = props.modulesManager.getConf("fe-claim", "extFields", []);
     this.showOrdinalNumber = props.modulesManager.getConf("fe-claim", "claimForm.showOrdinalNumber", false);
     this.showPreAuthorization = props.modulesManager.getConf("fe-claim", "showPreAuthorization", false);
+    this.isDefaultFetchClaimActivated = this.props.modulesManager.getConf(
+      "fe-claim",
+      "isDefaultFetchClaimActivated",
+      true
+    );
   }
+
+  canFetchClaimDetails = () => {
+    if (this.state.searchInitiated === false && !!this.state.initialFitlers) {
+      this.onFiltersApplied(this.state.initialFitlers);
+    }
+  };
+
+  componentDidMount() {
+    this.scheduleCanFetchClaimDetails();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.searchInitiated !== this.state.searchInitiated ||
+      prevState.initialFitlers !== this.state.initialFitlers
+    ) {
+      this.scheduleCanFetchClaimDetails();
+    }
+  }
+
+  scheduleCanFetchClaimDetails = () => {
+    if (this.debounceTimeout) {
+      clearTimeout(this.debounceTimeout);
+    }
+
+    this.debounceTimeout = setTimeout(() => {
+      this.canFetchClaimDetails();
+    }, 100);
+  };
 
   canSelectAll = (selection) =>
     this.props.claims.map((s) => s.id).filter((s) => !selection.map((s) => s.id).includes(s)).length;
@@ -234,15 +270,13 @@ class ClaimSearcher extends Component {
   itemFormatters = () => {
     var result = [
       (c) => c.code,
-      (c) => (
-        <PublishedComponent
-          readOnly={true}
-          pubRef="location.HealthFacilityPicker"
-          withLabel={false}
-          value={c.healthFacility}
-        />
-      ),
-      (c) => <PublishedComponent readOnly={true} pubRef="insuree.InsureePicker" withLabel={false} value={c.insuree} />,
+      (c) => c.healthFacility.code,
+      (c) => <TextField 
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  value: `${c.insuree.lastName} ${c.insuree.otherNames}`
+              }}/>,
       (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateClaimed),
       (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateProcessed),
       (c) => this.feedbackColFormatter(c),
@@ -258,11 +292,16 @@ class ClaimSearcher extends Component {
       result.push(
         (c) =>
           !!c.attachmentsCount && (
-            <IconButton onClick={(e) => this.setState({ attachmentsClaim: c })}>
-              <Badge badgeContent={c.attachmentsCount ?? 0} color="primary">
-                <AttachIcon />
-              </Badge>
-            </IconButton>
+            <Button
+              startIcon={
+                <Badge badgeContent={c.attachmentsCount ?? 0} color="primary">
+                  <AttachIcon />
+                </Badge>
+              }
+              onClick={(e) => this.setState({ attachmentsClaim: c })}
+            >
+              {formatMessage(this.props.intl, "claim", "claimAttachments.buttonText")}
+            </Button>
           ),
       );
     }
@@ -273,10 +312,9 @@ class ClaimSearcher extends Component {
     }
     result.push((c) => (
       <Tooltip title={formatMessage(this.props.intl, "claim", "openNewTabButton.tooltip")}>
-        <IconButton onClick={(e) => this.props.onDoubleClick(c, true)}>
-          {" "}
-          <TabIcon />
-        </IconButton>
+        <Button startIcon={<TabIcon />} onClick={(e) => this.props.onDoubleClick(c, true)}>
+          {formatMessage(this.props.intl, "claim", "openNewTab.buttonText")}
+        </Button>
       </Tooltip>
     ));
     return result;
@@ -299,6 +337,13 @@ class ClaimSearcher extends Component {
 
   isClaimNotRestored = (_, claim) => this.state.showRestored && !claim?.restoreId;
 
+  onFiltersApplied = (filters) => {
+    this.setState({
+      searchInitiated: true,
+      filters, // Update the active filters
+    });
+  };
+
   render() {
     const {
       intl,
@@ -315,7 +360,7 @@ class ClaimSearcher extends Component {
       onDoubleClick,
       actionsContributionKey,
     } = this.props;
-
+    const { searchInitiated } = this.state;
     let count = !!this.state.random && this.state.random.value;
     if (!count) {
       count = (claimsPageInfo?.totalCount || 0).toLocaleString();
@@ -346,7 +391,7 @@ class ClaimSearcher extends Component {
           tableTitle={formatMessageWithValues(intl, "claim", "claimSummaries", { count })}
           rowsPerPageOptions={this.rowsPerPageOptions}
           defaultPageSize={this.defaultPageSize}
-          fetch={this.fetch}
+          fetch={this.isDefaultFetchClaimActivated == false  && searchInitiated ? this.fetch : this.isDefaultFetchClaimActivated == true ? this.fetch : () => {}}
           rowIdentifier={this.rowIdentifier}
           filtersToQueryParams={this.filtersToQueryParams}
           defaultOrderBy="-dateClaimed"
@@ -365,6 +410,7 @@ class ClaimSearcher extends Component {
           onDoubleClick={onDoubleClick}
           actionsContributionKey={actionsContributionKey}
           showOrdinalNumber={this.showOrdinalNumber}
+          onChangeFilters={this.onFiltersApplied}
         />
       </Fragment>
     );
