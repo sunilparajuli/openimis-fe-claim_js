@@ -344,7 +344,7 @@ class ClaimChildPanel extends Component {
       let currentServicesIds = edited.services ? edited.services.map((claimService) => claimService?.service?.id) : [];
       return options.filter((option) => !currentServicesIds.includes(option.id));
     }
-console.log("edited", this.props.edited)
+
     let itemFormatters = [
       (i, idx) => (
         <Tooltip
@@ -358,7 +358,7 @@ console.log("edited", this.props.edited)
               required={(!!edited.services && edited.services?.length<2 && !!edited.items && edited?.items?.length<2) || (!edited.services && !edited.items)}
               readOnly={!!forReview || readOnly}
               pubRef={picker}
-              filterOptions={this.props.type==='item' ? filterItemsOptions : filterServicesOptions}
+              filterOptions={this.props.type === 'item' ? filterItemsOptions : filterServicesOptions}
               withLabel={false}
               value={i[type]}
               fullWidth
