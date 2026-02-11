@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
-import { Grid, InputAdornment, IconButton, Tooltip } from "@mui/material";
+import { Grid, InputAdornment, IconButton, Tooltip, Button } from "@mui/material";
 import FilterIcon from "@mui/icons-material/FilterList";
 import FeedbackIcon from "@mui/icons-material/SpeakerNotesOutlined";
 import ReviewIcon from "@mui/icons-material/SupervisorAccount";
@@ -41,12 +41,12 @@ const CLAIM_REVIEWS_FILTER_CONTRIBUTION_KEY = "claim.ReviewsFilter";
 const CLAIM_REVIEWS_ACTION_CONTRIBUTION_KEY = "claim.ReviewSelectionAction";
 const CLAIM_SAMPLING_BATCH_CONTRIBUTION_KEY = "claimSampling.claimSamplingButton";
 
-const StyledReviewsPage = styled('div')(({ theme }) => ({
-  ...theme?.page ?? {},
-  '& .item': {
+const StyledReviewsPage = styled("div")(({ theme }) => ({
+  ...(theme?.page ?? {}),
+  "& .item": {
     padding: theme?.spacing?.(1),
   },
-  '& .toggledButton': {
+  "& .toggledButton": {
     backgroundColor: theme?.palette?.toggledButton,
   },
 }));
@@ -297,9 +297,7 @@ const mapDispatchToFixFilterProps = (dispatch) => {
 };
 
 const RandomAndValueFilters = withModulesManager(
-  injectIntl(
-    connect(mapStateToFixFilterProps, mapDispatchToFixFilterProps)(RawRandomAndValueFilters),
-  ),
+  injectIntl(connect(mapStateToFixFilterProps, mapDispatchToFixFilterProps)(RawRandomAndValueFilters)),
 );
 
 class ReviewsPage extends Component {
@@ -492,9 +490,10 @@ class ReviewsPage extends Component {
       {!!this.props.rights.includes(RIGHT_FEEDBACK) && (
         <Grid>
           <Tooltip title={formatMessage(this.props.intl, "claim", "feedbackButton.tooltip")}>
-            <IconButton onClick={(e) => this.provideFeedback(c)}>
+            <Button onClick={(e) => this.provideFeedback(c)}>
               <FeedbackIcon />
-            </IconButton>
+              {formatMessage(this.props.intl, "claim", "claimFeedback.buttonText")}
+            </Button>
           </Tooltip>
         </Grid>
       )}
@@ -567,9 +566,10 @@ class ReviewsPage extends Component {
       {!!this.props.rights.includes(RIGHT_CLAIMREVIEW) && (
         <Grid>
           <Tooltip title={formatMessage(this.props.intl, "claim", "reviewButton.tooltip")}>
-            <IconButton onClick={(e) => this.review(c)}>
+            <Button onClick={(e) => this.review(c)}>
               <ReviewIcon />
-            </IconButton>
+              {formatMessage(this.props.intl, "claim", "claimReview.buttonText")}
+            </Button>
           </Tooltip>
         </Grid>
       )}
@@ -698,6 +698,4 @@ const mapDispatchToProps = (dispatch) => {
 
 export { CLAIM_REVIEWS_FILTER_CONTRIBUTION_KEY };
 export { RawRandomAndValueFilters };
-export default injectIntl(
-  withHistory(connect(mapStateToProps, mapDispatchToProps)(ReviewsPage)),
-);
+export default injectIntl(withHistory(connect(mapStateToProps, mapDispatchToProps)(ReviewsPage)));

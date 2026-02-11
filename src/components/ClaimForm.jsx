@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import moment from "moment";
-import { Fab, Badge } from "@mui/material";
+import { Fab, Badge, Button } from "@mui/material";
 import { useTheme, styled } from "@mui/material/styles";
 import CheckIcon from "@mui/icons-material/Check";
 import ReplayIcon from "@mui/icons-material/Replay";
@@ -162,6 +162,7 @@ class ClaimForm extends Component {
       ...claim,
       uuid: null,
       status: status,
+      code: "",
       restore: { uuid: claim.uuid, code: claim.code },
       items: items,
       services: services,
@@ -295,20 +296,10 @@ class ClaimForm extends Component {
       return false
     } 
     if (this.state.claim.services !== undefined) {
-      if (this.props.forReview || this.state.isRestored) {
-        if (this.state.claim.services.length && this.state.claim.services.filter((s) => !this.canSaveDetail(s, "service")).length) {
-          return false;
-        }
-      } else {
-        if (this.state.claim.services.length && this.state.claim.services.filter((s) => !this.canSaveDetail(s, "service")).length - 1) {
-          return false;
-        }
+      if (this.state.claim.services.length && this.state.claim.services.filter((s) => !this.canSaveDetail(s, "service", forReview)).length - 1) {
+        return false;
       }
-
-    } else {
-      return false;
     }
-
 
     if (this.isCareTypeMandatory){
       if (!CARE_TYPE_STATUS.includes(this.state.claim.careType)) return false;
@@ -495,7 +486,9 @@ class ClaimForm extends Component {
     if (!!claim_uuid && rights.includes(RIGHT_PRINT)) {
       actions.push({
         doIt: (e) => this.print(claim_uuid),
-        icon: <PrintIcon />,
+        icon: <Button startIcon={<PrintIcon />}>
+        {formatMessage(this.props.intl, "claim", "claim.print.buttonText")}
+        </Button>,
         onlyIfNotDirty: true,
       });
     }
@@ -503,9 +496,11 @@ class ClaimForm extends Component {
       actions.push({
         doIt: (e) => this.setState({ attachmentsClaim: claim }),
         icon: (
-          <Badge badgeContent={this.state.claim?.attachmentsCount ?? 0} color="primary">
-            <AttachIcon />
-          </Badge>
+          <Button 
+          startIcon={<Badge badgeContent={this.state.claim?.attachmentsCount ?? 0} color="primary">
+          <AttachIcon />
+          </Badge>}>
+          {formatMessage(this.props.intl, "claim", "claimAttachments.buttonText")}          </Button>
         ),
       });
     }
@@ -521,6 +516,7 @@ class ClaimForm extends Component {
           <span>
             <Fab color="primary" onClick={(e) => this.restore()}>
               <RestorePageIcon />
+              
             </Fab>
           </span>
         ),
