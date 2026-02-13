@@ -242,7 +242,7 @@ class ClaimChildPanel extends Component {
   };
 
   extendHeader = () => {
-    const { intl, type, edited, forReview } = this.props;
+    const { intl, type, edited, forReview, modulesManager } = this.props;
 
     const totalClaimed = _.round(
       this.state.data.reduce((sum, r) => sum + claimedAmount(r), 0),
@@ -258,14 +258,14 @@ class ClaimChildPanel extends Component {
         {totalClaimed > 0 && (
           <Typography>
             {formatMessageWithValues(intl, "claim", `edit.${type}s.totalClaimed`, {
-              totalClaimed: formatAmount(intl, totalClaimed),
+              totalClaimed: formatAmount(modulesManager, intl, totalClaimed),
             })}
           </Typography>
         )}
         {totalClaimed > 0 && (
           <Typography>
             {formatMessageWithValues(intl, "claim", `edit.${type}s.totalApproved`, {
-              totalApproved: formatAmount(intl, totalApproved),
+              totalApproved: formatAmount(modulesManager, intl, totalApproved),
             })}
           </Typography>
         )}
@@ -294,7 +294,7 @@ class ClaimChildPanel extends Component {
   };
 
   render() {
-    const { intl, edited, type, picker, forReview, fetchingPricelist, readOnly = false } = this.props;
+    const { intl, edited, type, picker, forReview, fetchingPricelist, readOnly = false, modulesManager } = this.props;
     if (!edited) return null;
     if (!this.props.edited.healthFacility || !this.props.edited.healthFacility[`${this.props.type}sPricelist`]?.id) {
       return (
@@ -314,7 +314,7 @@ class ClaimChildPanel extends Component {
     let preHeaders = [
       totalClaimed > 0
         ? formatMessageWithValues(intl, "claim", `edit.${type}s.totalClaimed`, {
-            totalClaimed: formatAmount(intl, totalClaimed),
+            totalClaimed: formatAmount(modulesManager, intl, totalClaimed),
           })
         : "",
     ];

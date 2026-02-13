@@ -11,9 +11,9 @@ import { fetchClaimSummaries } from "../actions";
 import { MODULE_NAME } from "../constants";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  ...theme?.paper?.paper ?? {},
-  '& .paperHeader': theme?.paper?.header ?? {},
-  '& .tableTitle': theme?.table?.title ?? {},
+  ...(theme?.paper?.paper ?? {}),
+  "& .paperHeader": theme?.paper?.header ?? {},
+  "& .tableTitle": theme?.table?.title ?? {},
 }));
 
 const CLAIMS_HEADERS = [
@@ -49,15 +49,12 @@ const ClaimInsureeSummary = ({ insuree }) => {
     (claim) => formatDateFromISO(claim?.dateProcessed),
     (claim) => formatMessage(`feedbackStatus.${claim?.feedbackStatus}`),
     (claim) => formatMessage(`reviewStatus.${claim?.reviewStatus}`),
-    (claim) => formatAmount(intl, claim?.claimed),
-    (claim) => formatAmount(intl, claim?.approved),
+    (claim) => formatAmount(modulesManager, intl, claim?.claimed),
+    (claim) => formatAmount(modulesManager, intl, claim?.approved),
     (claim) => formatMessage(`claimStatus.${claim?.status}`),
     (claim) => (
       <Tooltip title={formatMessage("ClaimMasterPanelExt.InsureeInfo.goToClaim.Button")}>
-        <IconButton
-          disabled={claim?.healthFacility?.id !== healthFacilityId}
-          onClick={() => goToClaim(claim)}
-        >
+        <IconButton disabled={claim?.healthFacility?.id !== healthFacilityId} onClick={() => goToClaim(claim)}>
           <VisibilityIcon />
         </IconButton>
       </Tooltip>
