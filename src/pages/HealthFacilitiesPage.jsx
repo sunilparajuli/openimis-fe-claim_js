@@ -196,7 +196,7 @@ class HealthFacilitiesPage extends Component {
             }
           >
             <StyledFabDiv className="fab">
-              <Fab color="primary" disabled={!this.canAdd()} onClick={this.onAdd}>
+              <Fab data-cy="create-claim-button" color="primary" disabled={!this.canAdd()} onClick={this.onAdd}>
                 <AddIcon />
               </Fab>
             </StyledFabDiv>

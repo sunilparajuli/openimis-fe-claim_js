@@ -27,6 +27,7 @@ const ClaimAdminPicker = (props) => {
     hfFilter,
     region,
     district,
+    dataCy = "claim-admin-picker"
   } = props;
   const userHealthFacilityId = useSelector((state) =>
     state?.loc?.userHealthFacilityFullPath?.uuid
@@ -103,6 +104,7 @@ const ClaimAdminPicker = (props) => {
       filterOptions={filterOptions}
       filterSelectedOptions={filterSelectedOptions}
       onInputChange={setSearchString}
+      dataCy={dataCy}
     />
   );
 };
