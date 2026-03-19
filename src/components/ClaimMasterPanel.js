@@ -95,8 +95,11 @@ class ClaimMasterPanel extends FormPanel {
   shouldValidate = (inputValue) => {
     if (this.autoGenerateClaimCode) return false;
 
-    const { savedClaimCode } = this.props;
+    const { savedClaimCode, edited } = this.props;
+
+    if (edited.restore) return true;
     const shouldValidate = inputValue !== savedClaimCode;
+
     return shouldValidate;
   };
 
@@ -313,7 +316,7 @@ class ClaimMasterPanel extends FormPanel {
                    pubRef="location.HealthFacilityReferPicker"
                    label={formatMessage(intl, "claim", "ClaimMasterPanel.referHFLabel")}
                    value={
-                     (edited.visitType === this.claimTypeReferSymbol ? edited.referFrom : edited.referTo) ??
+                     (edited.visitType === this.claimTypeReferSymbol ? !!edited.referFrom ? edited.referFrom : edited.referHF : edited.referTo) ??
                      this.EMPTY_STRING
                    }
                    reset={reset}
