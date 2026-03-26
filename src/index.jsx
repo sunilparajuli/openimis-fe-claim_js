@@ -199,7 +199,7 @@ const DEFAULT_CONFIG = {
       icon: <Keyboard />,
       route: "/claim/healthFacilities",
       id: "claim.healthFacilityClaims",
-      filter: (rights) => rights.some((r) => r >= RIGHT_CLAIMREVIEW && r <= RIGHT_PROCESS),
+      filter: (rights) => rights.some((r) => r >= RIGHT_ADD && r <= RIGHT_SUBMIT),
     },
     {
       text: <FormattedMessage module="claim" id="menu.reviews" />,
