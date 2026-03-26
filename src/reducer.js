@@ -52,6 +52,10 @@ function reducer(
       },
       error: null,
     },
+    fetchingHistory: false,
+    fetchedHistory: false,
+    errorHistory: null,
+    history: null,
   },
   action,
 ) {
@@ -393,6 +397,28 @@ function reducer(
       return {
         ...state,
         generating: false,
+      };
+    case "CLAIM_HISTORY_FETCH_REQ":
+      return {
+        ...state,
+        fetchingHistory: true,
+        fetchedHistory: false,
+        errorHistory: null,
+        history: null,
+      };
+    case "CLAIM_HISTORY_FETCH_RESP":
+      return {
+        ...state,
+        fetchingHistory: false,
+        fetchedHistory: true,
+        history: parseData(action.payload.data.claimHistory),
+        pageInfo: pageInfo(action.payload.data.claimHistory.pageInfo),
+      };
+    case "CLAIM_HISTORY_FETCH_ERR":
+      return {
+        ...state,
+        fetchingHistory: false,
+        errorHistory: formatGraphQLError(action.payload.data.errors),
       };
     default:
       return state;
