@@ -8,19 +8,13 @@ const CLAIM_MAIN_MENU_CONTRIBUTION_KEY = "claim.MainMenu";
 
 class ClaimMainMenu extends Component {
   render() {
-    const { rights } = this.props;
-    let entries = this.props.modulesManager
-        .getContribs(CLAIM_MAIN_MENU_CONTRIBUTION_KEY)
-        .filter((c) => !c.filter || c.filter(rights));
-
-    if (!entries.length) return null;
     return (
       <MainMenuContribution
         {...this.props}
         header={formatMessage(this.props.intl, "claim", "mainMenu")}
         icon={<ScreenShare />}
-        entries={entries}
         menuId="ClaimMainMenu"
+        contributionKey={CLAIM_MAIN_MENU_CONTRIBUTION_KEY}
       />
     );
   }
