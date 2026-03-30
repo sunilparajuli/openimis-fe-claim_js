@@ -91,11 +91,12 @@ const ClaimAdminPicker = (props) => {
   };
   const claimAdmins = data?.claimAdmins?.edges.map((edge) => edge.node) || [];
 
-  for (const admin of claimAdmins) {
-    if (admin.code === i_user) {
-      dispatch(setCurrentClaimAdmin(admin));
+  useEffect(() => {
+    const currentAdmin = claimAdmins.find((admin) => admin.code === i_user);
+    if (currentAdmin) {
+      dispatch(setCurrentClaimAdmin(currentAdmin));
     }
-  }
+  }, [claimAdmins, i_user]);
 
   return (
     <Autocomplete
