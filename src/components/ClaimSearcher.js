@@ -10,6 +10,7 @@ import TabIcon from "@material-ui/icons/Tab";
 import CheckIcon from "@material-ui/icons/Check";
 import { Searcher } from "@openimis/fe-core";
 import ClaimFilter from "./ClaimFilter";
+import { RIGHT_CLAIMREVIEW } from "../constants";
 import {
   withModulesManager,
   formatMessageWithValues,
@@ -47,6 +48,7 @@ class ClaimSearcher extends Component {
     this.extFields = props.modulesManager.getConf("fe-claim", "extFields", []);
     this.showOrdinalNumber = props.modulesManager.getConf("fe-claim", "claimForm.showOrdinalNumber", false);
     this.showPreAuthorization = props.modulesManager.getConf("fe-claim", "showPreAuthorization", false);
+    this.columns = this.props.modulesManager.getConf("fe-claim", "columns", {});
     this.isDefaultFetchClaimActivated = this.props.modulesManager.getConf(
       "fe-claim",
       "isDefaultFetchClaimActivated",
@@ -213,9 +215,9 @@ class ClaimSearcher extends Component {
       "claimSummaries.healthFacility",
       "claimSummaries.insuree",
       "claimSummaries.claimedDate",
-      "claimSummaries.processedDate",
-      "claimSummaries.feedbackStatus",
-      "claimSummaries.reviewStatus",
+      this.props.rights.includes(RIGHT_CLAIMREVIEW) ? "claimSummaries.processedDate" : null,
+      this.columns.feedbackStatus !== "H" ? "claimSummaries.feedbackStatus" : null,
+      this.columns.reviewStatus !== "H" ? "claimSummaries.reviewStatus" : null,
       "claimSummaries.claimed",
       "claimSummaries.approved",
       "claimSummaries.claimStatus",
@@ -280,12 +282,12 @@ class ClaimSearcher extends Component {
                   value: `${c.insuree.lastName} ${c.insuree.otherNames}`
               }}/>,
       (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateClaimed),
-      (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateProcessed),
-      (c) => this.feedbackColFormatter(c),
-      (c) => this.reviewColFormatter(c),
+      this.props.rights.includes(RIGHT_CLAIMREVIEW) ? (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateProcessed) : null,
+      this.columns.feedbackStatus !== "H" ? (c) => this.feedbackColFormatter(c) : null,
+      this.columns.reviewStatus !== "H" ? (c) => this.reviewColFormatter(c) : null,
       (c) => formatAmount(this.props.modulesManager, this.props.intl, c.claimed),
       (c) => formatAmount(this.props.modulesManager, this.props.intl, c.approved),
-      (c) => formatMessage(this.props.intl, "claim", `claimStatus.${c.status}`),      
+      (c) => formatMessage(this.props.intl, "claim", `claimStatus.${c.status}`),
     ];
     if (this.showPreAuthorization) {
       result.push((c) => (c.preAuthorization ? <CheckIcon /> : ""));
@@ -328,7 +330,7 @@ class ClaimSearcher extends Component {
 
   rowHighlightedAlt = (selection, claim) =>
     !!this.highlightAltInsurees &&
-    selection.filter((c) => _.isEqual(c.insuree, claim.insuree)).length && 
+    selection.filter((c) => _.isEqual(c.insuree, claim.insuree)).length &&
     !selection.includes(claim);
 
   isRestoredClaim = (claim) => claim?.restoreId;
@@ -348,6 +350,7 @@ class ClaimSearcher extends Component {
 
   render() {
     const {
+      rights,
       intl,
       claims,
       claimsPageInfo,
@@ -367,7 +370,6 @@ class ClaimSearcher extends Component {
     if (!count) {
       count = (claimsPageInfo?.totalCount || 0).toLocaleString();
     }
-
     return (
       <Fragment>
         <PublishedComponent
@@ -420,6 +422,7 @@ class ClaimSearcher extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
   claims: state.claim.claims,
   claimsPageInfo: state.claim.claimsPageInfo,
   fetchingClaims: state.claim.fetchingClaims,
