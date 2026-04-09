@@ -426,7 +426,7 @@ class ClaimChildPanel extends Component {
           <TableCell>
             <NumberInput
               readOnly={!!forReview || readOnly}
-              value={u.qtyAdjusted !== null ? u.qtyAdjusted === 0 ? "0" : u.qtyAdjusted : u.qtyDisplayed}
+              value={u.qtyDisplayed ? u.qtyDisplayed : "0"}
               onChange={(v) => {
                 u.qtyDisplayed = v;
                 u.qtyAsked = v;
@@ -478,7 +478,7 @@ class ClaimChildPanel extends Component {
             <TableCell>
               <NumberInput
                 readOnly={!!forReview || readOnly}
-                value={u.qtyAdjusted !== null ? u.qtyAdjusted === 0 ? "0" : u.qtyAdjusted : u.qtyDisplayed}
+                value={u.qtyDisplayed ? u.qtyDisplayed : "0"}
                 onChange={(v) => {
                   u.qtyDisplayed = v;
                   u.qtyAsked = v;
@@ -532,7 +532,7 @@ class ClaimChildPanel extends Component {
           <TableCell>
             <NumberInput
               readOnly={readOnly}
-              value={u.qtyDisplayed ? u.qtyDisplayed : "0"}
+              value={u.qtyAdjusted !== null ? u.qtyAdjusted === 0 ? "0" : u.qtyAdjusted : u.qtyDisplayed}
               onChange={(v) => {
                 if (!i.service.manualPrice) {
                   if (i.service.packagetype == SERVICE_TYPE_PP_F) {
@@ -589,7 +589,7 @@ class ClaimChildPanel extends Component {
             <TableCell>
               <NumberInput
                 readOnly={readOnly}
-                value={u.qtyDisplayed ? u.qtyDisplayed : "0"}
+                value={u.qtyAdjusted !== null ? u.qtyAdjusted === 0 ? "0" : u.qtyAdjusted : u.qtyDisplayed}
                 onChange={(v) => {
                   if (!i.service.manualPrice) {
                     if (i.service.packagetype == SERVICE_TYPE_PP_F) {
