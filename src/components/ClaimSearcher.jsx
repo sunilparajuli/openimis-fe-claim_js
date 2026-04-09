@@ -270,15 +270,7 @@ class ClaimSearcher extends Component {
     var result = [
       (c) => c.code,
       (c) => c.healthFacility.code,
-      (c) => (
-        <TextField
-          variant="standard"
-          InputProps={{
-            disableUnderline: true,
-            value: `${c.insuree.lastName} ${c.insuree.otherNames}`,
-          }}
-        />
-      ),
+      (c) => `${c.insuree.lastName} ${c.insuree.otherNames}`,
       (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateClaimed),
       (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateProcessed),
       (c) => this.feedbackColFormatter(c),
