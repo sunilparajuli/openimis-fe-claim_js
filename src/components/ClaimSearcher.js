@@ -156,6 +156,7 @@ class ClaimSearcher extends Component {
                 claimed: (
                   <b>
                     {formatAmount(
+                      this.props.modulesManager,
                       this.props.intl,
                       selection.reduce((acc, v) => {
                         if (v.claimed) {
@@ -178,6 +179,7 @@ class ClaimSearcher extends Component {
                 approved: (
                   <b>
                     {formatAmount(
+                      this.props.modulesManager,
                       this.props.intl,
                       selection.reduce((acc, v) => {
                         if (v.approved) {
