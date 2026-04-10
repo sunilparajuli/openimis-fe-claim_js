@@ -155,12 +155,6 @@ class ClaimForm extends Component {
           delete itemOrService[key];
         }
       });
-      if(!!itemOrService.services){
-        itemOrService.services = itemOrService.services.map((s) => ({...s, qtyAsked: s.qtyDisplayed}));
-      }
-      if(!!itemOrService.items){
-        itemOrService.items = itemOrService.items.map((i) => ({...i, qtyAsked: i.qtyDisplayed}))
-      }
       return itemOrService;
     });
   }

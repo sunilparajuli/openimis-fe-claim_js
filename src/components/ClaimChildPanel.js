@@ -64,16 +64,27 @@ class ClaimChildPanel extends Component {
 
   initData = () => {
     let data = [];
-    if (!!this.props.edited[`${this.props.type}s`]) {
-      data = this.props.edited[`${this.props.type}s`] || [];
-      let edited = { ...this.props.edited };
-      edited[`${this.props.type}s`] = data;
+    const {edited, type, isRestored, forReview} = this.props;
+    if (!!edited[`${type}s`]) {
+      data = edited[`${type}s`] || [];
+      let claim = { ...edited };
+      claim[`${type}s`] = data;
     }
-    if (!!this.props.edited[`services`]) {
-      data.forEach((d) => !!d.services && (d.subServices = d.services));
-      data.forEach((d) => !!d.items && (d.subItems = d.items));
+    if (!!edited[`services`]) {
+      data.forEach((d) => {
+        if(!!d.services){
+          d.services = d.services.map((s) => ({...s, qtyAsked: s.qtyDisplayed}));
+          d.subServices = d.services;
+        }
+      });
+      data.forEach((d) => {
+        if(!!d.items){
+          d.items = d.items.map((i) => ({...i, qtyAsked: i.qtyDisplayed}));
+          d.subItems = d.items;
+        }
+      });
     }
-    if (!this.props.forReview && this.props.edited.status === 2 && !_.isEqual(data[data.length - 1], {})) {
+    if (!forReview && edited.status === 2 && !_.isEqual(data[data.length - 1], {})) {
       data.push({});
     }
     return data;
