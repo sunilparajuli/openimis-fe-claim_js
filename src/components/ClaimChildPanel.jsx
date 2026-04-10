@@ -3,7 +3,6 @@ import { Component } from "react";
 import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
 
-import { ThumbDown, ThumbUp } from "@mui/icons-material";
 import { Box, Grid, IconButton, Paper, TableCell, Tooltip, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -20,10 +19,12 @@ import {
   TextInput,
   withModulesManager,
   withTooltip,
+  GetIconComponent,
 } from "@openimis/fe-core";
 import { DEFAULT, SERVICE_TYPE_PP_F, SERVICE_TYPE_PP_P, SERVICE_TYPE_PP_S } from "../constants";
 import { approvedAmount, claimedAmount } from "../helpers/amounts";
-
+const ThumbDown = GetIconComponent("ThumbDown")
+const ThumbUp = GetIconComponent("ThumbUp")
 const StyledPaper = styled(Paper)(({ theme }) => ({
   ...(theme?.paper?.paper ?? {}),
 }));

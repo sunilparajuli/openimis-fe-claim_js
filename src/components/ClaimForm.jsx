@@ -5,13 +5,6 @@ import { injectIntl } from "react-intl";
 import moment from "moment";
 import { Fab, Badge, Button } from "@mui/material";
 import { useTheme, styled } from "@mui/material/styles";
-import CheckIcon from "@mui/icons-material/Check";
-import ReplayIcon from "@mui/icons-material/Replay";
-import PrintIcon from "@mui/icons-material/ListAlt";
-import AttachIcon from "@mui/icons-material/AttachFile";
-import RestorePageIcon from "@mui/icons-material/RestorePage";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
-import CachedIcon from "@mui/icons-material/Cached";
 import {
   Contributions,
   Form,
@@ -27,6 +20,7 @@ import {
   fetchMutation,
   parseData,
   coreAlert,
+  GetIconComponent,
 } from "@openimis/fe-core";
 import { claimHealthFacilitySet, fetchClaim, generate, print } from "../actions";
 import {
@@ -45,7 +39,14 @@ import {
 import ClaimMasterPanel from "./ClaimMasterPanel";
 import ClaimChildPanel from "./ClaimChildPanel";
 import ClaimFeedbackPanel from "./ClaimFeedbackPanel";
+const CheckIcon = GetIconComponent("Check")
 
+const ReplayIcon = GetIconComponent("Replay")
+const PrintIcon = GetIconComponent("ListAlt")
+const AttachIcon = GetIconComponent("AttachFile")
+const RestorePageIcon = GetIconComponent("RestorePage")
+const FileCopyIcon = GetIconComponent("FileCopy")
+const CachedIcon = GetIconComponent("Cached")
 const CLAIM_FORM_CONTRIBUTION_KEY = "claim.ClaimForm";
 
 const StyledDiv = styled("div")(({ theme }) => ({

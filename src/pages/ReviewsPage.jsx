@@ -3,9 +3,6 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import { Grid, InputAdornment, IconButton, Tooltip, Button } from "@mui/material";
-import FilterIcon from "@mui/icons-material/FilterList";
-import FeedbackIcon from "@mui/icons-material/SpeakerNotesOutlined";
-import ReviewIcon from "@mui/icons-material/SupervisorAccount";
 import {
   formatMessage,
   formatMessageWithValues,
@@ -21,6 +18,7 @@ import {
   clearCurrentPaginationPage,
   Contributions,
   GRID_RESPONSIVE_STANDARD,
+  GetIconComponent,
 } from "@openimis/fe-core";
 import ClaimSearcher from "../components/ClaimSearcher";
 import {
@@ -36,7 +34,9 @@ import {
 } from "../actions";
 import { RIGHT_UPDATE, RIGHT_FEEDBACK, RIGHT_CLAIMREVIEW, RIGHT_PROCESS, MODULE_NAME } from "../constants";
 import { styled } from "@mui/material/styles";
-
+const FilterIcon = GetIconComponent("FilterList")
+const FeedbackIcon = GetIconComponent("SpeakerNotesOutlined")
+const ReviewIcon = GetIconComponent("SupervisorAccount")
 const CLAIM_REVIEWS_FILTER_CONTRIBUTION_KEY = "claim.ReviewsFilter";
 const CLAIM_REVIEWS_ACTION_CONTRIBUTION_KEY = "claim.ReviewSelectionAction";
 const CLAIM_SAMPLING_BATCH_CONTRIBUTION_KEY = "claimSampling.claimSamplingButton";

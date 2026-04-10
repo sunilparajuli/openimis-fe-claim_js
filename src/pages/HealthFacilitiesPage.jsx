@@ -5,7 +5,6 @@ import { injectIntl } from "react-intl";
 import { Fab, Tooltip } from "@mui/material";
 import { useTheme, styled } from "@mui/material/styles";
 import _ from "lodash";
-import AddIcon from "@mui/icons-material/Add";
 import {
   withHistory,
   historyPush,
@@ -16,10 +15,12 @@ import {
   coreConfirm,
   Helmet,
   clearCurrentPaginationPage,
+  GetIconComponent,
 } from "@openimis/fe-core";
 import ClaimSearcher from "../components/ClaimSearcher";
 import { submit, del, selectHealthFacility, submitAll } from "../actions";
 import { RIGHT_ADD, RIGHT_LOAD, RIGHT_SUBMIT, RIGHT_DELETE, MODULE_NAME } from "../constants";
+const AddIcon = GetIconComponent("Add")
 
 const CLAIM_HF_FILTER_CONTRIBUTION_KEY = "claim.HealthFacilitiesFilter";
 const CLAIM_SEARCHER_ACTION_CONTRIBUTION_KEY = "claim.SelectionAction";

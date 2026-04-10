@@ -1,6 +1,3 @@
-import AttachIcon from "@mui/icons-material/AttachFile";
-import CheckIcon from "@mui/icons-material/Check";
-import TabIcon from "@mui/icons-material/Tab";
 import { Badge, Button, TextField, Tooltip, Typography } from "@mui/material";
 import {
   formatAmount,
@@ -11,6 +8,7 @@ import {
   PublishedComponent,
   Searcher,
   withModulesManager,
+  GetIconComponent,
 } from "@openimis/fe-core";
 import _ from "lodash";
 import { Component, Fragment } from "react";
@@ -19,7 +17,9 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { fetchClaimSummaries } from "../actions";
 import ClaimFilter from "./ClaimFilter";
-
+const AttachIcon = GetIconComponent("AttachFile")
+const CheckIcon = GetIconComponent("Check")
+const TabIcon = GetIconComponent("Tab")
 const CLAIM_SEARCHER_CONTRIBUTION_KEY = "claim.Searcher";
 
 class ClaimSearcher extends Component {

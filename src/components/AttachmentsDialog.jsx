@@ -15,10 +15,6 @@ import {
   IconButton,
 } from "@mui/material";
 import { useTheme, styled } from "@mui/material/styles";
-import SaveIcon from "@mui/icons-material/Save";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FileIcon from "@mui/icons-material/Add";
-import LinkIcon from "@mui/icons-material/Link";
 
 import {
   FormattedMessage,
@@ -33,6 +29,7 @@ import {
   journalize,
   coreConfirm,
   coreAlert,
+  GetIconComponent,
 } from "@openimis/fe-core";
 import {
   fetchClaimAttachments,
@@ -43,7 +40,11 @@ import {
 } from "../actions";
 import { DEFAULT, RIGHT_ADD, URL_TYPE_STRING } from "../constants";
 import AttachmentGeneralTypePicker from "../pickers/AttachmentGeneralTypePicker";
+const SaveIcon = GetIconComponent("Save")
 
+const DeleteIcon = GetIconComponent("Delete")
+const FileIcon = GetIconComponent("Add")
+const LinkIcon = GetIconComponent("Link")
 const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
   ...theme?.dialog?.title ?? {},
 }));
