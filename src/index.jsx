@@ -4,7 +4,6 @@ const Keyboard = GetIconComponent("Keyboard")
 const ScreenShare = GetIconComponent("ScreenShare")
 const Assignment= GetIconComponent("Assignment")
 import { FormattedMessage } from "@openimis/fe-core";
-import ClaimMainMenu from "./menus/ClaimMainMenu";
 import HealthFacilitiesPage from "./pages/HealthFacilitiesPage";
 import EditPage from "./pages/EditPage";
 import ReviewsPage from "./pages/ReviewsPage";
@@ -184,27 +183,21 @@ const DEFAULT_CONFIG = {
     { key: "claim.PatientConditionPicker", ref: PatientConditionPicker },
   ],
   "core.Router": [
-    { path: ROUTE_HEALTH_FACILITIES, component: HealthFacilitiesPage, rights:[RIGHT_SEARCH, RIGHT_HF_SEARCH], icon: Keyboard },
-    { path: ROUTE_CLAIM_EDIT + "/:claim_uuid?", component: EditPage, rights: [RIGHT_SEARCH, RIGHT_HF_SEARCH], icon: Keyboard }, // ? = optional (needed to route new claims)
-    { path: ROUTE_REVIEWS, component: ReviewsPage, rights: [RIGHT_CLAIMREVIEW], icon: Assignment },
-    { path: ROUTE_CLAIM_REVIEW + "/:claim_uuid/:customBackUri?/:customBackUuid?", component: ReviewPage, rights: [RIGHT_CLAIMREVIEW], icon: Assignment },
-    { path: ROUTE_CLAIM_FEEDBACK + "/:claim_uuid", component: FeedbackPage, rights: [RIGHT_FEEDBACK], icon: ScreenShare },
+    { path: ROUTE_HEALTH_FACILITIES, text: "claim.menu.healthFacilityClaims",id: "claim.healthFacilityClaims", component: HealthFacilitiesPage, rights:[RIGHT_SEARCH, RIGHT_HF_SEARCH], icon: "Keyboard" },
+    { path: ROUTE_CLAIM_EDIT + "/:claim_uuid?", component: EditPage, rights: [RIGHT_SEARCH, RIGHT_HF_SEARCH], icon: "Keyboard" }, // ? = optional (needed to route new claims)
+    { path: ROUTE_REVIEWS, text: "claim.menu.reviews",id: "claim.reviews", component: ReviewsPage, rights: [RIGHT_CLAIMREVIEW], icon: "Assignment" },
+    { path: ROUTE_CLAIM_REVIEW + "/:claim_uuid/:customBackUri?/:customBackUuid?", component: ReviewPage, rights: [RIGHT_CLAIMREVIEW], icon: "Assignment" },
+    { path: ROUTE_CLAIM_FEEDBACK + "/:claim_uuid", component: FeedbackPage, rights: [RIGHT_FEEDBACK], icon: "ScreenShare" },
   ],
-  "core.MainMenu": [{ name: 'ClaimMainMenu', component: ClaimMainMenu }],
+  "core.MainMenu": [{ name: 'ClaimMainMenu', id: "claim.MainMenu", text: "claim.mainMenu", icon: "ScreenShare"}],
   "claim.MasterPanel": [ClaimMasterPanelExt],
   "insuree.ProfilePage.insureeClaims": [ClaimInsureeSummary],
   "claim.MainMenu": [
     {
-      text: <FormattedMessage module="claim" id="menu.healthFacilityClaims" />,
-      icon: <Keyboard />,
-      route: "/claim/healthFacilities",
-      id: "claim.healthFacilityClaims",
+      route: ROUTE_HEALTH_FACILITIES,
     },
     {
-      text: <FormattedMessage module="claim" id="menu.reviews" />,
-      icon: <Assignment />,
-      route: "/claim/reviews",
-      id: "claim.reviews",
+      route: ROUTE_REVIEWS,
     },
 ],
 };
