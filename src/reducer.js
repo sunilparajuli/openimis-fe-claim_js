@@ -411,14 +411,14 @@ function reducer(
         ...state,
         fetchingHistory: false,
         fetchedHistory: true,
-        history: parseData(action.payload.data.claimHistory),
-        pageInfo: pageInfo(action.payload.data.claimHistory.pageInfo),
+        history: parseData(action.payload.data?.claimHistory),
+        pageInfo: pageInfo(action.payload.data?.claimHistory?.pageInfo),
       };
     case "CLAIM_HISTORY_FETCH_ERR":
       return {
         ...state,
         fetchingHistory: false,
-        errorHistory: formatGraphQLError(action.payload.data.errors),
+        errorHistory: formatGraphQLError(action.payload?.response?.errors),
       };
     default:
       return state;

@@ -74,8 +74,8 @@ const ClaimHistoryPanel = ({ claim, claimUuid, onViewVersion, classes }) => {
   const [expanded, setExpanded] = React.useState(false);
 
   useEffect(() => {
-    dispatch(fetchClaimHistory(claimUuid));
-  }, [claimUuid, dispatch]);
+    if (!!claimUuid) dispatch(fetchClaimHistory(claimUuid));
+  }, [claimUuid]);
 
   const handleChange = (event, isExpanded) => {
     setExpanded(isExpanded);
