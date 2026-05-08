@@ -42,6 +42,7 @@ import {
   DEFAULT,
   RIGHT_CLAIMREVIEW,
   REFERRAL,
+  SERVICE_TYPE_PP_S,
 } from "../constants";
 import ClaimMasterPanel from "./ClaimMasterPanel";
 import ClaimChildPanel from "./ClaimChildPanel";
@@ -152,7 +153,7 @@ class ClaimForm extends Component {
     if (!itemsOrServices) return null;
     return itemsOrServices.map((itemOrService) => {
       Object.keys(itemOrService).forEach((key) => {
-        if (!["item", "service", "priceAsked", "qtyProvided"].includes(key)) {
+        if (!["item", "service", "priceAsked", "qtyProvided", "services", "items", "subServices", "subItems"].includes(key)) {
           delete itemOrService[key];
         }
       });
