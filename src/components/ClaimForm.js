@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, useState } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import moment from "moment";
-import { Fab, Badge, Button } from "@material-ui/core";
+import { Fab, Badge, Button, Grid } from "@material-ui/core";
 import { withStyles, withTheme } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import ReplayIcon from "@material-ui/icons/Replay";
@@ -12,6 +12,7 @@ import AttachIcon from "@material-ui/icons/AttachFile";
 import RestorePageIcon from "@material-ui/icons/RestorePage";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import CachedIcon from "@material-ui/icons/Cached";
+import ClaimHistoryPanel from "./ClaimHistoryPanel";
 import {
   Contributions,
   Form,
@@ -41,6 +42,7 @@ import {
   DEFAULT,
   RIGHT_CLAIMREVIEW,
   REFERRAL,
+  SERVICE_TYPE_PP_S,
 } from "../constants";
 import ClaimMasterPanel from "./ClaimMasterPanel";
 import ClaimChildPanel from "./ClaimChildPanel";
@@ -70,6 +72,7 @@ class ClaimItemsPanel extends Component {
 
 class ClaimForm extends Component {
   state = {
+    historyOpen: false,
     lockNew: false,
     reset: 0,
     claim_uuid: null,
@@ -150,7 +153,7 @@ class ClaimForm extends Component {
     if (!itemsOrServices) return null;
     return itemsOrServices.map((itemOrService) => {
       Object.keys(itemOrService).forEach((key) => {
-        if (!["item", "service", "priceAsked", "qtyProvided"].includes(key)) {
+        if (!["item", "service", "priceAsked", "qtyProvided", "services", "items", "subServices", "subItems"].includes(key)) {
           delete itemOrService[key];
         }
       });
@@ -443,6 +446,7 @@ class ClaimForm extends Component {
 
   resetForm = () =>
     this.setState(() => ({
+      historyOpen: false,
       lockNew: false,
       reset: 0,
       claim_uuid: null,
@@ -470,7 +474,11 @@ class ClaimForm extends Component {
       isHealthFacilityPage = false,
       classes,
     } = this.props;
-    const { claim, claim_uuid, lockNew, isSaved } = this.state;
+    const { claim, claim_uuid, lockNew, isSaved, historyOpen } = this.state;
+
+    const handleViewVersion = (version) => {
+      return;
+    };
 
     let readOnly =
       lockNew ||
@@ -574,35 +582,44 @@ class ClaimForm extends Component {
       onEditedChanged: this.onEditedChanged,
     };
     return (
-      <div className={readOnly ? classes.lockedPage : null}>
-        <Helmet
-          title={formatMessageWithValues(this.props.intl, "claim", "claim.edit.page.title", {
-            code: this.state.claim?.code,
-          })}
-        />
-        <ProgressOrError progress={fetchingClaim} error={errorClaim} />
-        {(!!fetchedClaim || !claim_uuid) && (
-          <Fragment>
-            <PublishedComponent
-              pubRef="claim.AttachmentsDialog"
-              readOnly={!rights.includes(RIGHT_ADD) || readOnly}
-              claim={this.state.attachmentsClaim}
-              close={(e) => this.setState({ attachmentsClaim: null })}
-              onUpdated={() => this.setState({ forcedDirty: true })}
-            />
-            <Form
-              module="claim"
-              title="edit.title"
-              titleParams={{ code: this.state.claim.code }}
-              HeadPanel={ClaimMasterPanel}
-              Panels={!!forFeedback ? [ClaimFeedbackPanel] : [ClaimServicesPanel, ClaimItemsPanel]}
-              openDirty={save || forReview}
-              additionalTooltips={tooltips}
-              {...editingProps}
-            />
-            <Contributions contributionKey={CLAIM_FORM_CONTRIBUTION_KEY} {...editingProps} />
-          </Fragment>
-        )}
+      <div> 
+        <div className={readOnly ? classes.lockedPage : null}>
+          <Helmet
+            title={formatMessageWithValues(this.props.intl, "claim", "claim.edit.page.title", {
+              code: this.state.claim?.code,
+            })}
+          />
+          <ProgressOrError progress={fetchingClaim} error={errorClaim} />
+          {(!!fetchedClaim || !claim_uuid) && (
+            <Fragment>
+              <PublishedComponent
+                pubRef="claim.AttachmentsDialog"
+                readOnly={!rights.includes(RIGHT_ADD) || readOnly}
+                claim={this.state.attachmentsClaim}
+                close={(e) => this.setState({ attachmentsClaim: null })}
+                onUpdated={() => this.setState({ forcedDirty: true })}
+              />
+              <Form
+                module="claim"
+                title="edit.title"
+                titleParams={{ code: this.state.claim.code }}
+                HeadPanel={ClaimMasterPanel}
+                Panels={!!forFeedback ? [ClaimFeedbackPanel] : [ClaimServicesPanel, ClaimItemsPanel]}
+                openDirty={save || forReview}
+                additionalTooltips={tooltips}
+                {...editingProps}
+              />
+              <Contributions contributionKey={CLAIM_FORM_CONTRIBUTION_KEY} {...editingProps} />
+            </Fragment>
+          )}
+        </div>
+        <div>
+          <ClaimHistoryPanel
+            claim={this.state.claim}
+            claimUuid={claim_uuid}
+            onViewVersion={handleViewVersion}
+          />
+        </div>
       </div>
     );
   }

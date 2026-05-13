@@ -59,21 +59,32 @@ class ClaimChildPanel extends Component {
       "claimForm.quantityMaxValue",
       DEFAULT.QUANTITY_MAX_VALUE,
     );
-    this.isDecimalPrice = props.modulesManager.getConf("fe-claim","isDecimalPrice", true);
+    this.isDecimalPrice = props.modulesManager.getConf("fe-claim", "isDecimalPrice", true);
   }
 
   initData = () => {
     let data = [];
-    if (!!this.props.edited[`${this.props.type}s`]) {
-      data = this.props.edited[`${this.props.type}s`] || [];
-      let edited = { ...this.props.edited };
-      edited[`${this.props.type}s`] = data;
+    const {edited, type, isRestored, forReview} = this.props;
+    if (!!edited[`${type}s`]) {
+      data = edited[`${type}s`] || [];
+      let claim = { ...edited };
+      claim[`${type}s`] = data;
     }
-    if(!!this.props.edited[`services`]){
-      data.forEach((d) => !!d.services && (d.subServices = d.services));
-      data.forEach((d) => !!d.items && (d.subItems = d.items));
+    if (!!edited[`services`]) {
+      data.forEach((d) => {
+        if(!!d.services){
+          d.services = d.services.map((s) => ({...s, qtyAsked: s.qtyDisplayed}));
+          d.subServices = d.services;
+        }
+      });
+      data.forEach((d) => {
+        if(!!d.items){
+          d.items = d.items.map((i) => ({...i, qtyAsked: i.qtyDisplayed}));
+          d.subItems = d.items;
+        }
+      });
     }
-    if (!this.props.forReview && this.props.edited.status === 2 && !_.isEqual(data[data.length - 1], {})) {
+    if (!forReview && edited.status === 2 && !_.isEqual(data[data.length - 1], {})) {
       data.push({});
     }
     return data;
@@ -102,12 +113,12 @@ class ClaimChildPanel extends Component {
   }
 
   _updateData = (idx, updates) => {
-      const data = [...this.state.data];
-      updates.forEach((update) => (data[idx][update.attr] = update.v));
-      if (!this.props.forReview && data.length === idx + 1) {
-          data.push({});
-      }
-      return data;
+    const data = [...this.state.data];
+    updates.forEach((update) => (data[idx][update.attr] = update.v));
+    if (!this.props.forReview && data.length === idx + 1) {
+      data.push({});
+    }
+    return data;
   }
 
   _onEditedChanged = (data) => {
@@ -154,7 +165,7 @@ class ClaimChildPanel extends Component {
   };
 
   _onChangeItem = (idx, attr, v) => {
-    let data = this._updateData(idx, [{attr, v}]);
+    let data = this._updateData(idx, [{ attr, v }]);
     if (!v) {
       data[idx].priceAsked = null;
       data[idx].qtyProvided = null;
@@ -191,11 +202,11 @@ class ClaimChildPanel extends Component {
   };
 
   _checkIfItemsServicesExist = (type, edited) => {
-    if (type==="item"){
-      return Array.isArray(edited.items) ? !edited.items.length==0 : false;
+    if (type === "item") {
+      return Array.isArray(edited.items) ? !edited.items.length == 0 : false;
     }
-    else{
-      return Array.isArray(edited.services) ? !edited.services.length==0 : false;
+    else {
+      return Array.isArray(edited.services) ? !edited.services.length == 0 : false;
     }
   };
 
@@ -394,12 +405,12 @@ class ClaimChildPanel extends Component {
           value={i.explanation}
           error={
             this.explanationRequiredIfQuantityAboveThreshold &&
-            type === "service" &&
-            !i.explanation &&
-            i.qtyProvided > this.quantityExplanationThreshold
+              type === "service" &&
+              !i.explanation &&
+              i.qtyProvided > this.quantityExplanationThreshold
               ? formatMessageWithValues(this.props.intl, "claim", "ClaimChildPanel.review.explanationRequired", {
-                  threshold: this.quantityExplanationThreshold,
-                })
+                threshold: this.quantityExplanationThreshold,
+              })
               : null
           }
           onChange={(v) => this._onChange(idx, "explanation", v)}
@@ -427,8 +438,10 @@ class ClaimChildPanel extends Component {
           <TableCell>
             <NumberInput
               readOnly={!!forReview || readOnly}
-              value={u.qtyAdjusted !== null ? u.qtyAdjusted === 0 ? "0" : u.qtyAdjusted : u.qtyDisplayed}
+              value={u.qtyDisplayed ? u.qtyDisplayed : "0"}
               onChange={(v) => {
+                u.qtyDisplayed = v;
+                u.qtyAsked = v;
                 if (!i.service.manualPrice) {
                   if (i.service.packagetype == SERVICE_TYPE_PP_F) {
                     if (u.qtyProvided < v) {
@@ -436,20 +449,13 @@ class ClaimChildPanel extends Component {
                         totalApproved: u.qtyProvided,
                       }));
                     }
-                    u.qtyAdjusted = v;
-                    u.qtyApproved = v;
                   } else if (i.service.packagetype == SERVICE_TYPE_PP_P) {
-                    if (v == u.qtyProvided) {
-                      u.qtyApproved = u.qtyProvided;
-                      u.qtyAdjusted = u.qtyProvided;
-                    } else {
-                      u.qtyAdjusted = v;
-                      u.qtyApproved = 0;
+                    if (u.qtyProvided != v) {
+                      alert(formatMessageWithValues(intl, "claim", "edit.services.MaxApproved", {
+                        totalApproved: u.qtyProvided,
+                      }));
                     }
                   }
-                }else{
-                  u.qtyAdjusted = v;
-                  u.qtyApproved = v;
                 }
                 this._onChangeSubItem(idx, udx, "servicesQty", v);
               }
@@ -484,29 +490,22 @@ class ClaimChildPanel extends Component {
             <TableCell>
               <NumberInput
                 readOnly={!!forReview || readOnly}
-                value={u.qtyAdjusted !== null ? u.qtyAdjusted === 0 ? "0" : u.qtyAdjusted : u.qtyDisplayed}
+                value={u.qtyDisplayed ? u.qtyDisplayed : "0"}
                 onChange={(v) => {
-                  if (!i.service.manualPrice){
-                    if (i.service.packagetype == SERVICE_TYPE_PP_F) {
-                      if (u.qtyProvided < v) {
-                        alert(formatMessageWithValues(intl, "claim", "edit.services.MaxApproved", {
-                          totalApproved: u.qtyProvided,
-                        }));
-                      }
-                      u.qtyAdjusted = v;
-                      u.qtyApproved = v;
-                    } else if (i.service.packagetype == SERVICE_TYPE_PP_P) {
-                      if (v == u.qtyProvided) {
-                        u.qtyApproved = u.qtyProvided;
-                        u.qtyAdjusted = u.qtyProvided;
-                      } else {
-                        u.qtyAdjusted = v;
-                        u.qtyApproved = 0;
-                      }
+                  u.qtyDisplayed = v;
+                  u.qtyAsked = v;
+                  if (i.service.packagetype == SERVICE_TYPE_PP_F) {
+                    if (u.qtyProvided < v) {
+                      alert(formatMessageWithValues(intl, "claim", "edit.services.MaxApproved", {
+                        totalApproved: u.qtyProvided,
+                      }));
                     }
-                  }else{
-                    u.qtyAdjusted = v;
-                    u.qtyApproved = v;
+                  } else if (i.service.packagetype == SERVICE_TYPE_PP_P) {
+                    if (u.qtyProvided != v) {
+                      alert(formatMessageWithValues(intl, "claim", "edit.services.MaxApproved", {
+                        totalApproved: u.qtyProvided,
+                      }));
+                    }
                   }
                   this._onChangeSubItem(idx, udx, "servicesQty", v);
                 }
@@ -545,29 +544,29 @@ class ClaimChildPanel extends Component {
           <TableCell>
             <NumberInput
               readOnly={readOnly}
-              value={u.qtyDisplayed ? u.qtyDisplayed : "0"}
+              value={u.qtyAdjusted !== null ? u.qtyAdjusted === 0 ? "0" : u.qtyAdjusted : u.qtyDisplayed}
               onChange={(v) => {
-                if (!i.service.manualPrice){
+                if (!i.service.manualPrice) {
                   if (i.service.packagetype == SERVICE_TYPE_PP_F) {
                     if (u.qtyProvided < v) {
                       alert(formatMessageWithValues(intl, "claim", "edit.services.MaxApproved", {
                         totalApproved: u.qtyProvided,
                       }));
                     }
-                    u.qtyDisplayed = v;
-                    u.qtyAsked = v;
+                    u.qtyAdjusted = v;
+                    u.qtyApproved = v;
                   } else if (i.service.packagetype == SERVICE_TYPE_PP_P) {
                     if (v == u.qtyProvided) {
-                      u.qtyDisplayed = u.qtyProvided;
-                      u.qtyAsked = u.qtyProvided;
+                      u.qtyApproved = u.qtyProvided;
+                      u.qtyAdjusted = u.qtyProvided;
                     } else {
-                      u.qtyDisplayed = v;
-                      u.qtyAsked = 0;
+                      u.qtyAdjusted = v;
+                      u.qtyApproved = 0;
                     }
                   }
-                }else{
-                  u.qtyDisplayed = v;
-                  u.qtyAsked = v;
+                } else {
+                  u.qtyAdjusted = v;
+                  u.qtyApproved = v;
                 }
                 this._onChangeSubItem(idx, udx, "servicesQty", v);
               }
@@ -602,29 +601,29 @@ class ClaimChildPanel extends Component {
             <TableCell>
               <NumberInput
                 readOnly={readOnly}
-                value={u.qtyDisplayed ? u.qtyDisplayed : "0"}
+                value={u.qtyAdjusted !== null ? u.qtyAdjusted === 0 ? "0" : u.qtyAdjusted : u.qtyDisplayed}
                 onChange={(v) => {
-                  if (!i.service.manualPrice){
+                  if (!i.service.manualPrice) {
                     if (i.service.packagetype == SERVICE_TYPE_PP_F) {
                       if (u.qtyProvided < v) {
                         alert(formatMessageWithValues(intl, "claim", "edit.services.MaxApproved", {
                           totalApproved: u.qtyProvided,
                         }));
                       }
-                      u.qtyDisplayed = v;
-                      u.qtyAsked = v;
+                      u.qtyAdjusted = v;
+                      u.qtyApproved = v;
                     } else if (i.service.packagetype == SERVICE_TYPE_PP_P) {
                       if (v == u.qtyProvided) {
-                        u.qtyAsked = u.qtyProvided;
-                        u.qtyDisplayed = u.qtyProvided;
+                        u.qtyApproved = u.qtyProvided;
+                        u.qtyAdjusted = u.qtyProvided;
                       } else {
-                        u.qtyDisplayed = v;
-                        u.qtyAsked = 0;
+                        u.qtyAdjusted = v;
+                        u.qtyApproved = 0;
                       }
                     }
-                  }else{
-                    u.qtyDisplayed = v;
-                    u.qtyAsked = v;
+                  } else {
+                    u.qtyAdjusted = v;
+                    u.qtyApproved = v;
                   }
                   this._onChangeSubItem(idx, udx, "servicesQty", v);
                 }
