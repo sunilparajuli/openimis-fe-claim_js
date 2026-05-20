@@ -21,6 +21,9 @@ import {
   parseData,
   coreAlert,
   GetIconComponent,
+  getLocalStorage,
+  setLocalStorage,
+  removeLocalStorage,
 } from "@openimis/fe-core";
 import { claimHealthFacilitySet, fetchClaim, generate, print } from "../actions";
 import {
@@ -130,9 +133,9 @@ class ClaimForm extends Component {
     claim.healthFacility =
       this?.state?.claim?.healthFacility ??
       this.props.claimHealthFacility ??
-      JSON.parse(localStorage.getItem(STORAGE_KEY_CLAIM_HEALTH_FACILITY));
+      JSON.parse(getLocalStorage(STORAGE_KEY_CLAIM_HEALTH_FACILITY));
     claim.admin =
-      this?.state?.claim?.admin ?? this.props.claimAdmin ?? JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN));
+      this?.state?.claim?.admin ?? this.props.claimAdmin ?? JSON.parse(getLocalStorage(STORAGE_KEY_ADMIN));
     claim.status = this.props.modulesManager.getConf("fe-claim", "newClaim.status", 2);
     claim.dateClaimed = toISODate(moment().toDate());
     claim.dateFrom = toISODate(moment().toDate());
@@ -184,10 +187,10 @@ class ClaimForm extends Component {
   componentDidMount() {
     if (!!this.props.claimHealthFacility) {
       this.props.claimHealthFacilitySet(this.props.claimHealthFacility);
-      localStorage.setItem(STORAGE_KEY_CLAIM_HEALTH_FACILITY, JSON.stringify(this.props.claimHealthFacility));
+      setLocalStorage(STORAGE_KEY_CLAIM_HEALTH_FACILITY, this.props.claimHealthFacility);
     }
     if (this.props.claimAdmin) {
-      localStorage.setItem(STORAGE_KEY_ADMIN, JSON.stringify(this.props.claimAdmin));
+      setLocalStorage(STORAGE_KEY_ADMIN, this.props.claimAdmin);
     }
     if (this.props.claim_uuid) {
       this.setState(
@@ -198,8 +201,8 @@ class ClaimForm extends Component {
   }
 
   componentWillUnmount() {
-    localStorage.removeItem(STORAGE_KEY_CLAIM_HEALTH_FACILITY);
-    localStorage.removeItem(STORAGE_KEY_ADMIN);
+    removeLocalStorage(STORAGE_KEY_CLAIM_HEALTH_FACILITY);
+    removeLocalStorage(STORAGE_KEY_ADMIN);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
