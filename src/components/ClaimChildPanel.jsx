@@ -361,6 +361,7 @@ class ClaimChildPanel extends Component {
               pricelistUuid={edited.healthFacility[`${this.props.type}sPricelist`].uuid}
               date={edited.dateClaimed}
               onChange={(v) => this._onChangeItem(idx, type, v)}
+              dataCy={`claim-${this.props.type}-picker`}
             />
           </Box>
         </Tooltip>
@@ -372,6 +373,7 @@ class ClaimChildPanel extends Component {
           onChange={(v) => this._onChange(idx, "qtyProvided", v)}
           error={i.qtyProvided <= 0 ? formatMessage(intl, "claim", "ClaimChildPanel.quantity.error") : null}
           max={parseInt(i?.item?.maximumAmount) || this.quantityMaxValue}
+          inputProps={{ "data-cy": `claim-${this.props.type}-${idx}-quantity` }}
         />
       ),
       (i, idx) => (
@@ -385,6 +387,7 @@ class ClaimChildPanel extends Component {
           decimal={true}
           allowDecimals={this.isDecimalPrice}
           onChange={(v) => this._onChange(idx, "priceAsked", v)}
+          inputProps={{ "data-cy": `claim-${this.props.type}-${idx}-price` }}
         />
       ),
       (i, idx) => (
@@ -402,6 +405,7 @@ class ClaimChildPanel extends Component {
               : null
           }
           onChange={(v) => this._onChange(idx, "explanation", v)}
+          inputProps={{ "data-cy": `claim-${this.props.type}-${idx}-explanation` }}
         />
       ),
     ];

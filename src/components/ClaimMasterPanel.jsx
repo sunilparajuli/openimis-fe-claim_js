@@ -172,6 +172,7 @@ class ClaimMasterPanel extends FormPanel {
                 reset={reset}
                 readOnly={true}
                 required={true}
+                inputProps={{"data-cy": "claim-hf-picker"}}
               />
             </StyledItemGrid>
           }
@@ -188,6 +189,7 @@ class ClaimMasterPanel extends FormPanel {
                 onChange={(v, s) => this.updateAttribute("insuree", v)}
                 readOnly={ro}
                 required={true}
+                inputProps={{"data-cy": "claim-insuree-picker"}}
               />
             </StyledItemGrid>
           }
@@ -207,6 +209,11 @@ class ClaimMasterPanel extends FormPanel {
                 readOnly={ro}
                 required={true}
                 maxDate={edited.dateTo < edited.dateClaimed ? edited.dateTo : edited.dateClaimed}
+                slotProps={{
+                  day: {
+                    'data-cy': 'claim-vdate-from-picker',
+                  }
+                }}
               />
             </StyledItemGrid>
           }
@@ -227,6 +234,11 @@ class ClaimMasterPanel extends FormPanel {
                 minDate={edited.dateFrom}
                 maxDate={edited.dateClaimed}
                 required={this.isVisitDateToMandatory}
+                slotProps={{
+                  day: {
+                    'data-cy': 'claim-vdate-to-picker',
+                  }
+                }}                
               />
             </StyledItemGrid>
           }
@@ -246,6 +258,11 @@ class ClaimMasterPanel extends FormPanel {
                 readOnly={this.isClaimedDateFixed ?? ro}
                 required={true}
                 minDate={!!edited.dateTo ? edited.dateTo : edited.dateFrom}
+                slotProps={{
+                  day: {
+                    'data-cy': 'claim-claimed-date-picker',
+                  }
+                }}
               />
             </StyledItemGrid>
           }
@@ -264,6 +281,7 @@ class ClaimMasterPanel extends FormPanel {
                 onChange={(v, s) => this.updateAttribute("visitType", v)}
                 readOnly={ro}
                 required={true}
+                inputProps={{ "data-cy": "claim-visit-type-picker" }}
               />
             </StyledItemGrid>
           }
@@ -282,6 +300,7 @@ class ClaimMasterPanel extends FormPanel {
                 onChange={(value) => this.updateAttribute("careType", value)}
                 readOnly={ro}
                 required={this.isCareTypeMandatory}
+                inputProps={{ "data-cy": "claim-care-type-picker" }}
               />
             </StyledItemGrid>
           }
@@ -301,6 +320,7 @@ class ClaimMasterPanel extends FormPanel {
                   onChange={(v, s) => this.updateAttribute("icd", v)}
                   readOnly={ro}
                   required
+                  dataCy="claim-main-diagnosis-picker"
                 />
               </StyledItemGrid>
             }
@@ -331,6 +351,7 @@ class ClaimMasterPanel extends FormPanel {
                   }
                   filterSelectedOptions={true}
                   onChange={(d) => this.updateAttribute("referHF", d)}
+                  dataCy={"claim-hf-referer-picker"}
                 />
               </StyledItemGrid>
             }
@@ -367,6 +388,7 @@ class ClaimMasterPanel extends FormPanel {
                 }
                 inputProps={{
                   "maxLength": this.codeMaxLength,
+                  "data-cy": "claim-code-validated-input"
                 }}
               />
             </StyledItemGrid>
@@ -387,6 +409,7 @@ class ClaimMasterPanel extends FormPanel {
                   readOnly={ro}
                   inputProps={{
                     "maxLength": this.guaranteeIdMaxLength,
+                    "data-cy": "claim-guarantee-id"
                   }}
                   required={this.fields.guaranteeNo === "M"}
                 />
@@ -511,6 +534,7 @@ class ClaimMasterPanel extends FormPanel {
                     onChange={(v) => this.updateAttribute("explanation", v)}
                     readOnly={ro}
                     required={this.isExplanationMandatoryForIPD && edited.careType === IN_PATIENT_STRING ? true : false}
+                    inputProps={{"data-cy": "claim-explanation-input"}}
                   />
                 </StyledItemGrid>
               }
@@ -528,6 +552,7 @@ class ClaimMasterPanel extends FormPanel {
                       reset={reset}
                       onChange={(v) => this.updateAttribute("adjustment", v)}
                       readOnly={readOnly || edited.reviewStatus >= 8}
+                      inputProps={{"data-cy": "claim-adjustement-input"}}
                     />
                   </StyledItemGrid>
                 }
@@ -543,6 +568,7 @@ class ClaimMasterPanel extends FormPanel {
               value={edited.patientCondition}
               required
               onChange={(v) => this.updateAttribute("patientCondition", v)}
+              inputProps={{"data-cy": "claim-patient-condition-picker"}}
             />
           </StyledItemGrid>
         )}

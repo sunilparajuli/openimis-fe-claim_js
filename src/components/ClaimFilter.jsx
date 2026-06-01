@@ -233,6 +233,7 @@ class Head extends Component {
                 region={this._filterValue("region")}
                 district={this._filterValue("district")}
                 required={true}
+                dataCy="claim-admin-filter"
               />
             </StyledItemGrid>
           }
@@ -365,6 +366,7 @@ class Details extends Component {
                 },
               ])
             }
+            inputProps={{ "data-cy": "claim-code-filter" }}
           />
         </StyledItemGrid>
         <StyledItemGrid size={GRID_RESPONSIVE_STANDARD}>
