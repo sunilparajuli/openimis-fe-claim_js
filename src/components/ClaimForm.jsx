@@ -207,7 +207,7 @@ class ClaimForm extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.fetchedClaim !== this.props.fetchedClaim && !!this.props.fetchedClaim) {
-      var claim = this.props.claim;
+      const claim = JSON.parse(JSON.stringify(this.props.claim));
       claim.jsonExt = !!claim.jsonExt ? JSON.parse(claim.jsonExt) : {};
       this.setState(
         { claim, claim_uuid: claim.uuid, lockNew: false, newClaim: false },
