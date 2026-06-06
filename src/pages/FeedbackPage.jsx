@@ -21,11 +21,12 @@ class FeedbackPage extends Component {
 
   save = (claim) => {
     if (!!claim && !!claim.feedback) {
-      this.props.deliverFeedback(
+      return this.props.deliverFeedback(
         claim,
         formatMessageWithValues(this.props.intl, "claim", "DeliverClaimFeedback.mutationLabel", { code: claim.code }),
       );
     }
+    return Promise.resolve();
   };
 
   render() {

@@ -4,18 +4,16 @@ import { bindActionCreators } from "redux";
 import _ from "lodash";
 import _debounce from "lodash/debounce";
 import { injectIntl } from "react-intl";
+import { RIGHT_CLAIMREVIEW } from "../constants";
 
 import { Grid, Divider, Checkbox, FormControlLabel } from "@mui/material";
-import { useTheme, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import {
   GRID_RESPONSIVE_STANDARD,
   GRID_RESPONSIVE_SMALL,
   GRID_RESPONSIVE_LARGE,
   GRID_RESPONSIVE_FULL,
   GRID_RESPONSIVE_HALF,
-} from "@openimis/fe-core";
-
-import {
   formatMessage,
   withModulesManager,
   ControlledField,
@@ -263,6 +261,7 @@ class Head extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
   userHealthFacilityId: state.core.user.i_user.health_facility_id,
   claimFilter: state.claim.claimFilter,
   servicesPricelists: !!state.medical_pricelist ? state.medical_pricelist.servicesPricelists : {},
@@ -496,6 +495,7 @@ class Details extends Component {
             </StyledItemGrid>
           </Grid>
         </Grid>
+    {!this.props.rights.includes(RIGHT_CLAIMREVIEW) && (
         <Grid size={GRID_RESPONSIVE_STANDARD}>
           <Grid container>
             <StyledItemGrid size={GRID_RESPONSIVE_HALF}>
@@ -534,6 +534,7 @@ class Details extends Component {
             </StyledItemGrid>
           </Grid>
         </Grid>
+    )}
         <StyledItemGrid size={GRID_RESPONSIVE_STANDARD}>
           <PublishedComponent
             pubRef="medical.ServicePicker"
@@ -605,23 +606,24 @@ class Details extends Component {
           <PublishedComponent
             pubRef="claim.CareTypePicker"
             name="careType"
-            value={(filters["careType"] && filters["careType"]["value"]) || null}
-            onChange={(value) => {
+            value={filters["careType"] && filters["careType"]["value"] || null}
+            onChange={(value) =>{
               onChangeFilters([
                 {
                   id: "careType",
                   value: value,
                   filter: !!value ? `careType: "${value}"` : null,
                 },
-              ]);
-            }}
+              ])
+            }
+            }
           />
         </StyledItemGrid>
         <StyledItemGrid size={GRID_RESPONSIVE_STANDARD}>
           <PublishedComponent
             pubRef="claim.AttachmentStatusPicker"
             name="attachmentStatus"
-            value={(filters["attachmentStatus"] && filters["attachmentStatus"]["value"]) || null}
+            value={filters["attachmentStatus"] && filters["attachmentStatus"]["value"] || null}
             onChange={(value) =>
               onChangeFilters([
                 {
@@ -698,13 +700,15 @@ class Details extends Component {
   }
 }
 
+const BoundDetails = connect(mapStateToProps, mapDispatchToProps)(Details);
+
 class ClaimFilter extends Component {
   render() {
     return (
       <StyledForm className="container" noValidate autoComplete="off">
         <StyledFormGrid container className="form">
           <BoundHead {...this.props} />
-          <Details {...this.props} />
+          <BoundDetails {...this.props} />
         </StyledFormGrid>
       </StyledForm>
     );
