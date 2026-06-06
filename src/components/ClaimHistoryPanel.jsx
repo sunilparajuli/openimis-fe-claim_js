@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { injectIntl } from "react-intl";
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -9,21 +10,21 @@ import {
   Paper,
   CircularProgress,
   Box,
-  withTheme,
-  withStyles,
-} from "@material-ui/core";
-import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
+} from "@mui/material";
+import { GetIconComponent } from "@openimis/fe-core";
 import { useModulesManager, useTranslations, Table, formatDateFromISO } from "@openimis/fe-core";
 import { fetchClaimHistory } from "../actions";
 
-const styles = (theme) => ({
-  panel: {
+const ExpandMoreIcon = GetIconComponent("ExpandMore");
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  " .panel": {
     margin: theme.spacing(0),
     '&:before': {
       display: 'none',
     },
   },
-  panelSummary: {
+  " .panelSummary": {
     backgroundColor: theme.paper.header.backgroundColor,
     color: theme.palette.primary.main,
     minHeight: '36px !important',
@@ -31,40 +32,40 @@ const styles = (theme) => ({
       minHeight: '36px !important',
     },
   },
-  panelExpandIcon: {
+  " .panelExpandIcon": {
     color: theme.palette.primary.main,
   },
-  panelSummaryContent: {
+  " .panelSummaryContent": {
     margin: 0,
     '&$expanded': {
       margin: 0,
     },
   },
-  expanded: {},
-  panelTitle: {
+  " .expanded": {},
+  " .panelTitle": {
     fontSize: '1.25rem',
     fontWeight: 500,
   },
-  tableContainer: {
+  " .tableContainer": {
     width: '100%',
     boxShadow: 'none',
     backgroundColor: theme.paper.body.backgroundColor,
     padding: theme.spacing(0),
   },
-  tableHeader: {
+  " .tableHeader": {
     backgroundColor: theme.palette.grey[300],
   },
-  tableHeaderCell: {
+  " .tableHeaderCell": {
     fontWeight: 'bold',
     color: theme.palette.primary.main,
   },
-  loadingContainer: {
+  " .loadingContainer": {
     display: 'flex',
     justifyContent: 'center',
     padding: theme.spacing(2),
     width: '100%',
   },
-});
+}));
 
 const ClaimHistoryPanel = ({ claim, claimUuid, onViewVersion, classes }) => {
   const dispatch = useDispatch();
@@ -106,26 +107,26 @@ const ClaimHistoryPanel = ({ claim, claimUuid, onViewVersion, classes }) => {
   ];
   
   return (
-    <Paper className={classes.paper}>
+    <StyledPaper>
       <ExpansionPanel 
         expanded={expanded} 
         onChange={handleChange}
       >
         <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon className={classes.panelExpandIcon} />}
+          expandIcon={<ExpandMoreIcon className="panelExpandIcon" />}
           classes={{
-            root: classes.panelSummary,
-            content: classes.panelSummaryContent,
-            expanded: classes.expanded,
+            root: "panelSummary",
+            content: "panelSummaryContent",
+            expanded: "expanded",
           }}
         >
-          <Typography className={classes.panelTitle}>
+          <Typography className="panelTitle">
             {formatMessageWithValues("ClaimHistoryModal.title", { code: claim?.code || '' })}
           </Typography>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.panelsDetails}>
+        <ExpansionPanelDetails className="panelsDetails">
           {fetchingHistory ? (
-            <Box className={classes.loadingContainer}>
+            <Box className="loadingContainer">
               <CircularProgress />
             </Box>
           ) : errorHistory ? (
@@ -133,7 +134,7 @@ const ClaimHistoryPanel = ({ claim, claimUuid, onViewVersion, classes }) => {
               {errorHistory}
             </Box>
           ) : (
-            <TableContainer component={Paper} className={classes.tableContainer}>
+            <TableContainer component={Paper} className="tableContainer">
               <Table
                 module="claim"
                 headers={headers}
@@ -154,8 +155,8 @@ const ClaimHistoryPanel = ({ claim, claimUuid, onViewVersion, classes }) => {
           )}
         </ExpansionPanelDetails>
       </ExpansionPanel>
-    </Paper>
+    </StyledPaper>
   );
 };
 
-export default withTheme(withStyles(styles)(ClaimHistoryPanel));
+export default injectIntl(ClaimHistoryPanel);

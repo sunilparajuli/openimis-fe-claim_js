@@ -1,30 +1,27 @@
 import React, { Component, Fragment } from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { injectIntl } from "react-intl";
-import _ from "lodash";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import { IconButton, Button, Typography, Tooltip, Badge, TextField } from "@material-ui/core";
-import AttachIcon from "@material-ui/icons/AttachFile";
-import TabIcon from "@material-ui/icons/Tab";
-import CheckIcon from "@material-ui/icons/Check";
-import { Searcher } from "@openimis/fe-core";
-import ClaimFilter from "./ClaimFilter";
+import { Badge, Button, TextField, Tooltip, Typography } from "@mui/material";
 import { RIGHT_CLAIMREVIEW } from "../constants";
 import {
-  withModulesManager,
-  formatMessageWithValues,
-  formatMessage,
-  formatDateFromISO,
   formatAmount,
+  formatDateFromISO,
+  formatMessage,
+  formatMessageWithValues,
   FormattedMessage,
   PublishedComponent,
+  Searcher,
+  withModulesManager,
+  GetIconComponent,
 } from "@openimis/fe-core";
+import _ from "lodash";
+import { injectIntl } from "react-intl";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { fetchClaimSummaries } from "../actions";
-
+import ClaimFilter from "./ClaimFilter";
+const AttachIcon = GetIconComponent("AttachFile")
+const CheckIcon = GetIconComponent("Check")
+const TabIcon = GetIconComponent("Tab")
 const CLAIM_SEARCHER_CONTRIBUTION_KEY = "claim.Searcher";
-
-const styles = (theme) => ({});
 
 class ClaimSearcher extends Component {
   state = {
@@ -52,7 +49,7 @@ class ClaimSearcher extends Component {
     this.isDefaultFetchClaimActivated = this.props.modulesManager.getConf(
       "fe-claim",
       "isDefaultFetchClaimActivated",
-      true
+      true,
     );
   }
 
@@ -275,12 +272,7 @@ class ClaimSearcher extends Component {
     var result = [
       (c) => c.code,
       (c) => c.healthFacility.code,
-      (c) => <TextField 
-                variant="standard"
-                InputProps={{
-                  disableUnderline: true,
-                  value: `${c.insuree.lastName} ${c.insuree.otherNames}`
-              }}/>,
+      (c) => `${c.insuree.lastName} ${c.insuree.otherNames}`,
       (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateClaimed),
       this.props.rights.includes(RIGHT_CLAIMREVIEW) ? (c) => formatDateFromISO(this.props.modulesManager, this.props.intl, c.dateProcessed) : null,
       this.columns.feedbackStatus !== "H" ? (c) => this.feedbackColFormatter(c) : null,
@@ -395,7 +387,13 @@ class ClaimSearcher extends Component {
           tableTitle={formatMessageWithValues(intl, "claim", "claimSummaries", { count })}
           rowsPerPageOptions={this.rowsPerPageOptions}
           defaultPageSize={this.defaultPageSize}
-          fetch={this.isDefaultFetchClaimActivated == false  && searchInitiated ? this.fetch : this.isDefaultFetchClaimActivated == true ? this.fetch : () => {}}
+          fetch={
+            this.isDefaultFetchClaimActivated == false && searchInitiated
+              ? this.fetch
+              : this.isDefaultFetchClaimActivated == true
+              ? this.fetch
+              : () => {}
+          }
           rowIdentifier={this.rowIdentifier}
           filtersToQueryParams={this.filtersToQueryParams}
           defaultOrderBy="-dateClaimed"
@@ -436,6 +434,5 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ fetchClaimSummaries }, dispatch);
 };
 
-export default withModulesManager(
-  connect(mapStateToProps, mapDispatchToProps)(injectIntl(withTheme(withStyles(styles)(ClaimSearcher)))),
-);
+export { CLAIM_SEARCHER_CONTRIBUTION_KEY, ClaimSearcher };
+export default withModulesManager(connect(mapStateToProps, mapDispatchToProps)(injectIntl(ClaimSearcher)));

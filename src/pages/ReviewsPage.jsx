@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
-import { Grid, InputAdornment, IconButton, Tooltip, Button } from "@material-ui/core";
-import FilterIcon from "@material-ui/icons/FilterList";
-import FeedbackIcon from "@material-ui/icons/SpeakerNotesOutlined";
-import ReviewIcon from "@material-ui/icons/SupervisorAccount";
+import { Grid, InputAdornment, IconButton, Tooltip, Button } from "@mui/material";
 import {
   formatMessage,
   formatMessageWithValues,
@@ -20,6 +17,8 @@ import {
   Helmet,
   clearCurrentPaginationPage,
   Contributions,
+  GRID_RESPONSIVE_STANDARD,
+  GetIconComponent,
 } from "@openimis/fe-core";
 import ClaimSearcher from "../components/ClaimSearcher";
 import {
@@ -34,21 +33,23 @@ import {
   process,
 } from "../actions";
 import { RIGHT_UPDATE, RIGHT_FEEDBACK, RIGHT_CLAIMREVIEW, RIGHT_PROCESS, MODULE_NAME } from "../constants";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-
+import { styled } from "@mui/material/styles";
+const FilterIcon = GetIconComponent("FilterList")
+const FeedbackIcon = GetIconComponent("SpeakerNotesOutlined")
+const ReviewIcon = GetIconComponent("SupervisorAccount")
 const CLAIM_REVIEWS_FILTER_CONTRIBUTION_KEY = "claim.ReviewsFilter";
 const CLAIM_REVIEWS_ACTION_CONTRIBUTION_KEY = "claim.ReviewSelectionAction";
 const CLAIM_SAMPLING_BATCH_CONTRIBUTION_KEY = "claimSampling.claimSamplingButton";
 
-const styles = (theme) => ({
-  page: theme.page,
-  item: {
-    padding: theme.spacing(1),
+const StyledReviewsPage = styled("div")(({ theme }) => ({
+  ...(theme?.page ?? {}),
+  "& .item": {
+    padding: theme?.spacing?.(1),
   },
-  toggledButton: {
-    backgroundColor: theme.palette.toggledButton,
+  "& .toggledButton": {
+    backgroundColor: theme?.palette?.toggledButton,
   },
-});
+}));
 
 class RawRandomAndValueFilters extends Component {
   state = {
@@ -198,13 +199,13 @@ class RawRandomAndValueFilters extends Component {
     );
   };
   render() {
-    const { classes, filters } = this.props;
+    const { filters } = this.props;
     const { filters: additionalFilters } = this.state;
     const allFilters = { ...filters, ...additionalFilters };
 
     return (
-      <Grid container direction="row">
-        <Grid item xs={3} className={classes.item}>
+      <Grid container direction="row" spacing={2}>
+        <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
           <NumberInput
             module="claim"
             label="ClaimFilter.Reviews.random"
@@ -215,7 +216,7 @@ class RawRandomAndValueFilters extends Component {
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  className={!!this.state.randomToggled ? classes.toggledButton : null}
+                  className={!!this.state.randomToggled ? "toggledButton" : null}
                   onClick={this.toggleRandomFilter}
                   edge="end"
                 >
@@ -231,7 +232,7 @@ class RawRandomAndValueFilters extends Component {
             }}
           />
         </Grid>
-        <Grid item xs={3} className={classes.item}>
+        <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
           <AmountInput
             module="claim"
             label="ClaimFilter.Reviews.value"
@@ -239,7 +240,7 @@ class RawRandomAndValueFilters extends Component {
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  className={!!this.state.valueToggled ? classes.toggledButton : null}
+                  className={!!this.state.valueToggled ? "toggledButton" : null}
                   onClick={this.toggleValueFilter}
                   edge="end"
                 >
@@ -250,7 +251,7 @@ class RawRandomAndValueFilters extends Component {
             onChange={this.valueChange}
           />
         </Grid>
-        <Grid className={classes.item} xs={3}>
+        <Grid className="item" size={GRID_RESPONSIVE_STANDARD}>
           <NumberInput
             module="claim"
             label="ClaimFilter.Reviews.variance"
@@ -260,7 +261,7 @@ class RawRandomAndValueFilters extends Component {
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  className={!!this.state.varianceToggled ? classes.toggledButton : null}
+                  className={!!this.state.varianceToggled ? "toggledButton" : null}
                   onClick={this.toggleVarianceFilter}
                   edge="end"
                 >
@@ -296,11 +297,7 @@ const mapDispatchToFixFilterProps = (dispatch) => {
 };
 
 const RandomAndValueFilters = withModulesManager(
-  injectIntl(
-    withTheme(
-      withStyles(styles)(connect(mapStateToFixFilterProps, mapDispatchToFixFilterProps)(RawRandomAndValueFilters)),
-    ),
-  ),
+  injectIntl(connect(mapStateToFixFilterProps, mapDispatchToFixFilterProps)(RawRandomAndValueFilters)),
 );
 
 class ReviewsPage extends Component {
@@ -477,8 +474,8 @@ class ReviewsPage extends Component {
   provideFeedback = (c) => historyPush(this.props.modulesManager, this.props.history, "claim.route.feedback", [c.uuid]);
 
   feedbackColFormatter = (c) => (
-    <Grid container justify="flex-end" alignItems="center">
-      <Grid item>
+    <Grid container justifyContent="flex-end" alignItems="center">
+      <Grid>
         <PublishedComponent
           pubRef="claim.FeedbackStatusPicker"
           withLabel={false}
@@ -491,7 +488,7 @@ class ReviewsPage extends Component {
         />
       </Grid>
       {!!this.props.rights.includes(RIGHT_FEEDBACK) && (
-        <Grid item>
+        <Grid>
           <Tooltip title={formatMessage(this.props.intl, "claim", "feedbackButton.tooltip")}>
             <Button onClick={(e) => this.provideFeedback(c)}>
               <FeedbackIcon />
@@ -553,8 +550,8 @@ class ReviewsPage extends Component {
     }
   };
   reviewColFormatter = (c) => (
-    <Grid container justify="flex-end" alignItems="center">
-      <Grid item>
+    <Grid container justifyContent="flex-end" alignItems="center">
+      <Grid>
         <PublishedComponent
           pubRef="claim.ReviewStatusPicker"
           withLabel={false}
@@ -567,7 +564,7 @@ class ReviewsPage extends Component {
         />
       </Grid>
       {!!this.props.rights.includes(RIGHT_CLAIMREVIEW) && (
-        <Grid item>
+        <Grid>
           <Tooltip title={formatMessage(this.props.intl, "claim", "reviewButton.tooltip")}>
             <Button onClick={(e) => this.review(c)}>
               <ReviewIcon />
@@ -598,7 +595,7 @@ class ReviewsPage extends Component {
   };
 
   render() {
-    const { classes, rights } = this.props;
+    const { rights } = this.props;
     if (!rights.filter((r) => r >= RIGHT_CLAIMREVIEW && r <= RIGHT_PROCESS).length) return null;
     let actions = [];
     if (rights.includes(RIGHT_UPDATE)) {
@@ -649,7 +646,7 @@ class ReviewsPage extends Component {
     }
 
     return (
-      <div className={classes.page}>
+      <StyledReviewsPage>
         <Helmet title={formatMessage(this.props.intl, "claim", "claim.reviews.page.title")} />
         <ClaimSearcher
           defaultFilters={this.state.defaultFilters}
@@ -662,7 +659,7 @@ class ReviewsPage extends Component {
           filterPaneContributionsKey={CLAIM_REVIEWS_FILTER_CONTRIBUTION_KEY}
           actionsContributionKey={CLAIM_REVIEWS_ACTION_CONTRIBUTION_KEY}
         />
-      </div>
+      </StyledReviewsPage>
     );
   }
 }
@@ -699,6 +696,6 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
-export default injectIntl(
-  withHistory(connect(mapStateToProps, mapDispatchToProps)(withTheme(withStyles(styles)(ReviewsPage)))),
-);
+export { CLAIM_REVIEWS_FILTER_CONTRIBUTION_KEY };
+export { RawRandomAndValueFilters };
+export default injectIntl(withHistory(connect(mapStateToProps, mapDispatchToProps)(ReviewsPage)));
