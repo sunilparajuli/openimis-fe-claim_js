@@ -14,6 +14,7 @@ import {
 import { GetIconComponent } from "@openimis/fe-core";
 import { useModulesManager, useTranslations, Table, formatDateFromISO } from "@openimis/fe-core";
 import { fetchClaimHistory } from "../actions";
+import { styled } from "@mui/material/styles";
 
 const ExpandMoreIcon = GetIconComponent("ExpandMore");
 
