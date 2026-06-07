@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { injectIntl } from "react-intl";
 import {
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
+  Accordion as ExpansionPanel,
+  AccordionSummary as ExpansionPanelSummary,
+  AccordionDetails as ExpansionPanelDetails,
   Typography,
   TableContainer,
   Paper,
