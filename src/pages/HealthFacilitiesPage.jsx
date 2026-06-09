@@ -18,7 +18,7 @@ import {
   GetIconComponent,
 } from "@openimis/fe-core";
 import ClaimSearcher from "../components/ClaimSearcher";
-import { submit, del, selectHealthFacility, submitAll } from "../actions";
+import { submit, del, selectHealthFacility, submitAll, selectClaimAdmin } from "../actions";
 import { RIGHT_ADD, RIGHT_LOAD, RIGHT_SUBMIT, RIGHT_DELETE, MODULE_NAME } from "../constants";
 const AddIcon = GetIconComponent("Add")
 
@@ -134,12 +134,12 @@ class HealthFacilitiesPage extends Component {
   };
 
   onAdd = () => {
+    this.props.selectClaimAdmin(this.props.currentClaimAdmin);
+    this.props.selectHealthFacility(this.props.currentUserHF);
     historyPush(this.props.modulesManager, this.props.history, "claim.route.claimEdit");
   };
 
   canAdd = () => {
-    if (!this.props.claimAdmin) return false;
-    if (!this.props.claimHealthFacility) return false;
     return true;
   };
 
@@ -209,6 +209,9 @@ class HealthFacilitiesPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  state,
+  currentClaimAdmin: state.claim.currentClaimAdmin,
+  currentUserHF: state.loc?.userHealthFacilityFullPath,
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
   claimAdmin: state.claim.claimAdmin,
   claimHealthFacility: state.claim.claimHealthFacility,
@@ -225,6 +228,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       selectHealthFacility,
+      selectClaimAdmin,
       journalize,
       coreConfirm,
       submit,

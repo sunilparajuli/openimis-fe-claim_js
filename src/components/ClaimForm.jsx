@@ -3,8 +3,9 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import moment from "moment";
-import { Fab, Badge, Button, Grid } from "@mui/material";
-import { useTheme, styled } from "@mui/material/styles";
+import { Fab, Badge, Button } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import ClaimHistoryPanel from "./ClaimHistoryPanel";
 import {
   Contributions,
   Form,
@@ -38,6 +39,7 @@ import {
   DEFAULT,
   RIGHT_CLAIMREVIEW,
   REFERRAL,
+  SERVICE_TYPE_PP_S,
 } from "../constants";
 import ClaimMasterPanel from "./ClaimMasterPanel";
 import ClaimChildPanel from "./ClaimChildPanel";
@@ -71,6 +73,7 @@ class ClaimItemsPanel extends Component {
 
 class ClaimForm extends Component {
   state = {
+    historyOpen: false,
     lockNew: false,
     reset: 0,
     claim_uuid: null,
@@ -152,7 +155,7 @@ class ClaimForm extends Component {
     if (!itemsOrServices) return null;
     return itemsOrServices.map((itemOrService) => {
       Object.keys(itemOrService).forEach((key) => {
-        if (!["item", "service", "priceAsked", "qtyProvided"].includes(key)) {
+        if (!["item", "service", "priceAsked", "qtyProvided", "services", "items", "subServices", "subItems"].includes(key)) {
           delete itemOrService[key];
         }
       });
@@ -445,6 +448,7 @@ class ClaimForm extends Component {
 
   resetForm = () =>
     this.setState(() => ({
+      historyOpen: false,
       lockNew: false,
       reset: 0,
       claim_uuid: null,
@@ -580,45 +584,43 @@ class ClaimForm extends Component {
       onEditedChanged: this.onEditedChanged,
     };
     return (
-      <StyledDiv> 
-        <StyledDiv className={readOnly ? "lockedPage" : null}>
-          <Helmet
-            title={formatMessageWithValues(this.props.intl, "claim", "claim.edit.page.title", {
-              code: this.state.claim?.code,
-            })}
-          />
-          <ProgressOrError progress={fetchingClaim} error={errorClaim} />
-          {(!!fetchedClaim || !claim_uuid) && (
-            <Fragment>
-              <PublishedComponent
-                pubRef="claim.AttachmentsDialog"
-                readOnly={!rights.includes(RIGHT_ADD) || readOnly}
-                claim={this.state.attachmentsClaim}
-                close={(e) => this.setState({ attachmentsClaim: null })}
-                onUpdated={() => this.setState({ forcedDirty: true })}
-              />
-              <Form
-                module="claim"
-                title="edit.title"
-                titleParams={{ code: this.state.claim.code }}
-                HeadPanel={ClaimMasterPanel}
-                Panels={!!forFeedback ? [ClaimFeedbackPanel] : [ClaimServicesPanel, ClaimItemsPanel]}
-                openDirty={save || forReview}
-                additionalTooltips={tooltips}
-                {...editingProps}
-              />
-              <Contributions contributionKey={CLAIM_FORM_CONTRIBUTION_KEY} {...editingProps} />
-            </Fragment>
-          )}
-        </StyledDiv>
-        <StyledDiv>
-            <ClaimHistoryPanel
-              claim={this.state.claim}
-              claimUuid={claim_uuid}
-              onViewVersion={handleViewVersion}
+      <div>
+      <StyledDiv className={readOnly ? "lockedPage" : null}>
+        <Helmet
+          title={formatMessageWithValues(this.props.intl, "claim", "claim.edit.page.title", {
+            code: this.state.claim?.code,
+          })}
+        />
+        <ProgressOrError progress={fetchingClaim} error={errorClaim} />
+        {(!!fetchedClaim || !claim_uuid) && (
+          <Fragment>
+            <PublishedComponent
+              pubRef="claim.AttachmentsDialog"
+              readOnly={!rights.includes(RIGHT_ADD) || readOnly}
+              claim={this.state.attachmentsClaim}
+              close={(e) => this.setState({ attachmentsClaim: null })}
+              onUpdated={() => this.setState({ forcedDirty: true })}
+            />
+            <Form
+              module="claim"
+              title="edit.title"
+              titleParams={{ code: this.state.claim.code }}
+              HeadPanel={ClaimMasterPanel}
+              Panels={!!forFeedback ? [ClaimFeedbackPanel] : [ClaimServicesPanel, ClaimItemsPanel]}
+              openDirty={save || forReview}
+              additionalTooltips={tooltips}
+              {...editingProps}
             />
         </StyledDiv>
       </StyledDiv>
+      <StyledDiv>
+        <ClaimHistoryPanel
+          claim={this.state.claim}
+          claimUuid={claim_uuid}
+          onViewVersion={handleViewVersion}
+        />
+      </StyledDiv>
+      </div>
     );
   }
 }

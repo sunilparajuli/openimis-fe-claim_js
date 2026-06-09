@@ -1,4 +1,6 @@
+import React, { Component, Fragment } from "react";
 import { Badge, Button, TextField, Tooltip, Typography } from "@mui/material";
+import { RIGHT_CLAIMREVIEW } from "../constants";
 import {
   formatAmount,
   formatDateFromISO,
@@ -12,7 +14,6 @@ import {
 } from "@openimis/fe-core";
 import { RIGHT_CLAIMREVIEW } from "../constants";
 import _ from "lodash";
-import { Component, Fragment } from "react";
 import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -45,6 +46,7 @@ class ClaimSearcher extends Component {
     this.extFields = props.modulesManager.getConf("fe-claim", "extFields", []);
     this.showOrdinalNumber = props.modulesManager.getConf("fe-claim", "claimForm.showOrdinalNumber", false);
     this.showPreAuthorization = props.modulesManager.getConf("fe-claim", "showPreAuthorization", false);
+    this.columns = this.props.modulesManager.getConf("fe-claim", "columns", {});
     this.isDefaultFetchClaimActivated = this.props.modulesManager.getConf(
       "fe-claim",
       "isDefaultFetchClaimActivated",
@@ -187,7 +189,7 @@ class ClaimSearcher extends Component {
                           return acc;
                         }
                       }, 0),
-                    )}
+                    )}                    
                   </b>
                 ),
               }}
@@ -362,7 +364,6 @@ class ClaimSearcher extends Component {
     if (!count) {
       count = (claimsPageInfo?.totalCount || 0).toLocaleString();
     }
-
     return (
       <Fragment>
         <PublishedComponent

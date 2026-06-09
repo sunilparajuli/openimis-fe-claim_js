@@ -4,18 +4,16 @@ import { bindActionCreators } from "redux";
 import _ from "lodash";
 import _debounce from "lodash/debounce";
 import { injectIntl } from "react-intl";
+import { RIGHT_CLAIMREVIEW } from "../constants";
 
 import { Grid, Divider, Checkbox, FormControlLabel } from "@mui/material";
-import { useTheme, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import {
   GRID_RESPONSIVE_STANDARD,
   GRID_RESPONSIVE_SMALL,
   GRID_RESPONSIVE_LARGE,
   GRID_RESPONSIVE_FULL,
   GRID_RESPONSIVE_HALF,
-} from "@openimis/fe-core";
-
-import {
   formatMessage,
   withModulesManager,
   ControlledField,
@@ -498,46 +496,46 @@ class Details extends Component {
             </StyledItemGrid>
           </Grid>
         </Grid>
-        {!this.props.rights.includes(RIGHT_CLAIMREVIEW) && (
-          <Grid size={GRID_RESPONSIVE_STANDARD}>
-            <Grid container>
-              <StyledItemGrid size={GRID_RESPONSIVE_HALF}>
-                <PublishedComponent
-                  pubRef="core.DatePicker"
-                  value={(filters["processedDateFrom"] && filters["processedDateFrom"]["value"]) || null}
-                  module="claim"
-                  label="ClaimFilter.processedDateFrom"
-                  onChange={(d) =>
-                    onChangeFilters([
-                      {
-                        id: "processedDateFrom",
-                        value: d,
-                        filter: !!d ? `dateProcessed_Gte: "${d}"` : null,
-                      },
-                    ])
-                  }
-                />
-              </StyledItemGrid>
-              <StyledItemGrid size={GRID_RESPONSIVE_HALF}>
-                <PublishedComponent
-                  pubRef="core.DatePicker"
-                  value={(filters["processedDateTo"] && filters["processedDateTo"]["value"]) || null}
-                  module="claim"
-                  label="ClaimFilter.processedDateTo"
-                  onChange={(d) =>
-                    onChangeFilters([
-                      {
-                        id: "processedDateTo",
-                        value: d,
-                        filter: !!d ? `dateProcessed_Lte: "${d}"` : null,
-                      },
-                    ])
-                  }
-                />
-              </StyledItemGrid>
-            </Grid>
+    {!this.props.rights.includes(RIGHT_CLAIMREVIEW) && (
+        <Grid size={GRID_RESPONSIVE_STANDARD}>
+          <Grid container>
+            <StyledItemGrid size={GRID_RESPONSIVE_HALF}>
+              <PublishedComponent
+                pubRef="core.DatePicker"
+                value={(filters["processedDateFrom"] && filters["processedDateFrom"]["value"]) || null}
+                module="claim"
+                label="ClaimFilter.processedDateFrom"
+                onChange={(d) =>
+                  onChangeFilters([
+                    {
+                      id: "processedDateFrom",
+                      value: d,
+                      filter: !!d ? `dateProcessed_Gte: "${d}"` : null,
+                    },
+                  ])
+                }
+              />
+            </StyledItemGrid>
+            <StyledItemGrid size={GRID_RESPONSIVE_HALF}>
+              <PublishedComponent
+                pubRef="core.DatePicker"
+                value={(filters["processedDateTo"] && filters["processedDateTo"]["value"]) || null}
+                module="claim"
+                label="ClaimFilter.processedDateTo"
+                onChange={(d) =>
+                  onChangeFilters([
+                    {
+                      id: "processedDateTo",
+                      value: d,
+                      filter: !!d ? `dateProcessed_Lte: "${d}"` : null,
+                    },
+                  ])
+                }
+              />
+            </StyledItemGrid>
           </Grid>
-        )}
+        </Grid>
+    )}
         <StyledItemGrid size={GRID_RESPONSIVE_STANDARD}>
           <PublishedComponent
             pubRef="medical.ServicePicker"
@@ -617,8 +615,9 @@ class Details extends Component {
                   value: value,
                   filter: !!value ? `careType: "${value}"` : null,
                 },
-              ]);
-            }}
+              ])
+            }
+            }
           />
         </StyledItemGrid>
         <StyledItemGrid size={GRID_RESPONSIVE_STANDARD}>
@@ -702,7 +701,7 @@ class Details extends Component {
   }
 }
 
-const BoundDetails = connect(mapStateToProps, mapDispatchToProps)(Details); 
+const BoundDetails = connect(mapStateToProps, mapDispatchToProps)(Details);
 
 class ClaimFilter extends Component {
   render() {
