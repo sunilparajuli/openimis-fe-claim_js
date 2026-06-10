@@ -12,6 +12,7 @@ import {
   withModulesManager,
   GetIconComponent,
 } from "@openimis/fe-core";
+import { RIGHT_CLAIMREVIEW } from "../constants";
 import _ from "lodash";
 import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
@@ -51,6 +52,7 @@ class ClaimSearcher extends Component {
       "isDefaultFetchClaimActivated",
       true,
     );
+    this.columns = this.props.modulesManager.getConf("fe-claim", "columns", {});
   }
 
   canFetchClaimDetails = () => {

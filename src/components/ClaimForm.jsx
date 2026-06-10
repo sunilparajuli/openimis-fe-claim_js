@@ -44,6 +44,7 @@ import {
 import ClaimMasterPanel from "./ClaimMasterPanel";
 import ClaimChildPanel from "./ClaimChildPanel";
 import ClaimFeedbackPanel from "./ClaimFeedbackPanel";
+import ClaimHistoryPanel from "./ClaimHistoryPanel";
 const CheckIcon = GetIconComponent("Check")
 
 const ReplayIcon = GetIconComponent("Replay")
@@ -84,6 +85,7 @@ class ClaimForm extends Component {
     isDuplicate: false,
     isRestored: false,
     isSaved: false,
+    historyOpen: false
   };
 
   constructor(props) {
@@ -210,7 +212,7 @@ class ClaimForm extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.fetchedClaim !== this.props.fetchedClaim && !!this.props.fetchedClaim) {
-      var claim = this.props.claim;
+      const claim = JSON.parse(JSON.stringify(this.props.claim));
       claim.jsonExt = !!claim.jsonExt ? JSON.parse(claim.jsonExt) : {};
       this.setState(
         { claim, claim_uuid: claim.uuid, lockNew: false, newClaim: false },
@@ -458,6 +460,7 @@ class ClaimForm extends Component {
       isDuplicate: false,
       isRestored: false,
       isSaved: false,
+      historyOpen: false,
     }));
 
   render() {
@@ -608,9 +611,7 @@ class ClaimForm extends Component {
               additionalTooltips={tooltips}
               {...editingProps}
             />
-            <Contributions contributionKey={CLAIM_FORM_CONTRIBUTION_KEY} {...editingProps} />
-          </Fragment>
-        )}
+        </StyledDiv>
       </StyledDiv>
       <StyledDiv>
         <ClaimHistoryPanel

@@ -23,6 +23,7 @@ import {
   Contributions,
 } from "@openimis/fe-core";
 import { selectClaimAdmin, selectHealthFacility, selectDistrict, selectRegion } from "../actions";
+import { RIGHT_CLAIMREVIEW } from "../constants";
 
 const CLAIM_FILTER_CONTRIBUTION_KEY = "claim.Filter";
 
@@ -607,7 +608,7 @@ class Details extends Component {
             pubRef="claim.CareTypePicker"
             name="careType"
             value={filters["careType"] && filters["careType"]["value"] || null}
-            onChange={(value) =>{
+            onChange={(value) => {
               onChangeFilters([
                 {
                   id: "careType",
@@ -658,7 +659,7 @@ class Details extends Component {
             control={
               <Checkbox
                 color="primary"
-                checked={(filters["showRestored"] && filters["showRestored"]["value"]) || false}
+                checked={filters["showRestored"] && filters["showRestored"]["value"] || false}
                 onChange={(event) =>
                   onChangeFilters([
                     {
