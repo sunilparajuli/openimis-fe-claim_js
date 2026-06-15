@@ -5,10 +5,10 @@ import { useIntl } from "react-intl";
 import { Typography, Grid, Paper, IconButton, Tooltip } from "@mui/material";
 import { useTheme, styled } from "@mui/material/styles";
 import { GetIconComponent, useModulesManager, useTranslations, Table, useHistory, historyPush, formatAmount } from "@openimis/fe-core";
-
-const VisibilityIcon = GetIconComponent("Visibility")
 import { fetchClaimSummaries } from "../actions";
 import { MODULE_NAME } from "../constants";
+
+const VisibilityIcon = GetIconComponent("Visibility");
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   ...(theme?.paper?.paper ?? {}),
