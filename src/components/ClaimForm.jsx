@@ -44,7 +44,6 @@ import {
 import ClaimMasterPanel from "./ClaimMasterPanel";
 import ClaimChildPanel from "./ClaimChildPanel";
 import ClaimFeedbackPanel from "./ClaimFeedbackPanel";
-import ClaimHistoryPanel from "./ClaimHistoryPanel";
 const CheckIcon = GetIconComponent("Check")
 
 const ReplayIcon = GetIconComponent("Replay")
@@ -611,7 +610,8 @@ class ClaimForm extends Component {
               additionalTooltips={tooltips}
               {...editingProps}
             />
-        </StyledDiv>
+          </Fragment>
+        )}
       </StyledDiv>
       <StyledDiv>
         <ClaimHistoryPanel
